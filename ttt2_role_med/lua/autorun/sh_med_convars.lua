@@ -308,20 +308,20 @@ end )
 
 -- medigun has a different approach on convars, that's why this is needed, look into weapon_ttt2_medic_medigun.lua
 if SERVER then
-    TTTMEDIGUN_DATA = { }
-    TTTMEDIGUN_DATA.CVARS = { }
-    TTTMEDIGUN_DATA.CVARS.max_range = GetConVar( "ttt2_med_medigun_max_range" ):GetInt( )
-    TTTMEDIGUN_DATA.CVARS.heal_tick = GetConVar( "ttt2_med_medigun_ticks_per_heal" ):GetInt( )
-    TTTMEDIGUN_DATA.CVARS.heal_tick_uber = GetConVar( "ttt2_med_medigun_ticks_per_heal_uber" ):GetInt( )
-    TTTMEDIGUN_DATA.CVARS.heal_points_tick = GetConVar( "ttt2_med_medigun_heal_per_tick" ):GetInt( )
-    TTTMEDIGUN_DATA.CVARS.heal_points_tick_uber = GetConVar( "ttt2_med_medigun_heal_per_tick_uber" ):GetInt( )
-    TTTMEDIGUN_DATA.CVARS.heal_tick_self = GetConVar( "ttt2_med_medigun_ticks_per_self_heal" ):GetInt( )
-    TTTMEDIGUN_DATA.CVARS.heal_tick_self_uber = GetConVar( "ttt2_med_medigun_ticks_per_self_heal_uber" ):GetInt( )
-    TTTMEDIGUN_DATA.CVARS.heal_points_tick_self = GetConVar( "ttt2_med_medigun_self_heal_per_tick" ):GetInt( )
-    TTTMEDIGUN_DATA.CVARS.heal_points_tick_self_uber = GetConVar( "ttt2_med_medigun_self_heal_per_tick_uber" ):GetInt( )
-    TTTMEDIGUN_DATA.CVARS.heal_self_passive = GetConVar( "ttt2_med_medigun_self_heal_is_passive" ):GetBool( )
-    TTTMEDIGUN_DATA.CVARS.uber_tick = GetConVar( "ttt2_med_medigun_ticks_per_uber" ):GetInt( )
-    TTTMEDIGUN_DATA.CVARS.uber_seconds = GetConVar( "ttt2_med_medigun_uber_seconds" ):GetInt( )
-    TTTMEDIGUN_DATA.CVARS.enable_beam = GetConVar( "ttt2_med_medigun_enable_beam" ):GetBool( )
-    TTTMEDIGUN_DATA.CVARS.call_healing_hook = GetConVar( "ttt2_med_medigun_call_healing_hook" ):GetBool( )
+    TTT2MEDMEDIGUN_DATA = { }
+    TTT2MEDMEDIGUN_DATA.CVARS = { }
+    TTT2MEDMEDIGUN_DATA.CVARS.max_range = GetConVar( "ttt2_med_medigun_max_range" ):GetInt( )
+    TTT2MEDMEDIGUN_DATA.CVARS.heal_tick = GetConVar( "ttt2_med_medigun_ticks_per_heal" ):GetInt( )
+    TTT2MEDMEDIGUN_DATA.CVARS.heal_tick_uber = GetConVar( "ttt2_med_medigun_ticks_per_heal_uber" ):GetInt( )
+    TTT2MEDMEDIGUN_DATA.CVARS.heal_points_tick = GetConVar( "ttt2_med_medigun_heal_per_tick" ):GetInt( )
+    TTT2MEDMEDIGUN_DATA.CVARS.heal_points_tick_uber = GetConVar( "ttt2_med_medigun_heal_per_tick_uber" ):GetInt( )
+    TTT2MEDMEDIGUN_DATA.CVARS.heal_tick_self = GetConVar( "ttt2_med_medigun_ticks_per_self_heal" ):GetInt( )
+    TTT2MEDMEDIGUN_DATA.CVARS.heal_tick_self_uber = GetConVar( "ttt2_med_medigun_ticks_per_self_heal_uber" ):GetInt( )
+    TTT2MEDMEDIGUN_DATA.CVARS.heal_points_tick_self = GetConVar( "ttt2_med_medigun_self_heal_per_tick" ):GetInt( )
+    TTT2MEDMEDIGUN_DATA.CVARS.heal_points_tick_self_uber = GetConVar( "ttt2_med_medigun_self_heal_per_tick_uber" ):GetInt( )
+    TTT2MEDMEDIGUN_DATA.CVARS.heal_self_passive = GetConVar( "ttt2_med_medigun_self_heal_is_passive" ):GetBool( )
+    TTT2MEDMEDIGUN_DATA.CVARS.uber_tick = GetConVar( "ttt2_med_medigun_ticks_per_uber" ):GetInt( )
+    TTT2MEDMEDIGUN_DATA.CVARS.uber_seconds = GetConVar( "ttt2_med_medigun_uber_seconds" ):GetInt( )
+    TTT2MEDMEDIGUN_DATA.CVARS.enable_beam = GetConVar( "ttt2_med_medigun_enable_beam" ):GetBool( )
+    TTT2MEDMEDIGUN_DATA.CVARS.call_healing_hook = GetConVar( "ttt2_med_medigun_call_healing_hook" ):GetBool( )
 end
