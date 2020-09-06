@@ -1,0 +1,16 @@
+{
+    "title": "[TTT2] Medic [ROLE]",
+    "type": [
+        "servercontent",
+        "addon"
+    ],
+    "tags": [
+        "roleplay",
+        "fun"
+    ],
+    "ignore": [
+        "*.psd",
+        "*.vcproj",
+        "*.svn"
+    ]
+}
