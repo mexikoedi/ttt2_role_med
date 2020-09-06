@@ -2,11 +2,11 @@ if SERVER then
     AddCSLuaFile( ) -- adding this file for donwload, the rest is base ttt/ttt2 and other code for the medigun
     resource.AddFile( "materials/vgui/ttt/icon_medigun.vmt" ) -- adding medigun icon for download
     resource.AddWorkshop( "2086831737" ) -- adding the medigun for download
-    util.AddNetworkString( "ttt_medigun_clear_healer" ) -- adding network string for the healer display
-    util.AddNetworkString( "ttt_medigun_clear_target" ) -- adding network string for the target display
+    util.AddNetworkString( "ttt2_med_medigun_clear_healer" ) -- adding network string for the healer display
+    util.AddNetworkString( "ttt2_med_medigun_clear_target" ) -- adding network string for the target display
 
     sound.Add( {
-        name = "ttt_medigun_heal_sound" ,
+        name = "ttt2_med_medigun_heal_sound" ,
         channel = "CHAN_AUTO" ,
         volume = 1.0 ,
         level = 75 ,
@@ -93,7 +93,7 @@ function SWEP:Think( )
                     self.shoot_cooldown = CurTime( ) + 0.3
                     self:StopHealSound( )
                     self:ClearTarget( )
-                    hook.Run( "TTT2MediGunStopHealing" , self:GetOwner( ) , self.target , self )
+                    hook.Run( "TTT2MedMediGunStopHealing" , self:GetOwner( ) , self.target , self )
                 end
 
                 self.target = nil
@@ -105,7 +105,7 @@ function SWEP:Think( )
                     self.shoot_cooldown = CurTime( ) + 0.3
                     self:StopHealSound( )
                     self:ClearTarget( )
-                    hook.Run( "TTT2MediGunStopHealing" , self:GetOwner( ) , self.target , self )
+                    hook.Run( "TTT2MedMediGunStopHealing" , self:GetOwner( ) , self.target , self )
                 end
 
                 self.target = nil
@@ -116,7 +116,7 @@ function SWEP:Think( )
                 self.shoot_cooldown = CurTime( ) + 0.3
                 self:StopHealSound( )
                 self:ClearTarget( )
-                hook.Run( "TTT2MediGunStopHealing" , self:GetOwner( ) , self.target , self )
+                hook.Run( "TTT2MedMediGunStopHealing" , self:GetOwner( ) , self.target , self )
             end
 
             self.target = nil
@@ -124,7 +124,7 @@ function SWEP:Think( )
 
         if self.target then
             if not self.beam or not IsValid( self.beam ) then
-                local allow_heal = hook.Run( "TTT2MediGunAllowHeal" , self:GetOwner( ) , self.target , self )
+                local allow_heal = hook.Run( "TTT2MedMediGunAllowHeal" , self:GetOwner( ) , self.target , self )
                 allow_heal = allow_heal == nil and true or allow_heal
 
                 if not allow_heal then
@@ -135,21 +135,21 @@ function SWEP:Think( )
 
                 self:CreateBeam( )
                 self:SendWeaponAnim( ACT_VM_PRIMARYATTACK )
-                hook.Run( "TTT2MediGunStartHealing" , self:GetOwner( ) , self.target , self )
+                hook.Run( "TTT2MedMediGunStartHealing" , self:GetOwner( ) , self.target , self )
             else
                 self:UpdateBeam( )
             end
 
             if GetConVar( "ttt2_med_medigun_call_healing_hook" ):GetBool( ) then
-                hook.Run( "TTT2MediGunHealing" , self:GetOwner( ) , self.target , self )
+                hook.Run( "TTT2MedMediGunHealing" , self:GetOwner( ) , self.target , self )
             end
 
-            local nwTarget = self:GetOwner( ):GetNWEntity( "ttt_medigun_target" , nil )
-            local nwHealer = self.target:GetNWEntity( "ttt_medigun_healer" , nil )
+            local nwTarget = self:GetOwner( ):GetNWEntity( "ttt2_med_medigun_target" , nil )
+            local nwHealer = self.target:GetNWEntity( "ttt2_med_medigun_healer" , nil )
 
             if not IsValid( nwTarget ) or not IsValid( nwHealer ) then
-                self:GetOwner( ):SetNWEntity( "ttt_medigun_target" , self.target )
-                self.target:SetNWEntity( "ttt_medigun_healer" , self:GetOwner( ) )
+                self:GetOwner( ):SetNWEntity( "ttt2_med_medigun_target" , self.target )
+                self.target:SetNWEntity( "ttt2_med_medigun_healer" , self:GetOwner( ) )
                 self:StartHealSound( )
             end
 
@@ -159,18 +159,18 @@ function SWEP:Think( )
                 self:HealSelf( )
             end
 
-            if self.next_uber_tick <= 1 and not self.uber_active and self:GetOwner( ):GetNWFloat( "ttt_medigun_uber" , 0 ) < 1.00 then
-                self:GetOwner( ):SetNWFloat( "ttt_medigun_uber" , self:GetOwner( ):GetNWFloat( "ttt_medigun_uber" , 0 ) + 0.01 )
+            if self.next_uber_tick <= 1 and not self.uber_active and self:GetOwner( ):GetNWFloat( "ttt2_med_medigun_uber" , 0 ) < 1.00 then
+                self:GetOwner( ):SetNWFloat( "ttt2_med_medigun_uber" , self:GetOwner( ):GetNWFloat( "ttt2_med_medigun_uber" , 0 ) + 0.01 )
                 self.next_uber_tick = self.target:Health( ) < self.target:GetMaxHealth( ) and GetConVar( "ttt2_med_medigun_ticks_per_uber" ):GetInt( ) - 6 or GetConVar( "ttt2_med_medigun_ticks_per_uber" ):GetInt( )
             end
 
-            if self:GetOwner( ):GetNWFloat( "ttt_medigun_uber" , 0 ) >= 1.00 and not self.charged_sound_called and not self.uber_active then
+            if self:GetOwner( ):GetNWFloat( "ttt2_med_medigun_uber" , 0 ) >= 1.00 and not self.charged_sound_called and not self.uber_active then
                 self:GetOwner( ):EmitSound( "medigun/medic_chargeready.wav" )
                 self.charged_sound_called = true
-                hook.Run( "TTT2MediGunUberReady" , self:GetOwner( ) , self.target , self )
+                hook.Run( "TTT2MedMediGunUberReady" , self:GetOwner( ) , self.target , self )
             end
 
-            if self:GetOwner( ):GetNWFloat( "ttt_medigun_uber" , 0 ) < 1.00 and not self.uber_active then
+            if self:GetOwner( ):GetNWFloat( "ttt2_med_medigun_uber" , 0 ) < 1.00 and not self.uber_active then
                 self.next_uber_tick = self.next_uber_tick - 1
             end
         else
@@ -236,8 +236,8 @@ end
 function SWEP:SecondaryAttack( )
     if not SERVER then return end
     local ply = self:GetOwner( )
-    if ply:GetNWFloat( "ttt_medigun_uber" , 0 ) < 1.00 then return end
-    local allow_uber = hook.Run( "TTT2MediGunAllowUber" , self:GetOwner( ) , self.target , self )
+    if ply:GetNWFloat( "ttt2_med_medigun_uber" , 0 ) < 1.00 then return end
+    local allow_uber = hook.Run( "TTT2MedMediGunAllowUber" , self:GetOwner( ) , self.target , self )
     allow_uber = allow_uber == nil and true or allow_uber
     if not allow_uber then return end
     local uberTicks = ( 1 / FrameTime( ) ) * GetConVar( "ttt2_med_medigun_uber_seconds" ):GetInt( )
@@ -248,7 +248,7 @@ function SWEP:SecondaryAttack( )
     self:GetOwner( ):EmitSound( "medigun/medic_chargeactivate.wav" )
     self.heal_tick = 1
     self.heal_tick_self = 1
-    hook.Run( "TTT2MediGunUberStart" , self:GetOwner( ) , self.target , self )
+    hook.Run( "TTT2MedMediGunUberStart" , self:GetOwner( ) , self.target , self )
     self:HandleUber( )
 end
 
@@ -264,7 +264,7 @@ function SWEP:OnDrop( )
             end
 
             self:RemoveBeam( )
-            hook.Run( "TTT2MediGunStopHealing" , self.LastOwner , self.target )
+            hook.Run( "TTT2MedMediGunStopHealing" , self.LastOwner , self.target )
             self.StopHookCalled = true
         end
 
@@ -282,7 +282,7 @@ function SWEP:Holster( )
             end
 
             self:RemoveBeam( )
-            hook.Run( "TTT2MediGunStopHealing" , self.LastOwner , self.target )
+            hook.Run( "TTT2MedMediGunStopHealing" , self.LastOwner , self.target )
         end
 
         self:StopHealSound( self.LastOwner )
@@ -302,7 +302,7 @@ function SWEP:OnRemove( )
             self:RemoveBeam( )
 
             if not self.StopHookCalled then
-                ook.Run( "TTT2MediGunStopHealing" , self.LastOwner , self.target )
+                ook.Run( "TTT2MedMediGunStopHealing" , self.LastOwner , self.target )
             else
                 self.StopHookCalled = nil
             end
@@ -365,18 +365,18 @@ if SERVER then
     end
 
     function SWEP:StartHealSound( )
-        self:GetOwner( ):EmitSound( "ttt_medigun_heal_sound" )
+        self:GetOwner( ):EmitSound( "ttt2_med_medigun_heal_sound" )
     end
 
     function SWEP:StopHealSound( ent )
         if ent and IsValid( ent ) then
-            ent:StopSound( "ttt_medigun_heal_sound" )
+            ent:StopSound( "ttt2_med_medigun_heal_sound" )
 
             return
         end
 
         if not IsValid( self:GetOwner( ) ) then return end
-        self:GetOwner( ):StopSound( "ttt_medigun_heal_sound" )
+        self:GetOwner( ):StopSound( "ttt2_med_medigun_heal_sound" )
     end
 
     function SWEP:HealTarget( )
@@ -391,7 +391,7 @@ if SERVER then
         local h = self.target:Health( )
         local mh = self.target:GetMaxHealth( )
         local gn = self.uber_active and GetConVar( "ttt2_med_medigun_heal_per_tick_uber" ):GetInt( ) or GetConVar( "ttt2_med_medigun_heal_per_tick" ):GetInt( )
-        gn = hook.Run( "TTT2MediGunHealthHeal" , self:GetOwner( ) , self.target , self , gn ) or gn
+        gn = hook.Run( "TTT2MedMediGunHealthHeal" , self:GetOwner( ) , self.target , self , gn ) or gn
         local nh = h + gn
         nh = nh > mh and mh or nh
         self.target:SetHealth( nh )
@@ -417,95 +417,95 @@ if SERVER then
         if not self.uber_active then return end
         local ply = self:GetOwner( )
 
-        hook.Add( "Tick" , "TTTMediGunUberTick" .. tostring( ply:SteamID64( ) ) , function( )
+        hook.Add( "Tick" , "TTT2MedMediGunUberTick" .. tostring( ply:SteamID64( ) ) , function( )
             if not IsValid( ply ) or not IsValid( self ) then
-                hook.Remove( "Tick" , "TTTMediGunUberTick" .. tostring( ply:SteamID64( ) ) )
+                hook.Remove( "Tick" , "TTT2MedMediGunUberTick" .. tostring( ply:SteamID64( ) ) )
 
                 if IsValid( ply ) then
-                    ply:SetNWFloat( "ttt_medigun_uber" , 0 )
+                    ply:SetNWFloat( "ttt2_med_medigun_uber" , 0 )
                 end
 
-                hook.Run( "TTT2MediGunUberStop" , self:GetOwner( ) , self.target , self )
+                hook.Run( "TTT2MedMediGunUberStop" , self:GetOwner( ) , self.target , self )
 
                 return
             end
 
             if not ply:IsTerror( ) or not ply:Alive( ) then
-                hook.Remove( "Tick" , "TTTMediGunUberTick" .. tostring( ply:SteamID64( ) ) )
-                ply:SetNWFloat( "ttt_medigun_uber" , 0 )
-                hook.Run( "TTT2MediGunUberStop" , self:GetOwner( ) , self.target , self )
+                hook.Remove( "Tick" , "TTT2MedMediGunUberTick" .. tostring( ply:SteamID64( ) ) )
+                ply:SetNWFloat( "ttt2_med_medigun_uber" , 0 )
+                hook.Run( "TTT2MedMediGunUberStop" , self:GetOwner( ) , self.target , self )
 
                 return
             end
 
-            if ply:GetNWFloat( "ttt_medigun_uber" , 0 ) <= 0 then
+            if ply:GetNWFloat( "ttt2_med_medigun_uber" , 0 ) <= 0 then
                 self.uber_active = false
-                ply:SetNWFloat( "ttt_medigun_uber" , 0 )
-                hook.Remove( "Tick" , "TTTMediGunUberTick" .. tostring( ply:SteamID64( ) ) )
-                hook.Run( "TTT2MediGunUberStop" , self:GetOwner( ) , self.target , self )
+                ply:SetNWFloat( "ttt2_med_medigun_uber" , 0 )
+                hook.Remove( "Tick" , "TTT2MedMediGunUberTick" .. tostring( ply:SteamID64( ) ) )
+                hook.Run( "TTT2MedMediGunUberStop" , self:GetOwner( ) , self.target , self )
 
                 return
             end
 
-            ply:SetNWFloat( "ttt_medigun_uber" , ply:GetNWFloat( "ttt_medigun_uber" , 0 ) - self.uber_drain_pct )
+            ply:SetNWFloat( "ttt2_med_medigun_uber" , ply:GetNWFloat( "ttt2_med_medigun_uber" , 0 ) - self.uber_drain_pct )
         end )
     end
 
     function SWEP:ClearTarget( )
         local owner = IsValid( self:GetOwner( ) ) and self:GetOwner( ) or self.LastOwner
-        owner:SetNWEntity( "ttt_medigun_target" , nil )
-        net.Start( "ttt_medigun_clear_target" )
+        owner:SetNWEntity( "ttt2_med_medigun_target" , nil )
+        net.Start( "ttt2_med_medigun_clear_target" )
         net.Send( owner )
     end
 
     function SWEP:ClearHealer( )
         if not self.target or not IsValid( self.target ) or not self.target:IsPlayer( ) then return end
-        self.target:SetNWEntity( "ttt_medigun_healer" , nil )
-        net.Start( "ttt_medigun_clear_healer" )
+        self.target:SetNWEntity( "ttt2_med_medigun_healer" , nil )
+        net.Start( "ttt2_med_medigun_clear_healer" )
         net.Send( self.target )
     end
 end
 
 if SERVER then
-    hook.Add( "TTTPrepareRound" , "TTTResetMediguns" , function( )
+    hook.Add( "TTTPrepareRound" , "TTT2MedResetMediguns" , function( )
         for k , v in ipairs( player.GetAll( ) ) do
-            v:SetNWFloat( "ttt_medigun_uber" , 0 )
-            v:SetNWEntity( "ttt_medigun_target" , nil )
-            v:SetNWEntity( "ttt_medigun_healer" , nil )
-            timer.Remove( "ttt_medic_uber_" .. v:SteamID64( ) )
+            v:SetNWFloat( "ttt2_med_medigun_uber" , 0 )
+            v:SetNWEntity( "ttt2_med_medigun_target" , nil )
+            v:SetNWEntity( "ttt2_med_medigun_healer" , nil )
+            timer.Remove( "ttt2_med_medic_uber_" .. v:SteamID64( ) )
         end
     end )
 
-    hook.Add( "PlayerTakeDamage" , "TTTMedigunScaleDamage" , function( ply , inflic , att , damage , dmginfo )
+    hook.Add( "PlayerTakeDamage" , "TTT2MedMedigunScaleDamage" , function( ply , inflic , att , damage , dmginfo )
         if IsValid( ply:GetActiveWeapon( ) ) and ply:GetActiveWeapon( ):GetClass( ) == "weapon_ttt2_medic_medigun" then
             if ply:GetActiveWeapon( ).uber_active then
-                TTTMEDIGUN_DATA:HandleDamage( ply , inflic , att , damage , dmginfo )
+                TTT2MEDMEDIGUN_DATA:HandleDamage( ply , inflic , att , damage , dmginfo )
             end
 
             return
         end
 
-        if IsValid( ply:GetNWEntity( "ttt_medigun_healer" , nil ) ) then
-            local healer = ply:GetNWEntity( "ttt_medigun_healer" , nil )
+        if IsValid( ply:GetNWEntity( "ttt2_med_medigun_healer" , nil ) ) then
+            local healer = ply:GetNWEntity( "ttt2_med_medigun_healer" , nil )
             if not IsValid( healer:GetActiveWeapon( ) ) or healer:GetActiveWeapon( ):GetClass( ) ~= "weapon_ttt2_medic_medigun" then return end
             if not healer:GetActiveWeapon( ).uber_active then return end
-            TTTMEDIGUN_DATA:HandleDamage( ply , inflic , att , damage , dmginfo )
+            TTT2MEDMEDIGUN_DATA:HandleDamage( ply , inflic , att , damage , dmginfo )
         end
     end )
 end
 
 if CLIENT then
-    hook.Add( "TTTPrepareRound" , "TTTResetMediguns" , function( )
+    hook.Add( "TTTPrepareRound" , "TTT2MedResetMediguns" , function( )
         local localPly = LocalPlayer( )
-        localPly:SetNWEntity( "ttt_medigun_target" , nil )
-        localPly:SetNWEntity( "ttt_medigun_healer" , nil )
+        localPly:SetNWEntity( "ttt2_med_medigun_target" , nil )
+        localPly:SetNWEntity( "ttt2-med_medigun_healer" , nil )
     end )
 
-    net.Receive( "ttt_medigun_clear_healer" , function( )
-        LocalPlayer( ):SetNWEntity( "ttt_medigun_healer" , nil )
+    net.Receive( "ttt2_med_medigun_clear_healer" , function( )
+        LocalPlayer( ):SetNWEntity( "ttt2_med_medigun_healer" , nil )
     end )
 
-    net.Receive( "ttt_medigun_clear_target" , function( )
-        LocalPlayer( ):SetNWEntity( "ttt_medigun_target" , nil )
+    net.Receive( "ttt2_med_medigun_clear_target" , function( )
+        LocalPlayer( ):SetNWEntity( "ttt2_med_medigun_target" , nil )
     end )
 end
