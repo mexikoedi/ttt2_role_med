@@ -19,7 +19,7 @@ function ROLE:PreInitialize( )
     self.preventFindCredits = true -- prevent finding credits
     self.preventKillCredits = true -- prevent to get credits after kill
     self.preventTraitorAloneCredits = true -- prevent to get credits
-    self.defaultTeam = TEAM_MEDIC -- the team name: roles with same team name are working together
+    self.defaultTeam = NONE -- the team name: roles with same team name are working together
     self.defaultEquipment = MEDIC_EQUIPMENT -- here you can set up your own default equipment
 
     self.conVarData = {
@@ -35,7 +35,7 @@ function ROLE:PreInitialize( )
         traitorButton = 0 -- traitor button visbile (1) or not (0)
     }
 
-    local allTeams = { } -- making the medic visible for all teams (traitors too but they don't see the overhead symbol - ttt2 restriction)
+    local allTeams = { } -- making the medic visible for all teams
 
     for i , k in pairs( TEAMS ) do
         allTeams[ #allTeams + 1 ] = i
@@ -45,7 +45,6 @@ function ROLE:PreInitialize( )
 end
 
 function ROLE:Initialize( )
-    roles.SetBaseRole( self , ROLE_INNOCENT ) -- setting the baserole to innocent for the medic (subrole)
 end
 
 -- everything above is shared
