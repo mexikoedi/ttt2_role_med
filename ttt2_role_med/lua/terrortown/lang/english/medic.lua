@@ -6,7 +6,7 @@ Stay alive and help everyone if you can!]]
 L[ "body_found_" .. MEDIC.abbr ] = "They were a Medic."
 L[ "search_role_" .. MEDIC.abbr ] = "This person was a Medic!"
 L[ "target_" .. MEDIC.name ] = "Medic"
-L[ "ttt2_desc_" .. MEDIC.name ] = [[The Medic has to provide everyone with medicine with all his might (REALLY EVERYONE), for that you have the Medigun and a Defibrillator.
+L[ "ttt2_desc_" .. MEDIC.name ] = [[The Medic has to heal everyone with all of his might (REALLY EVERYONE), for that he has the Medigun and a Defibrillator.
 Try to help everyone!]]
 L[ "ttt2_role_medic_popuptitle" ] = "A medic has arrived in the field, they're name is: "
 L[ "ttt2_role_medic_popuptitle_2" ] = "The medic was killed! This war crime was commited by: "
