@@ -1,4 +1,4 @@
-iif SERVER then
+if SERVER then
     AddCSLuaFile( ) -- adding this file for donwload 
     resource.AddFile( "materials/vgui/ttt/dynamic/roles/icon_med.vmt" ) -- adding medic icon for download
     util.AddNetworkString( "ttt2_med_role_epop" ) -- adding network string for first popup
@@ -164,7 +164,7 @@ if CLIENT then
 
         EPOP:AddMessage( {
             text = LANG.GetTranslation( "ttt2_role_medic_popuptitle_2" ) .. plo2 , -- getting translation from language files and plo2
-            color = Color( 4 , 180 , 134 , 255 ) -- setting color to the role color 
+            color = Color( 4 , 180 , 134 , 255 ) -- setting color to the role color
         } , "" , GetConVar( "ttt2_med_announce_death_popup_duration" ):GetInt( ) )
     end )
 
