@@ -39,7 +39,7 @@ CreateConVar( "ttt2_med_medigun_ticks_per_heal_uber" , "25" , { FCVAR_SERVER_CAN
 
 CreateConVar( "ttt2_med_medigun_heal_per_tick" , "3" , { FCVAR_SERVER_CAN_EXECUTE , FCVAR_ARCHIVE , FCVAR_NOTIFY } , "How many health points received for 1 heal tick" )
 
-CreateConVar( "ttt2_med_medigun_heal_per_tick_uber" , "1" , { FCVAR_SERVER_CAN_EXECUTE , FCVAR_ARCHIVE , FCVAR_NOTIFY } , "How many health points received for 1 heal tick while ubering" )
+CreateConVar( "ttt2_med_medigun_heal_per_tick_uber" , "4" , { FCVAR_SERVER_CAN_EXECUTE , FCVAR_ARCHIVE , FCVAR_NOTIFY } , "How many health points received for 1 heal tick while ubering" )
 
 CreateConVar( "ttt2_med_medigun_ticks_per_self_heal" , "300" , { FCVAR_SERVER_CAN_EXECUTE , FCVAR_ARCHIVE , FCVAR_NOTIFY } , "How many ticks between each self healing point(s)" )
 
@@ -230,7 +230,7 @@ hook.Add( "TTTUlxDynamicRCVars" , "ttt2_ulx_dynamic_medic_convars" , function( t
         min = 1 ,
         max = 10000 ,
         decimal = 0 ,
-        desc = "ttt2_med_medigun_heal_per_tick_uber (Def. 1)"
+        desc = "ttt2_med_medigun_heal_per_tick_uber (Def. 4)"
     } )
 
     table.insert( tbl[ ROLE_MEDIC ] , {
