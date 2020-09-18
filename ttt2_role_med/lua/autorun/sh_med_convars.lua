@@ -306,7 +306,7 @@ hook.Add( "TTTUlxDynamicRCVars" , "ttt2_ulx_dynamic_medic_convars" , function( t
     } )
 end )
 
--- medigun has a different approach on convars, that's why this is needed, look into weapon_ttt2_medic_medigun.lua
+-- medigun has a different approach on convars, that's why this is needed, maybe not needed but yeah ... why not, look into weapon_ttt2_medic_medigun.lua
 if SERVER then
     TTT2MEDMEDIGUN_DATA = { }
     TTT2MEDMEDIGUN_DATA.CVARS = { }
