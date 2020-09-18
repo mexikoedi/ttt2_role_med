@@ -84,23 +84,23 @@ end
 
 function SWEP:Think( )
     if SERVER then
-        if self:GetOwner( ):KeyDown( IN_ATTACK ) and CurTime( ) > self.shoot_cooldown then
+        if self:GetOwner( ):KeyDown( IN_ATTACK ) or self.target ~= nil and CurTime( ) > self.shoot_cooldown then
             self.target = self.target or self:GetOwner( ):GetEyeTrace( ).Entity
+
+            if self.forcestop then
+                self:ClearHealer( )
+                self.shoot_cooldown = CurTime( ) + 0.3
+                self:StopHealSound( )
+                self:ClearTarget( )
+                hook.Run( "TTT2MedMediGunStopHealing" , self:GetOwner( ) , self.target , self )
+                self.target = nil
+                self.forcestop = nil
+
+                return
+            end
 
             if not IsValid( self.target ) or not self:IsDistanceViable( ) then
                 if self.target and self.beam then
-                    self:ClearHealer( )
-                    self.shoot_cooldown = CurTime( ) + 0.3
-                    self:StopHealSound( )
-                    self:ClearTarget( )
-                    hook.Run( "TTT2MedMediGunStopHealing" , self:GetOwner( ) , self.target , self )
-                end
-
-                self.target = nil
-            end
-
-            if not self:CheckTargetValid( ) then
-                if self.target and ( self.target:IsPlayer( ) or self.target:IsNPC( ) ) then
                     self:ClearHealer( )
                     self.shoot_cooldown = CurTime( ) + 0.3
                     self:StopHealSound( )
@@ -188,14 +188,21 @@ function SWEP:Think( )
     end
 end
 
-function SWEP:CheckTargetValid( )
-    if not IsValid( self.target ) then return false end
-    if not ( self.target:IsNPC( ) or self.target:IsPlayer( ) ) then return false end
-    if ( self.target:IsPlayer( ) and ( not self.target:IsTerror( ) or not self.target:Alive( ) ) ) or ( self.target:IsNPC( ) and ( not IsValid( self.target ) ) ) then return false end
+function SWEP:CheckTargetValid( ent )
+    local target = self.target
+
+    if ent then
+        target = ent
+    end
+
+    if not IsValid( target ) then return false end
+    if not ( target:IsNPC( ) or target:IsPlayer( ) ) then return false end
+    if ( target:IsPlayer( ) and ( not target:IsTerror( ) or not target:Alive( ) ) ) or ( target:IsNPC( ) and ( not IsValid( target ) ) ) then return false end
+    if not self.beam then return true end
 
     local tr = util.TraceLine{
         start = self:GetOwner( ):GetShootPos( ) ,
-        endpos = self.target:GetShootPos( ) ,
+        endpos = target:GetShootPos( ) ,
         mask = MASK_SOLID_BRUSHONLY
     }
 
@@ -212,9 +219,15 @@ function SWEP:CheckTargetValid( )
     return true
 end
 
-function SWEP:IsDistanceViable( )
-    if self:GetOwner( ):GetShootPos( ):Distance( self.target:GetPos( ) ) > GetConVar( "ttt2_med_medigun_max_range" ):GetInt( ) then
-        if self.beam then
+function SWEP:IsDistanceViable( ent )
+    local target = self.target
+
+    if ent then
+        target = ent
+    end
+
+    if self:GetOwner( ):GetShootPos( ):Distance( target:GetPos( ) ) > GetConVar( "ttt2_med_medigun_max_range" ):GetInt( ) then
+        if self.beam and self.target == ent then
             if self.disturb_tick_distance <= 1 then
                 self.disturb_tick_distance = 33
 
@@ -231,6 +244,22 @@ function SWEP:IsDistanceViable( )
 end
 
 function SWEP:PrimaryAttack( )
+    if not self.target then return end
+    local newTarget = self:GetOwner( ):GetEyeTrace( ).Entity
+    if newTarget == self.target then return end
+
+    if not newTarget or not self:IsDistanceViable( newTarget ) or not self:CheckTargetValid( newTarget ) then
+        self.forcestop = true
+
+        return
+    end
+
+    self.forcestop = true
+
+    timer.Simple( 0 , function( )
+        self.shoot_cooldown = CurTime( )
+        self.target = newTarget
+    end )
 end
 
 function SWEP:SecondaryAttack( )
@@ -283,6 +312,7 @@ function SWEP:Holster( )
 
             self:RemoveBeam( )
             hook.Run( "TTT2MedMediGunStopHealing" , self.LastOwner , self.target )
+            self.target = nil
         end
 
         self:StopHealSound( self.LastOwner )
@@ -388,6 +418,7 @@ if SERVER then
             self.heal_tick = self.uber_active and GetConVar( "ttt2_med_medigun_ticks_per_heal_uber" ):GetInt( ) or GetConVar( "ttt2_med_medigun_ticks_per_heal" ):GetInt( )
         end
 
+        if self.target:Health( ) >= self.target:GetMaxHealth( ) then return end
         local h = self.target:Health( )
         local mh = self.target:GetMaxHealth( )
         local gn = self.uber_active and GetConVar( "ttt2_med_medigun_heal_per_tick_uber" ):GetInt( ) or GetConVar( "ttt2_med_medigun_heal_per_tick" ):GetInt( )
@@ -406,6 +437,7 @@ if SERVER then
             self.heal_tick_self = self.uber_active and GetConVar( "ttt2_med_medigun_ticks_per_self_heal_uber" ):GetInt( ) or GetConVar( "ttt2_med_medigun_ticks_per_self_heal" ):GetInt( )
         end
 
+        if self:GetOwner( ):Health( ) >= self:GetOwner( ):GetMaxHealth( ) then return end
         local h = self:GetOwner( ):Health( )
         local mh = self:GetOwner( ):GetMaxHealth( )
         local nh = self.uber_active and h + GetConVar( "ttt2_med_medigun_self_heal_per_tick_uber" ):GetInt( ) or h + GetConVar( "ttt2_med_medigun_self_heal_per_tick" ):GetInt( )
@@ -498,7 +530,7 @@ if CLIENT then
     hook.Add( "TTTPrepareRound" , "TTT2MedResetMediguns" , function( )
         local localPly = LocalPlayer( )
         localPly:SetNWEntity( "ttt2_med_medigun_target" , nil )
-        localPly:SetNWEntity( "ttt2-med_medigun_healer" , nil )
+        localPly:SetNWEntity( "ttt2_med_medigun_healer" , nil )
     end )
 
     net.Receive( "ttt2_med_medigun_clear_healer" , function( )
