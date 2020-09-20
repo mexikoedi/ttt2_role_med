@@ -1,6 +1,7 @@
 if SERVER then
     AddCSLuaFile( ) -- adding this file for donwload 
     resource.AddFile( "materials/vgui/ttt/dynamic/roles/icon_med.vmt" ) -- adding medic icon for download
+    resource.AddWorkshop( "285849316" ) -- adding medic playermodel for download
     util.AddNetworkString( "ttt2_med_role_epop" ) -- adding network string for first popup
     util.AddNetworkString( "ttt2_med_role_epop_2" ) -- adding network string for second popup
     util.AddNetworkString( "ttt2_med_role_epop_3" ) -- adding network string for third popup
@@ -53,6 +54,7 @@ if SERVER then
     function ROLE:GiveRoleLoadout( ply , isRoleChange )
         if isRoleChange then
             ply.msgShown = false -- variable, fix for some popup issues
+            ply:SetModel( "models/player/medicplayer/medic.mdl" ) -- setting playermodel to medic
             ply:GiveEquipmentWeapon( "weapon_ttt2_medic_medigun" ) -- adding the medigun to the medic loadout
             ply:GiveEquipmentWeapon( "weapon_ttt2_medic_defibrillator" ) -- adding the defibrillator to the medic loadout
             ply:GiveArmor( GetConVar( "ttt2_med_armor" ):GetInt( ) ) -- adding the armor to the medic loadout
@@ -95,9 +97,10 @@ if SERVER then
 
         -- checks if attacker is valid, player and is medic, and victim is valid, player and is no medic and if msgshown is not true
         if IsValid( attacker ) and attacker:IsPlayer( ) and attacker:GetSubRole( ) == ROLE_MEDIC and IsValid( victim ) and victim:IsPlayer( ) and victim:GetSubRole( ) ~= ROLE_MEDIC and attacker.msgShown ~= true then
-            attacker:RemoveEquipmentWeapon( "weapon_ttt2_medic_medigun" ) -- if the medic kills someone then his medigun is removed from his loadout
-            attacker:RemoveEquipmentWeapon( "weapon_ttt2_medic_defibrillator" ) -- the defibrillator is removed too from his loadout 
-            attacker:RemoveArmor( GetConVar( "ttt2_med_armor" ):GetInt( ) ) -- and his armor is removed too from the loadout
+            attacker:SetRole( ROLE_INNOCENT , TEAM_INNOCENT ) -- sets the role and the team to innocent
+            attacker:SetCredits( 0 ) -- sets the credits to 0
+            attacker:SetModel( "models/player/phoenix.mdl" ) -- setting playermodel to normal again
+            SendFullStateUpdate( ) -- refreshing is needed
 
             -- if all checks pass then it checks if the convar is true
             if GetConVar( "ttt2_med_announce_crime_popup" ):GetBool( ) == true then
@@ -110,6 +113,7 @@ if SERVER then
         elseif IsValid( attacker ) and attacker:IsPlayer( ) and attacker:GetSubRole( ) == ROLE_MEDIC and IsValid( victim ) and victim:IsPlayer( ) and victim:GetSubRole( ) == ROLE_MEDIC and attacker.msgShown ~= true then
             attacker:SetRole( ROLE_TRAITOR , TEAM_TRAITOR ) -- sets the role and the team to traitor
             attacker:SetCredits( 0 ) -- sets the credits to 0
+            attacker:SetModel( "models/player/phoenix.mdl" ) -- setting playermodel to normal again
             SendFullStateUpdate( ) -- refreshing is needed
 
             if GetConVar( "ttt2_med_announce_betrayel_popup" ):GetBool( ) == true then
