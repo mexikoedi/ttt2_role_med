@@ -64,7 +64,7 @@ if SERVER then
                 -- getting all players and picking the medic players to be announced with the popup
                 for _ , ply in ipairs( player.GetAll( ) ) do
                     if ply:GetSubRole( ) == ROLE_MEDIC then
-                        nick = nick .. " " .. ply:Nick( )
+                        nick = ply:Nick( ) .. " | " .. nick
                     end
                 end
 
@@ -97,7 +97,6 @@ if SERVER then
         if IsValid( attacker ) and attacker:IsPlayer( ) and attacker:GetSubRole( ) == ROLE_MEDIC and IsValid( victim ) and victim:IsPlayer( ) and victim:GetSubRole( ) ~= ROLE_MEDIC and attacker.msgShown ~= true then
             attacker:SetRole( ROLE_INNOCENT , TEAM_INNOCENT ) -- sets the role and the team to innocent
             attacker:SetCredits( 0 ) -- sets the credits to 0
-            SendFullStateUpdate( ) -- refreshing is needed
 
             -- if all checks pass then it checks if the convar is true
             if GetConVar( "ttt2_med_announce_crime_popup" ):GetBool( ) == true then
@@ -110,7 +109,6 @@ if SERVER then
         elseif IsValid( attacker ) and attacker:IsPlayer( ) and attacker:GetSubRole( ) == ROLE_MEDIC and IsValid( victim ) and victim:IsPlayer( ) and victim:GetSubRole( ) == ROLE_MEDIC and attacker.msgShown ~= true then
             attacker:SetRole( ROLE_TRAITOR , TEAM_TRAITOR ) -- sets the role and the team to traitor
             attacker:SetCredits( 0 ) -- sets the credits to 0
-            SendFullStateUpdate( ) -- refreshing is needed
 
             if GetConVar( "ttt2_med_announce_betrayel_popup" ):GetBool( ) == true then
                 attacker.msgShown = true -- setting msgshown to true to prevent the second popup to appear
