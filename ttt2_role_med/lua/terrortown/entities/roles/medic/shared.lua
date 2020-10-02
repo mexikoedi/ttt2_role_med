@@ -106,7 +106,7 @@ if SERVER then
                 net.Broadcast( ) -- broadcasting but no popup at the screen yet
             end
             -- checks if attacker is valid, player and is medic, and victim is valid, player and is medic and if msgshown is not true
-        elseif IsValid( attacker ) and attacker:IsPlayer( ) and attacker:GetSubRole( ) == ROLE_MEDIC and IsValid( victim ) and victim:IsPlayer( ) and victim:GetSubRole( ) == ROLE_MEDIC and attacker.msgShown ~= true then
+        elseif IsValid( attacker ) and attacker:IsPlayer( ) and attacker:GetSubRole( ) == ROLE_MEDIC and IsValid( victim ) and victim:IsPlayer( ) and victim:GetSubRole( ) == ROLE_MEDIC and victim ~= attacker and attacker.msgShown ~= true then
             attacker:SetRole( ROLE_TRAITOR , TEAM_TRAITOR ) -- sets the role and the team to traitor
             attacker:SetCredits( 0 ) -- sets the credits to 0
 
