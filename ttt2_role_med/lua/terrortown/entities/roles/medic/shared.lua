@@ -58,7 +58,7 @@ if SERVER then
             ply:GiveArmor( GetConVar( "ttt2_med_armor" ):GetInt( ) ) -- adding the armor to the medic loadout
 
             -- first popup with the convar 
-            if GetConVar( "ttt2_med_announce_arrival_popup" ):GetBool( ) then
+            if GetConVar( "ttt2_med_announce_arrival_popup" ):GetBool( ) and GetRoundState( ) ~= ROUND_ACTIVE then
                 nick = ""
 
                 -- getting all players and picking the medic players to be announced with the popup
