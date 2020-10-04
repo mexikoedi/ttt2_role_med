@@ -32,7 +32,7 @@ function ROLE:PreInitialize( )
         togglable = true , -- option to toggle a role for a client if possible (F1 menu)
         shopFallback = SHOP_DISABLED , -- shop that is uses
         random = 33 , -- random convar
-        traitorButton = 0 -- traitor button visbile (1) or not (0) 
+        traitorButton = 0 -- traitor button visbile (1) or not (0)
     }
 
     local allTeams = { } -- making the medic visible for all teams
@@ -86,7 +86,7 @@ if SERVER then
 
     -- what happens if the medic gets killed or if he kills someone
     local function MedicKilled( victim , inflictor , attacker )
-        if SpecDM and ( victim:IsGhost( ) or attacker:IsGhost( ) ) then return end
+        if SpecDM and ( victim:IsGhost( ) or attacker:IsGhost( ) ) then return end -- fix for specdm popups/errors
 
         -- checks if convar true, victim is valid, player and is medic, attacker is valid, player and not medic, and msgshown is true
         if GetConVar( "ttt2_med_announce_death_popup" ):GetBool( ) and IsValid( victim ) and victim:IsPlayer( ) and victim:GetSubRole( ) == ROLE_MEDIC and IsValid( attacker ) and attacker:IsPlayer( ) and attacker:GetSubRole( ) ~= ROLE_MEDIC and not victim.msgShown then
