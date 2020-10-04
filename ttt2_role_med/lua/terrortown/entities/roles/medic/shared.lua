@@ -86,6 +86,8 @@ if SERVER then
 
     -- what happens if the medic gets killed or if he kills someone
     local function MedicKilled( victim , inflictor , attacker )
+        if SpecDM and ( victim:IsGhost( ) or attacker:IsGhost( ) ) then return end
+
         -- checks if convar true, victim is valid, player and is medic, attacker is valid, player and not medic, and msgshown is true
         if GetConVar( "ttt2_med_announce_death_popup" ):GetBool( ) and IsValid( victim ) and victim:IsPlayer( ) and victim:GetSubRole( ) == ROLE_MEDIC and IsValid( attacker ) and attacker:IsPlayer( ) and attacker:GetSubRole( ) ~= ROLE_MEDIC and not victim.msgShown then
             net.Start( "ttt2_med_role_epop_2" ) -- the second added network string starts here if the convar is true and the checks allow it
@@ -105,7 +107,7 @@ if SERVER then
                 net.WriteString( attacker:Nick( ) ) -- writing the name of the attacking medic (killer medic)
                 net.Broadcast( ) -- broadcasting but no popup at the screen yet
             end
-            -- checks if attacker is valid, player and is medic, and victim is valid, player and is medic and if msgshown is not true
+            -- checks if attacker is valid, player and is medic, and victim is valid, player and is medic, if victim is not attacker and if msgshown is not true
         elseif IsValid( attacker ) and attacker:IsPlayer( ) and attacker:GetSubRole( ) == ROLE_MEDIC and IsValid( victim ) and victim:IsPlayer( ) and victim:GetSubRole( ) == ROLE_MEDIC and victim ~= attacker and attacker.msgShown ~= true then
             attacker:SetRole( ROLE_TRAITOR , TEAM_TRAITOR ) -- sets the role and the team to traitor
             attacker:SetCredits( 0 ) -- sets the credits to 0
