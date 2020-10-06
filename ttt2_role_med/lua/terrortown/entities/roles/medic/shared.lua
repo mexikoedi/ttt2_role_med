@@ -62,7 +62,9 @@ if SERVER then
                 nick = ""
 
                 -- getting all players and picking the medic players to be announced with the popup
-                for _ , ply in ipairs( player.GetAll( ) ) do
+                local plys = player.GetAll()
+                for i = 1, #plys do
+                    ply = plys[i]
                     if ply:GetSubRole( ) == ROLE_MEDIC then
                         nick = ply:Nick( ) .. " | " .. nick
                     end
