@@ -1,5 +1,5 @@
 if SERVER then
-    AddCSLuaFile( ) -- adding this file for donwload 
+    AddCSLuaFile( ) -- adding this file for donwload
     resource.AddFile( "materials/vgui/ttt/dynamic/roles/icon_med.vmt" ) -- adding medic icon for download
     util.AddNetworkString( "ttt2_med_role_epop" ) -- adding network string for first popup
     util.AddNetworkString( "ttt2_med_role_epop_2" ) -- adding network string for second popup
@@ -57,12 +57,15 @@ if SERVER then
             ply:GiveEquipmentWeapon( "weapon_ttt2_medic_defibrillator" ) -- adding the defibrillator to the medic loadout
             ply:GiveArmor( GetConVar( "ttt2_med_armor" ):GetInt( ) ) -- adding the armor to the medic loadout
 
-            -- first popup with the convar 
+            -- first popup with the convar
             if GetConVar( "ttt2_med_announce_arrival_popup" ):GetBool( ) and GetRoundState( ) ~= ROUND_ACTIVE then
                 nick = ""
-
                 -- getting all players and picking the medic players to be announced with the popup
-                for _ , ply in ipairs( player.GetAll( ) ) do
+                local plys = player.GetAll( )
+
+                for i = 1 , #plys do
+                    ply = plys[ i ]
+
                     if ply:GetSubRole( ) == ROLE_MEDIC then
                         nick = ply:Nick( ) .. " | " .. nick
                     end
@@ -75,7 +78,7 @@ if SERVER then
         end
     end
 
-    -- removing loadout on role change/despawn 
+    -- removing loadout on role change/despawn
     function ROLE:RemoveRoleLoadout( ply , isRoleChange )
         if isRoleChange then
             ply:RemoveEquipmentWeapon( "weapon_ttt2_medic_medigun" ) -- removing the medigun from the medic loadout
@@ -86,17 +89,18 @@ if SERVER then
 
     -- what happens if the medic gets killed or if he kills someone
     local function MedicKilled( victim , inflictor , attacker )
-        if SpecDM and ( victim:IsGhost( ) or attacker:IsGhost( ) ) then return end -- fix for specdm popups/errors
+        if not IsValid( attacker ) or not attacker:IsPlayer( ) or not IsValid( victim ) or not victim:IsPlayer( ) then return end -- ensure attacker and victim are valid and players first
+        if SpecDM and ( victim.IsGhost and victim:IsGhost( ) or ( attacker.IsGhost and attacker:IsGhost( ) ) ) then return end -- fix for specdm popups/errors
 
         -- checks if convar true, victim is valid, player and is medic, attacker is valid, player and not medic, and msgshown is true
-        if GetConVar( "ttt2_med_announce_death_popup" ):GetBool( ) and IsValid( victim ) and victim:IsPlayer( ) and victim:GetSubRole( ) == ROLE_MEDIC and IsValid( attacker ) and attacker:IsPlayer( ) and attacker:GetSubRole( ) ~= ROLE_MEDIC and not victim.msgShown then
+        if GetConVar( "ttt2_med_announce_death_popup" ):GetBool( ) and victim:GetSubRole( ) == ROLE_MEDIC and attacker:GetSubRole( ) ~= ROLE_MEDIC and not victim.msgShown then
             net.Start( "ttt2_med_role_epop_2" ) -- the second added network string starts here if the convar is true and the checks allow it
             net.WriteString( attacker:Nick( ) ) -- writing the name of the medic attacker (killer)
             net.Broadcast( ) -- broadcasting but no popup at the screen yet
         end
 
-        -- checks if attacker is valid, player and is medic, and victim is valid, player and is no medic and if msgshown is not true
-        if IsValid( attacker ) and attacker:IsPlayer( ) and attacker:GetSubRole( ) == ROLE_MEDIC and IsValid( victim ) and victim:IsPlayer( ) and victim:GetSubRole( ) ~= ROLE_MEDIC and attacker.msgShown ~= true then
+        -- checks if attacker is medic, and victim is no medic and if msgshown is not true
+        if attacker:GetSubRole( ) == ROLE_MEDIC and victim:GetSubRole( ) ~= ROLE_MEDIC and attacker.msgShown ~= true then
             attacker:SetRole( ROLE_INNOCENT , TEAM_INNOCENT ) -- sets the role and the team to innocent
             attacker:SetCredits( 0 ) -- sets the credits to 0
 
@@ -107,8 +111,8 @@ if SERVER then
                 net.WriteString( attacker:Nick( ) ) -- writing the name of the attacking medic (killer medic)
                 net.Broadcast( ) -- broadcasting but no popup at the screen yet
             end
-            -- checks if attacker is valid, player and is medic, and victim is valid, player and is medic, if victim is not attacker and if msgshown is not true
-        elseif IsValid( attacker ) and attacker:IsPlayer( ) and attacker:GetSubRole( ) == ROLE_MEDIC and IsValid( victim ) and victim:IsPlayer( ) and victim:GetSubRole( ) == ROLE_MEDIC and victim ~= attacker and attacker.msgShown ~= true then
+            -- checks if attacker is medic, and victim is medic, if victim is not attacker and if msgshown is not true
+        elseif attacker:GetSubRole( ) == ROLE_MEDIC and victim:GetSubRole( ) == ROLE_MEDIC and victim ~= attacker and attacker.msgShown ~= true then
             attacker:SetRole( ROLE_TRAITOR , TEAM_TRAITOR ) -- sets the role and the team to traitor
             attacker:SetCredits( 0 ) -- sets the credits to 0
 
@@ -138,7 +142,7 @@ end
 if CLIENT then
     -- finally the broadcasted first popup is received but again not at the players screen
     net.Receive( "ttt2_med_role_epop" , function( )
-        plo = net.ReadString( ) -- reading the written string 
+        plo = net.ReadString( ) -- reading the written string
 
         -- putting it into plo
         if plo == nil then
@@ -146,7 +150,7 @@ if CLIENT then
         end
 
         EPOP:AddMessage( {
-            text = LANG.GetTranslation( "ttt2_role_medic_popuptitle" ) .. plo , -- getting translation from language files and plo 
+            text = LANG.GetTranslation( "ttt2_role_medic_popuptitle" ) .. plo , -- getting translation from language files and plo
             color = Color( 4 , 180 , 134 , 255 ) -- setting color to the role color
         } , "" , GetConVar( "ttt2_med_announce_arrival_popup_duration" ):GetInt( ) )
     end )
@@ -155,7 +159,7 @@ if CLIENT then
     -- the first popup is now on the screen
     -- finally the broadcasted second popup is received but again not at the players screen
     net.Receive( "ttt2_med_role_epop_2" , function( )
-        plo2 = net.ReadString( ) -- reading the written string 
+        plo2 = net.ReadString( ) -- reading the written string
 
         -- putting it into plo2
         if plo2 == nil then
@@ -172,7 +176,7 @@ if CLIENT then
     -- the second popup is now on the screen
     -- finally the broadcasted second popup is received but again not at the players screen
     net.Receive( "ttt2_med_role_epop_3" , function( )
-        plo3 = net.ReadString( ) -- reading the written string 
+        plo3 = net.ReadString( ) -- reading the written string
 
         -- putting it into plo3
         if plo3 == nil then
@@ -188,7 +192,7 @@ if CLIENT then
     -- how long should the message appear on screen
     -- the third popup is now on the screen
     net.Receive( "ttt2_med_role_epop_4" , function( )
-        plo4 = net.ReadString( ) -- reading the written string 
+        plo4 = net.ReadString( ) -- reading the written string
 
         -- putting it into plo4
         if plo4 == nil then
