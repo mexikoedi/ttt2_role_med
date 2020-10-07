@@ -1,5 +1,5 @@
 if SERVER then
-    AddCSLuaFile( ) -- adding this file for donwload 
+    AddCSLuaFile( ) -- adding this file for donwload
     resource.AddFile( "materials/vgui/ttt/dynamic/roles/icon_med.vmt" ) -- adding medic icon for download
     util.AddNetworkString( "ttt2_med_role_epop" ) -- adding network string for first popup
     util.AddNetworkString( "ttt2_med_role_epop_2" ) -- adding network string for second popup
@@ -57,7 +57,7 @@ if SERVER then
             ply:GiveEquipmentWeapon( "weapon_ttt2_medic_defibrillator" ) -- adding the defibrillator to the medic loadout
             ply:GiveArmor( GetConVar( "ttt2_med_armor" ):GetInt( ) ) -- adding the armor to the medic loadout
 
-            -- first popup with the convar 
+            -- first popup with the convar
             if GetConVar( "ttt2_med_announce_arrival_popup" ):GetBool( ) and GetRoundState( ) ~= ROUND_ACTIVE then
                 nick = ""
                 -- getting all players and picking the medic players to be announced with the popup
@@ -78,7 +78,7 @@ if SERVER then
         end
     end
 
-    -- removing loadout on role change/despawn 
+    -- removing loadout on role change/despawn
     function ROLE:RemoveRoleLoadout( ply , isRoleChange )
         if isRoleChange then
             ply:RemoveEquipmentWeapon( "weapon_ttt2_medic_medigun" ) -- removing the medigun from the medic loadout
@@ -142,7 +142,7 @@ end
 if CLIENT then
     -- finally the broadcasted first popup is received but again not at the players screen
     net.Receive( "ttt2_med_role_epop" , function( )
-        plo = net.ReadString( ) -- reading the written string 
+        plo = net.ReadString( ) -- reading the written string
 
         -- putting it into plo
         if plo == nil then
@@ -150,7 +150,7 @@ if CLIENT then
         end
 
         EPOP:AddMessage( {
-            text = LANG.GetTranslation( "ttt2_role_medic_popuptitle" ) .. plo , -- getting translation from language files and plo 
+            text = LANG.GetTranslation( "ttt2_role_medic_popuptitle" ) .. plo , -- getting translation from language files and plo
             color = Color( 4 , 180 , 134 , 255 ) -- setting color to the role color
         } , "" , GetConVar( "ttt2_med_announce_arrival_popup_duration" ):GetInt( ) )
     end )
@@ -159,7 +159,7 @@ if CLIENT then
     -- the first popup is now on the screen
     -- finally the broadcasted second popup is received but again not at the players screen
     net.Receive( "ttt2_med_role_epop_2" , function( )
-        plo2 = net.ReadString( ) -- reading the written string 
+        plo2 = net.ReadString( ) -- reading the written string
 
         -- putting it into plo2
         if plo2 == nil then
@@ -176,7 +176,7 @@ if CLIENT then
     -- the second popup is now on the screen
     -- finally the broadcasted second popup is received but again not at the players screen
     net.Receive( "ttt2_med_role_epop_3" , function( )
-        plo3 = net.ReadString( ) -- reading the written string 
+        plo3 = net.ReadString( ) -- reading the written string
 
         -- putting it into plo3
         if plo3 == nil then
@@ -192,7 +192,7 @@ if CLIENT then
     -- how long should the message appear on screen
     -- the third popup is now on the screen
     net.Receive( "ttt2_med_role_epop_4" , function( )
-        plo4 = net.ReadString( ) -- reading the written string 
+        plo4 = net.ReadString( ) -- reading the written string
 
         -- putting it into plo4
         if plo4 == nil then
