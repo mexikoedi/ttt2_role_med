@@ -110,6 +110,18 @@ function SWEP:Think( )
 
                 self.target = nil
             end
+
+            if not self:CheckTargetValid( ) then
+                if self.target and ( self.target:IsPlayer( ) or self.target:IsNPC( ) ) then
+                    self:ClearHealer( )
+                    self.shoot_cooldown = CurTime( ) + 0.3
+                    self:StopHealSound( )
+                    self:ClearTarget( )
+                    hook.Run( "TTT2MedMediGunStopHealing" , self:GetOwner( ) , self.target , self )
+                end
+
+                self.target = nil
+            end
         else
             if self.target then
                 self:ClearHealer( )
@@ -332,7 +344,7 @@ function SWEP:OnRemove( )
             self:RemoveBeam( )
 
             if not self.StopHookCalled then
-                ook.Run( "TTT2MedMediGunStopHealing" , self.LastOwner , self.target )
+                hook.Run( "TTT2MedMediGunStopHealing" , self.LastOwner , self.target )
             else
                 self.StopHookCalled = nil
             end
@@ -499,6 +511,14 @@ if SERVER then
 end
 
 if SERVER then
+    function TTT2MEDMEDIGUN_DATA:HandleDamage( ply , inflic , att , damage , dmginfo )
+        if dmginfo:IsBulletDamage( ) and ply:LastHitGroup( ) == 1 then
+            dmginfo:ScaleDamage( GetConVar( "ttt2_med_medigun_uber_headshot_dmg_get_pct" ):GetFloat( ) )
+        else
+            dmginfo:ScaleDamage( GetConVar( "ttt2_med_medigun_uber_general_dmg_get_pct" ):GetFloat( ) )
+        end
+    end
+
     hook.Add( "TTTPrepareRound" , "TTT2MedResetMediguns" , function( )
         for k , v in ipairs( player.GetAll( ) ) do
             v:SetNWFloat( "ttt2_med_medigun_uber" , 0 )
