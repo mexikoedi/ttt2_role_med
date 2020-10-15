@@ -55,6 +55,10 @@ CreateConVar( "ttt2_med_medigun_ticks_per_uber" , "50" , { FCVAR_SERVER_CAN_EXEC
 
 CreateConVar( "ttt2_med_medigun_uber_seconds" , "8" , { FCVAR_SERVER_CAN_EXECUTE , FCVAR_ARCHIVE , FCVAR_NOTIFY } , "How many seconds should the uber last" )
 
+CreateConVar( "ttt2_med_medigun_uber_headshot_dmg_get_pct" , "0.50" , { FCVAR_SERVER_CAN_EXECUTE , FCVAR_ARCHIVE , FCVAR_NOTIFY } , "PCT of damage a headshot will actually do" )
+
+CreateConVar( "ttt2_med_medigun_uber_general_dmg_get_pct" , "0.60" , { FCVAR_SERVER_CAN_EXECUTE , FCVAR_ARCHIVE , FCVAR_NOTIFY } , "PCT of damage other things will actually do" )
+
 CreateConVar( "ttt2_med_medigun_enable_beam" , "1" , { FCVAR_SERVER_CAN_EXECUTE , FCVAR_ARCHIVE , FCVAR_NOTIFY } , "Should the heal-beam be rendered" )
 
 CreateConVar( "ttt2_med_medigun_call_healing_hook" , "0" , { FCVAR_SERVER_CAN_EXECUTE , FCVAR_ARCHIVE , FCVAR_NOTIFY } , "Should we call the heal hook every tick or not at all" )
@@ -288,6 +292,24 @@ hook.Add( "TTTUlxDynamicRCVars" , "ttt2_ulx_dynamic_medic_convars" , function( t
     } )
 
     table.insert( tbl[ ROLE_MEDIC ] , {
+        cvar = "ttt2_med_medigun_uber_headshot_dmg_get_pct" ,
+        slider = true ,
+        min = 0 ,
+        max = 1 ,
+        decimal = 1 ,
+        desc = "ttt2_med_medigun_uber_headshot_dmg_get_pct (Def. 0.50)"
+    } )
+
+    table.insert( tbl[ ROLE_MEDIC ] , {
+        cvar = "ttt2_med_medigun_uber_general_dmg_get_pct" ,
+        slider = true ,
+        min = 0 ,
+        max = 1 ,
+        decimal = 1 ,
+        desc = "ttt2_med_medigun_uber_general_dmg_get_pct (Def. 0.60)"
+    } )
+
+    table.insert( tbl[ ROLE_MEDIC ] , {
         cvar = "ttt2_med_medigun_self_heal_is_passive" ,
         checkbox = true ,
         desc = "ttt2_med_medigun_self_heal_is_passive (Def. 1)"
@@ -306,22 +328,7 @@ hook.Add( "TTTUlxDynamicRCVars" , "ttt2_ulx_dynamic_medic_convars" , function( t
     } )
 end )
 
--- medigun has a different approach on convars, that's why this is needed, maybe not needed but yeah ... why not, look into weapon_ttt2_medic_medigun.lua
 if SERVER then
+    -- for medigun, look weapon_ttt2_medic_medigun.lua
     TTT2MEDMEDIGUN_DATA = { }
-    TTT2MEDMEDIGUN_DATA.CVARS = { }
-    TTT2MEDMEDIGUN_DATA.CVARS.max_range = GetConVar( "ttt2_med_medigun_max_range" ):GetInt( )
-    TTT2MEDMEDIGUN_DATA.CVARS.heal_tick = GetConVar( "ttt2_med_medigun_ticks_per_heal" ):GetInt( )
-    TTT2MEDMEDIGUN_DATA.CVARS.heal_tick_uber = GetConVar( "ttt2_med_medigun_ticks_per_heal_uber" ):GetInt( )
-    TTT2MEDMEDIGUN_DATA.CVARS.heal_points_tick = GetConVar( "ttt2_med_medigun_heal_per_tick" ):GetInt( )
-    TTT2MEDMEDIGUN_DATA.CVARS.heal_points_tick_uber = GetConVar( "ttt2_med_medigun_heal_per_tick_uber" ):GetInt( )
-    TTT2MEDMEDIGUN_DATA.CVARS.heal_tick_self = GetConVar( "ttt2_med_medigun_ticks_per_self_heal" ):GetInt( )
-    TTT2MEDMEDIGUN_DATA.CVARS.heal_tick_self_uber = GetConVar( "ttt2_med_medigun_ticks_per_self_heal_uber" ):GetInt( )
-    TTT2MEDMEDIGUN_DATA.CVARS.heal_points_tick_self = GetConVar( "ttt2_med_medigun_self_heal_per_tick" ):GetInt( )
-    TTT2MEDMEDIGUN_DATA.CVARS.heal_points_tick_self_uber = GetConVar( "ttt2_med_medigun_self_heal_per_tick_uber" ):GetInt( )
-    TTT2MEDMEDIGUN_DATA.CVARS.heal_self_passive = GetConVar( "ttt2_med_medigun_self_heal_is_passive" ):GetBool( )
-    TTT2MEDMEDIGUN_DATA.CVARS.uber_tick = GetConVar( "ttt2_med_medigun_ticks_per_uber" ):GetInt( )
-    TTT2MEDMEDIGUN_DATA.CVARS.uber_seconds = GetConVar( "ttt2_med_medigun_uber_seconds" ):GetInt( )
-    TTT2MEDMEDIGUN_DATA.CVARS.enable_beam = GetConVar( "ttt2_med_medigun_enable_beam" ):GetBool( )
-    TTT2MEDMEDIGUN_DATA.CVARS.call_healing_hook = GetConVar( "ttt2_med_medigun_call_healing_hook" ):GetBool( )
 end
