@@ -1,35 +1,37 @@
 if engine.ActiveGamemode( ) ~= "terrortown" then return end -- we need this (or we can have this) to prevent this file from loading if the gamemmode is not ttt, this is only needed here lua/autorun, in /terrortown/... is this not needed
 
 -- convars added with default values
-CreateConVar( "ttt2_med_armor" , "50" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } )
+CreateConVar( "ttt2_med_armor" , "50" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } , "how much armor" )
 
-CreateConVar( "ttt2_med_announce_arrival_popup" , "1" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } )
+CreateConVar( "ttt2_med_announce_arrival_popup" , "1" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } , "enable or disable popup for the arrival of the medic" )
 
-CreateConVar( "ttt2_med_announce_arrival_popup_duration" , "5" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } )
+CreateConVar( "ttt2_med_announce_arrival_popup_duration" , "5" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } , "duration of the arrival popup" )
 
-CreateConVar( "ttt2_med_announce_death_popup" , "1" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } )
+CreateConVar( "ttt2_med_announce_death_popup" , "1" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } , "enable or disable popup for the death of one medic" )
 
-CreateConVar( "ttt2_med_announce_death_popup_duration" , "5" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } )
+CreateConVar( "ttt2_med_announce_death_popup_duration" , "5" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } , "duration of the death popup" )
 
-CreateConVar( "ttt2_med_announce_crime_popup" , "1" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } )
+CreateConVar( "ttt2_med_announce_crime_popup" , "1" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } , "enable or disable popup for a crime on the medic" )
 
-CreateConVar( "ttt2_med_announce_crime_popup_duration" , "5" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } )
+CreateConVar( "ttt2_med_announce_crime_popup_duration" , "5" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } , "duration of the crime popup" )
 
-CreateConVar( "ttt2_med_announce_betrayel_popup" , "1" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } )
+CreateConVar( "ttt2_med_announce_betrayel_popup" , "1" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } , "enable or disable popup for a betrayel on the medic" )
 
-CreateConVar( "ttt2_med_announce_betrayel_popup_duration" , "5" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } )
+CreateConVar( "ttt2_med_announce_betrayel_popup_duration" , "5" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } , "duration of the betrayel popup" )
 
-CreateConVar( "ttt2_med_defibrillator_distance" , "100" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } )
+CreateConVar( "ttt2_med_defibrillator_distance" , "100" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } , "the defibrillation distance" )
 
-CreateConVar( "ttt2_med_defibrillator_revive_braindead" , "0" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } )
+CreateConVar( "ttt2_med_defibrillator_revive_braindead" , "0" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } , "should the defibrillator be able to revive braindead people or not" )
 
-CreateConVar( "ttt2_med_defibrillator_play_sounds" , "1" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } )
+CreateConVar( "ttt2_med_defibrillator_play_sounds" , "1" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } , "should the revival process make sounds or not" )
 
-CreateConVar( "ttt2_med_defibrillator_revive_time" , "3.0" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } )
+CreateConVar( "ttt2_med_defibrillator_revive_time" , "3.0" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } , "the time needed for the revival" )
 
-CreateConVar( "ttt2_med_defibrillator_error_time" , "1.5" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } )
+CreateConVar( "ttt2_med_defibrillator_error_time" , "1.5" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } , "the cooldown time after an revival attempt" )
 
-CreateConVar( "ttt2_med_defibrillator_success_chance" , "75" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } )
+CreateConVar( "ttt2_med_defibrillator_success_chance" , "80" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } , "the chance that a revival is successful" )
+
+CreateConVar( "ttt2_med_defibrillator_reset_confirm" , "1" , { FCVAR_NOTIFY , FCVAR_ARCHIVE } , "reset confirm state on round begin to prevent short blinking of confirmed roles on round start" )
 
 CreateConVar( "ttt2_med_medigun_max_range" , "450" , { FCVAR_SERVER_CAN_EXECUTE , FCVAR_ARCHIVE , FCVAR_NOTIFY } , "Max Range (in Hammer units) the Medigun can heal" )
 
@@ -189,7 +191,13 @@ hook.Add( "TTTUlxDynamicRCVars" , "ttt2_ulx_dynamic_medic_convars" , function( t
         min = 0 ,
         max = 100 ,
         decimal = 0 ,
-        desc = "ttt2_med_defibrillator_success_chance (def. 75)"
+        desc = "ttt2_med_defibrillator_success_chance (def. 80)"
+    } )
+
+    table.insert( tbl[ ROLE_MEDIC ] , {
+        cvar = "ttt2_med_defibrillator_reset_confirm" ,
+        checkbox = true ,
+        desc = "ttt2_med_defibrillator_reset_confirm (def. 1)"
     } )
 
     table.insert( tbl[ ROLE_MEDIC ] , {
