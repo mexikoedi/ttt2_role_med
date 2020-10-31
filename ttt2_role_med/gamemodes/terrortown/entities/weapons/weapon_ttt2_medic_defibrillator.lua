@@ -75,6 +75,8 @@ if SERVER then
     util.AddNetworkString( "ReceiveRevivalStatus" )
 
     function SWEP:OnDrop( )
+        self.BaseClass.OnDrop( self )
+        self:CancelRevival( )
         self:Remove( )
     end
 
@@ -146,8 +148,13 @@ if SERVER then
         self:SetStartTime( CurTime( ) )
         self:SetReviveTime( reviveTime )
         self:PlaySound( "hum" )
+
         -- start revival
-        ply:Revive( reviveTime , nil , nil , true , false )
+        ply:Revive( reviveTime , function( )
+            if GetConVar( "ttt2_med_defibrillator_reset_confirm" ):GetBool( ) then
+                ply:ResetConfirmPlayer( )
+            end
+        end , nil , true , false )
 
         ply:SendRevivalReason( "med_revived_by_player" , {
             name = self:GetOwner( ):Nick( )
@@ -288,13 +295,13 @@ if CLIENT then
             ply.defi_lastRequest = CurTime( )
         end
 
-        return ply.defi_isRevining or false
+        return ply.defi_isReviving or false
     end
 
     net.Receive( "ReceiveRevivalStatus" , function( )
         local ply = net.ReadEntity( )
         if not IsValid( ply ) then return end
-        ply.defi_isRevining = net.ReadBool( )
+        ply.defi_isReviving = net.ReadBool( )
     end )
 
     hook.Add( "TTTRenderEntityInfo" , "ttt2_med_defibrillator_display_info" , function( tData )
