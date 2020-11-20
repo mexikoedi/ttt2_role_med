@@ -8,7 +8,7 @@ L[ "search_role_" .. MEDIC.abbr ] = "This person was a Medic!"
 L[ "target_" .. MEDIC.name ] = "Medic"
 L[ "ttt2_desc_" .. MEDIC.name ] = [[The Medic has to heal everyone with all of his might (REALLY EVERYONE), for that he has the Medigun and a Defibrillator.
 Try to help everyone!]]
-L[ "ttt2_role_medic_popuptitle" ] = "A medic has arrived in the field, they're name is: "
+L[ "ttt2_role_medic_popuptitle" ] = "A medic has arrived in the field, their name is: "
 L[ "ttt2_role_medic_popuptitle_2" ] = "The medic was killed! This war crime was commited by: "
 L[ "ttt2_role_medic_popuptitle_3" ] = "The medic has commited a crime! He's lost his equipment and is now helping the innocent: "
 L[ "ttt2_role_medic_popuptitle_4" ] = "The medic has killed another medic! This is treason, kill: "
