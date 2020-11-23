@@ -28,5 +28,7 @@ L[ "med_defi_error_already_reviving" ] = "You can't revive this player since the
 L[ "med_defi_error_failed" ] = "Revival attempt failed. Please try again."
 L[ "ttt2_med_defibrillator_help1" ] = "{primaryfire} Revive corpses."
 L[ "ttt2_med_defibrillator_help2" ] = "{secondaryfire} Play beep sound."
+L[ "weapon_med_medigun_name" ] = "Medic Medigun"
+L[ "weapon_med_medigun_desc" ] = "Heal players and UBER ZEM! OUT OUT."
 L[ "ttt2_med_medigun_help1" ] = "{primaryfire} Heal someone with a strong healing beam."
 L[ "ttt2_med_medigun_help2" ] = "{secondaryfire} Once charged, use Ubercharge to make your beam stronger."
