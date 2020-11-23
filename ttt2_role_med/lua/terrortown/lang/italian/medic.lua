@@ -6,7 +6,7 @@ Stai vivo e aiuta tutti se puoi!]]
 L[ "body_found_" .. MEDIC.abbr ] = "Lui era un Medico."
 L[ "search_role_" .. MEDIC.abbr ] = "Questa persona era un Medico!"
 L[ "target_" .. MEDIC.name ] = "Medico"
-L[ "ttt2_desc_" .. MEDIC.name ] = [[Il Medico deve curare tutti con tutte le sue forze (Veramente tutti), per questo ha la Medigun e il defibrillatore.
+L[ "ttt2_desc_" .. MEDIC.name ] = [[Il Medico deve curare tutti con tutte le sue forze (Veramente tutti), per questo ha l'arma curativa e il defibrillatore.
 cerca di aiutare tutti!]]
 L[ "ttt2_role_medic_popuptitle" ] = "Un Medico è arrivato sul campo, il suo nome è: "
 L[ "ttt2_role_medic_popuptitle_2" ] = "Il Medico è stato ucciso! Questo crimine è stato commesso da: "
@@ -28,5 +28,7 @@ L[ "med_defi_error_already_reviving" ] = "Non puoi rianimare questo giocatore po
 L[ "med_defi_error_failed" ] = "Tentativo di rianimazione fallito. Per favore riprova."
 L[ "ttt2_med_defibrillator_help1" ] = "{primaryfire} Rianima i cadaveri."
 L[ "ttt2_med_defibrillator_help2" ] = "{secondaryfire} Fai un beep sonoro."
+L[ "weapon_med_medigun_name" ] = "Medico arma curativa"
+L[ "weapon_med_medigun_desc" ] = "Guarisci i giocatori e UBER ZEM! FUORI FUORI."
 L[ "ttt2_med_medigun_help1" ] = "{primaryfire} Cura qualcuno con un potente raggio."
 L[ "ttt2_med_medigun_help2" ] = "{secondaryfire} Una volta carico, usa l'Ubercharge per fare diventare il tuo giocatore più forte."
