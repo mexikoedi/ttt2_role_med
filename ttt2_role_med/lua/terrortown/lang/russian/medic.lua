@@ -28,5 +28,7 @@ L[ "med_defi_error_already_reviving" ] = "Вы не можете оживить 
 L[ "med_defi_error_failed" ] = "Попытка возрождения не удалась. Пожалуйста, попробуйте ещё раз."
 L[ "ttt2_med_defibrillator_help1" ] = "{primaryfire} Оживить трупы."
 L[ "ttt2_med_defibrillator_help2" ] = "{secondaryfire} Воспроизвести звуковой сигнал."
+L[ "weapon_med_medigun_name" ] = "Медик Медипушка"
+L[ "weapon_med_medigun_desc" ] = "Исцеляйте игроков и UBER ZEM! ВЫХОД ВЫХОД."
 L[ "ttt2_med_medigun_help1" ] = "{primaryfire} Исцелить кого-нибудь сильным лечебным лучом."
 L[ "ttt2_med_medigun_help2" ] = "{secondaryfire} После зарядки используйте убер-заряд, чтобы усилить луч."
