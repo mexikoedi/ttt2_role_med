@@ -46,8 +46,8 @@ SWEP.InLoadoutFor = { ROLE_MEDIC }
 if CLIENT then
     SWEP.EquipMenuData = {
         type = "item_weapon" ,
-        name = "Medic Medigun" ,
-        desc = "Heal players and UBER ZEM! RAUS RAUS"
+        name = "weapon_med_medigun_name" ,
+        desc = "weapon_med_medigun_desc"
     }
 end
 
