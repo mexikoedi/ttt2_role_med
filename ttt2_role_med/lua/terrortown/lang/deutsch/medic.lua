@@ -6,7 +6,7 @@ Bleib am leben und hilf allen, solange es möglich ist!]]
 L[ "body_found_" .. MEDIC.abbr ] = "Er war ein Sanitäter..."
 L[ "search_role_" .. MEDIC.abbr ] = "Diese Person war ein Sanitäter!"
 L[ "target_" .. MEDIC.name ] = "Sanitäter"
-L[ "ttt2_desc_" .. MEDIC.name ] = [[Der Sanitäter muss jeden mit all seiner Macht heilen (WIRKLICH JEDEN), dafür hat er die Medigun und einen Defribillator.
+L[ "ttt2_desc_" .. MEDIC.name ] = [[Der Sanitäter muss jeden mit all seiner Macht heilen (WIRKLICH JEDEN), dafür hat er die Heilwaffe und einen Defribillator.
 Versuche, allen zu helfen!]]
 L[ "ttt2_role_medic_popuptitle" ] = "Ein Sanitäter ist auf dem Feld angekommen. Der Name lautet: "
 L[ "ttt2_role_medic_popuptitle_2" ] = "Der Saniäter wurde getötet! Dieses Kriegsverbrechen wurde begangen von: "
@@ -28,5 +28,7 @@ L[ "med_defi_error_already_reviving" ] = "Du kannst diesen Spieler nicht wiederb
 L[ "med_defi_error_failed" ] = "Wiederbeleben fehlgeschlagen. Bitte versuche es erneut."
 L[ "ttt2_med_defibrillator_help1" ] = "{primaryfire} Leichen wiederbeleben."
 L[ "ttt2_med_defibrillator_help2" ] = "{secondaryfire} Piepton abspielen."
+L[ "weapon_med_medigun_name" ] = "Sanitäter Heilwaffe"
+L[ "weapon_med_medigun_desc" ] = "Heile Spieler und UBER ZEM! RAUS RAUS."
 L[ "ttt2_med_medigun_help1" ] = "{primaryfire} Heile jemanden mit einem starken Heilstrahl."
 L[ "ttt2_med_medigun_help2" ] = "{secondaryfire} Verwenden Sie nach dem Aufladen Ubercharge, um Ihren Strahl stärker zu machen."
