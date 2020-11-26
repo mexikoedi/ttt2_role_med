@@ -14,12 +14,12 @@ function ROLE:PreInitialize( )
     self.surviveBonus = 5 -- bonus multiplier for every survive while another player was killed
     self.scoreKillsMultiplier = 0 -- multiplier for kill of player of another team
     self.scoreTeamKillsMultiplier = -50 -- multiplier for teamkill
-    self.unknownTeam = false -- player don't know their teammates
+    self.unknownTeam = true -- player don't know their teammates/fix for team_none roles which were seen by the medic
     self.preventWin = true -- prevent win
     self.preventFindCredits = true -- prevent finding credits
     self.preventKillCredits = true -- prevent to get credits after kill
     self.preventTraitorAloneCredits = true -- prevent to get credits
-    self.defaultTeam = NONE -- the team name: roles with same team name are working together
+    self.defaultTeam = TEAM_NONE -- the team name: roles with same team name are working together
     self.defaultEquipment = MEDIC_EQUIPMENT -- here you can set up your own default equipment
 
     self.conVarData = {
@@ -35,7 +35,8 @@ function ROLE:PreInitialize( )
         traitorButton = 0 -- traitor button visbile (1) or not (0)
     }
 
-    local allTeams = { } -- making the medic visible for all teams
+    -- making the medic visible for all teams + team_none
+    local allTeams = { TEAM_NONE }
 
     for i , k in pairs( TEAMS ) do
         allTeams[ #allTeams + 1 ] = i
