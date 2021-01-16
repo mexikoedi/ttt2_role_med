@@ -1,5 +1,5 @@
 if SERVER then
-    AddCSLuaFile( ) -- adding this file for donwload
+    AddCSLuaFile( ) -- adding this file for download
     resource.AddFile( "materials/vgui/ttt/dynamic/roles/icon_med.vmt" ) -- adding medic icon for download
     util.AddNetworkString( "ttt2_med_role_epop" ) -- adding network string for first popup
     util.AddNetworkString( "ttt2_med_role_epop_2" ) -- adding network string for second popup
