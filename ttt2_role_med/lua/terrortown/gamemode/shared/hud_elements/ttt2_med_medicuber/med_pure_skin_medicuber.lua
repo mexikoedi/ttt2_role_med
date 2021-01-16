@@ -1,4 +1,4 @@
-AddCSLuaFile( ) -- adding this file for donwload, the rest is hud stuff and set up for the medigun
+AddCSLuaFile( ) -- adding this file for download, the rest is hud stuff and set up for the medigun
 local base = "pure_skin_element"
 DEFINE_BASECLASS( base )
 HUDELEMENT.Base = base
