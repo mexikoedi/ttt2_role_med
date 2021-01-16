@@ -1,5 +1,5 @@
 if engine.ActiveGamemode( ) ~= "terrortown" then return end -- we need this (or we can have this) to prevent this file from loading if the gamemmode is not ttt, this is only needed here lua/autorun, in /terrortown/... is this not needed
-AddCSLuaFile( ) -- adding this file for donwload, the rest is base entity stuff and set up for the medigun
+AddCSLuaFile( ) -- adding this file for download, the rest is base entity stuff and set up for the medigun
 ENT.Type = "anim"
 ENT.Base = "base_anim"
 ENT.Spawnable = false
