@@ -175,7 +175,7 @@ if CLIENT then
 
     -- how long should the message appear on screen
     -- the second popup is now on the screen
-    -- finally the broadcasted second popup is received but again not at the players screen
+    -- finally the broadcasted third popup is received but again not at the players screen
     net.Receive( "ttt2_med_role_epop_3" , function( )
         plo3 = net.ReadString( ) -- reading the written string
 
@@ -192,6 +192,7 @@ if CLIENT then
 
     -- how long should the message appear on screen
     -- the third popup is now on the screen
+    -- finally the broadcasted fourth popup is received but again not at the players screen
     net.Receive( "ttt2_med_role_epop_4" , function( )
         plo4 = net.ReadString( ) -- reading the written string
 
