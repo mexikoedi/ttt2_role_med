@@ -1,4 +1,4 @@
-L = LANG.GetLanguageTableReference( "Русский" )
+L = LANG.GetLanguageTableReference( "ru" )
 -- GENERAL ROLE LANGUAGE STRINGS
 L[ MEDIC.name ] = "Медик"
 L[ "info_popup_" .. MEDIC.name ] = [[Вы медик!
