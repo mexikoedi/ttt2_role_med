@@ -1,5 +1,3 @@
-if engine.ActiveGamemode() ~= "terrortown" then return end -- we need this (or we can have this) to prevent this file from loading if the gamemmode is not ttt, this is only needed here lua/autorun, in /terrortown/... is this not needed
-
 -- convars added with default values
 CreateConVar("ttt2_med_armor", "50", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "how much armor")
 
