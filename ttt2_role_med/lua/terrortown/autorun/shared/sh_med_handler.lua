@@ -1,5 +1,3 @@
-if engine.ActiveGamemode() ~= "terrortown" then return end -- we need this (or we can have this) to prevent this file from loading if the gamemmode is not ttt, this is only needed here lua/autorun, in /terrortown/... is this not needed
-
 if SERVER then
     -- what happens "after death"
     hook.Add("TTT2PostPlayerDeath", "MedicKill", function(ply, attacker)
