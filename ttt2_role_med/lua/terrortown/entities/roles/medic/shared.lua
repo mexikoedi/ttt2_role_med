@@ -11,9 +11,14 @@ end
 function ROLE:PreInitialize()
     self.color = Color(4, 180, 134, 255) -- color of everything role specific
     self.abbr = "med" -- abbreviation
-    self.surviveBonus = 5 -- bonus multiplier for every survive while another player was killed
-    self.scoreKillsMultiplier = 0 -- multiplier for kill of player of another team
-    self.scoreTeamKillsMultiplier = -50 -- multiplier for teamkill
+    self.score.surviveBonusMultiplier = 1 -- The amount of score points gained by surviving a round, based on the amount of dead enemy players.
+    self.score.aliveTeammatesBonusMultiplier = 1 -- The amount of score points granted due to a survival of the round for every teammate alive.
+    self.score.allSurviveBonusMultiplier = 2 -- Multiplier for a score for every player alive at the end of the round. Can be negative for roles that should kill everyone.
+    self.score.killsMultiplier = -5 -- The multiplier that is used to calculate the gained score by killing someone from a different team.
+    self.score.teamKillsMultiplier = -5 -- The multiplier that is used to calculate the score penalty that is added if this role kills a team member.
+    self.score.suicideMultiplier = -10 -- The amount of points gained by killing yourself. Should be a negative number for most roles.
+    self.score.bodyFoundMuliplier = 2 -- The amount of score points gained by confirming a body.
+    self.score.timelimitMultiplier = 0 -- The amount of score points gained by being alive if the round ended with nobody winning, usually a negative number.
     self.unknownTeam = true -- player don't know their teammates/fix for team_none roles which were seen by the medic
     self.preventWin = true -- prevent win
     self.preventFindCredits = true -- prevent finding credits
