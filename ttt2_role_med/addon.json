@@ -8,6 +8,7 @@
         "roleplay",
         "fun"
     ],
+    "description": "Medic role for the TTT2 gamemode.",
     "ignore": [
         "*.psd",
         "*.vcproj",
