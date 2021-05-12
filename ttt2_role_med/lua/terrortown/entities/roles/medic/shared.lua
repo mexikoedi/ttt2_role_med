@@ -7,7 +7,6 @@ if SERVER then
     util.AddNetworkString("ttt2_med_role_epop_4") -- adding network string for fourth popup
     util.AddNetworkString("ttt2_med_role_epop_5") -- adding network string for fifth popup
     util.AddNetworkString("ttt2_med_role_epop_6") -- adding network string for sixth popup
-    util.AddNetworkString("ttt2_med_role_epop_7") -- adding network string for seventh popup
 end
 
 -- only for servers
