@@ -5,6 +5,10 @@ CreateConVar("ttt2_med_announce_arrival_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIV
 
 CreateConVar("ttt2_med_announce_arrival_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "duration of the arrival popup")
 
+CreateConVar("ttt2_med_announce_force_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable popup for a forced medic")
+
+CreateConVar("ttt2_med_announce_force_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "duration of the forced popup")
+
 CreateConVar("ttt2_med_announce_death_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable popup for the death of one medic")
 
 CreateConVar("ttt2_med_announce_death_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "duration of the death popup")
@@ -16,6 +20,10 @@ CreateConVar("ttt2_med_announce_crime_popup_duration", "5", {FCVAR_NOTIFY, FCVAR
 CreateConVar("ttt2_med_announce_betrayel_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable popup for a betrayel on the medic")
 
 CreateConVar("ttt2_med_announce_betrayel_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "duration of the betrayel popup")
+
+CreateConVar("ttt2_med_announce_accident_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable popup for an accident by the medic")
+
+CreateConVar("ttt2_med_announce_accident_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "duration of the accident popup")
 
 CreateConVar("ttt2_med_defibrillator_distance", "100", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "the defibrillation distance")
 
@@ -100,6 +108,21 @@ hook.Add("TTTUlxDynamicRCVars", "ttt2_ulx_dynamic_medic_convars", function(tbl)
     })
 
     table.insert(tbl[ROLE_MEDIC], {
+        cvar = "ttt2_med_announce_force_popup",
+        checkbox = true,
+        desc = "ttt2_med_announce_force_popup (def. 1)"
+    })
+
+    table.insert(tbl[ROLE_MEDIC], {
+        cvar = "ttt2_med_announce_force_popup_duration",
+        slider = true,
+        min = 1,
+        max = 15,
+        decimal = 0,
+        desc = "ttt2_med_announce_force_popup_duration (def. 5)"
+    })
+
+    table.insert(tbl[ROLE_MEDIC], {
         cvar = "ttt2_med_announce_death_popup",
         checkbox = true,
         desc = "ttt2_med_announce_death_popup (def. 1)"
@@ -142,6 +165,21 @@ hook.Add("TTTUlxDynamicRCVars", "ttt2_ulx_dynamic_medic_convars", function(tbl)
         max = 15,
         decimal = 0,
         desc = "ttt2_med_announce_betrayel_popup_duration (def. 5)"
+    })
+
+    table.insert(tbl[ROLE_MEDIC], {
+        cvar = "ttt2_med_announce_accident_popup",
+        checkbox = true,
+        desc = "ttt2_med_announce_accident_popup (def. 1)"
+    })
+
+    table.insert(tbl[ROLE_MEDIC], {
+        cvar = "ttt2_med_announce_accident_popup_duration",
+        slider = true,
+        min = 1,
+        max = 15,
+        decimal = 0,
+        desc = "ttt2_med_announce_accident_popup_duration (def. 5)"
     })
 
     table.insert(tbl[ROLE_MEDIC], {
