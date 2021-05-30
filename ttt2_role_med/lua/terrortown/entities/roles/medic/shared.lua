@@ -102,6 +102,7 @@ if SERVER then
     -- what happens if the medic gets killed or if he kills someone
     local function MedicKilled(victim, inflictor, attacker)
         if not IsValid(attacker) or not attacker:IsPlayer() or not IsValid(victim) or not victim:IsPlayer() then return end -- ensure attacker and victim are valid and players first
+        if SpecDM and (victim.IsGhost and victim:IsGhost() or (attacker.IsGhost and attacker:IsGhost())) then return end -- fix for specdm popups/errors
 
         -- checks if convar true, victim is valid, player and is medic, attacker is valid, player and not medic, and msgshown is true
         if GetConVar("ttt2_med_announce_death_popup"):GetBool() and victim:GetSubRole() == ROLE_MEDIC and attacker:GetSubRole() ~= ROLE_MEDIC and not victim.msgShown then
