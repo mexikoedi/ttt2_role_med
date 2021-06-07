@@ -40,6 +40,8 @@ SWEP.Secondary.Automatic = false
 SWEP.Secondary.Ammo = "none"
 SWEP.AllowDrop = false
 SWEP.AllowPickup = false
+SWEP.CanBuy = nil
+SWEP.notBuyable = true
 
 SWEP.InLoadoutFor = {ROLE_MEDIC}
 
