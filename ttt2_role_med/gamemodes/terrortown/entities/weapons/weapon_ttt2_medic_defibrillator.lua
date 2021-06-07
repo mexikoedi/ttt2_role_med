@@ -67,6 +67,8 @@ SWEP.Charge = 0
 SWEP.Timer = -1
 SWEP.AllowDrop = false
 SWEP.AllowPickup = false
+SWEP.CanBuy = nil
+SWEP.notBuyable = true
 
 SWEP.InLoadoutFor = {ROLE_MEDIC}
 
