@@ -142,10 +142,11 @@ if SERVER then
     hook.Add("PlayerDeath", "MedicKilled", MedicKilled) -- playerdeath hook added, look gmod wiki for more information
 
     local function MedicKilledAccident(ply, attacker, dmg)
+        if SpecDM and (ply.IsGhost and ply:IsGhost() or (attacker.IsGhost and attacker:IsGhost())) then return end -- fix for specdm popups/errors
         local killer = dmg:GetAttacker() -- get attacker inflictor
 
         -- checks convar is true, if ply is medic, if ply is attacker or if killer is not valid or killer is not a player
-        if GetConVar("ttt2_med_announce_accident_popup"):GetBool() and ply:GetSubRole() == ROLE_MEDIC and ply == attacker or not IsValid(killer) or not killer:IsPlayer() then
+        if GetConVar("ttt2_med_announce_accident_popup"):GetBool() and ply:GetSubRole() == ROLE_MEDIC and (ply == attacker or not IsValid(killer) or not killer:IsPlayer()) then
             net.Start("ttt2_med_role_epop_6") -- the sixth added network string starts here if the convar is true
             net.WriteString(ply:Nick()) -- writing the name of the killed medic
             net.Broadcast() -- broadcasting but no popup at the screen yet
