@@ -10,8 +10,8 @@ L["ttt2_desc_" .. MEDIC.name] = [[The Medic has to heal everyone with all of his
 Try to help everyone!]]
 L["ttt2_role_medic_popuptitle_1"] = "A medic has arrived in the field, their name is: "
 L["ttt2_role_medic_popuptitle_2"] = "This player was forced to a medic: "
-L["ttt2_role_medic_popuptitle_3"] = "The medic was killed! This war crime was commited by: "
-L["ttt2_role_medic_popuptitle_4"] = "The medic has commited a crime! He's lost his equipment and is now helping the innocent: "
+L["ttt2_role_medic_popuptitle_3"] = "The medic was killed! This war crime was committed by: "
+L["ttt2_role_medic_popuptitle_4"] = "The medic has committed a crime! He's lost his equipment and is now helping the innocent: "
 L["ttt2_role_medic_popuptitle_5"] = "The medic has killed another medic! This is treason, kill: "
 L["ttt2_role_medic_popuptitle_6"] = "This medic may have had an accident: "
 L["weapon_med_defi_name"] = "Medic Defibrillator"
