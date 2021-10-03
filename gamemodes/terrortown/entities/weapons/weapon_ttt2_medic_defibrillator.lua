@@ -14,6 +14,7 @@ local DEFI_ERROR_LOST_TARGET = 3
 local DEFI_ERROR_NO_VALID_PLY = 4
 local DEFI_ERROR_ALREADY_REVIVING = 5
 local DEFI_ERROR_FAILED = 6
+local DEFI_ERROR_PLAYER_ALIVE = 7
 
 local sounds = {
     empty = Sound("Weapon_SMG1.Empty"),
@@ -127,6 +128,8 @@ if SERVER then
             LANG.Msg(owner, "med_defi_error_already_reviving", nil, MSG_MSTACK_WARN)
         elseif type == DEFI_ERROR_FAILED then
             LANG.Msg(owner, "med_defi_error_failed", nil, MSG_MSTACK_WARN)
+        elseif type == DEFI_ERROR_PLAYER_ALIVE then
+            LANG.Msg(owner, "med_defi_error_player_alive", nil, MSG_MSTACK_WARN)
         end
     end
 
@@ -145,6 +148,12 @@ if SERVER then
             return
         end
 
+        if ply:IsActive() and not (SpecDM and not ply:IsGhost()) then
+            self:Error(DEFI_ERROR_PLAYER_ALIVE)
+
+            return
+        end
+
         local reviveTime = GetConVar("ttt2_med_defibrillator_revive_time"):GetFloat()
         self:SetState(DEFI_BUSY)
         self:SetStartTime(CurTime())
@@ -156,7 +165,16 @@ if SERVER then
             if GetConVar("ttt2_med_defibrillator_reset_confirm"):GetBool() then
                 ply:ResetConfirmPlayer()
             end
-        end, nil, true, false)
+        end, function(p)
+            if not p:IsActive() and (SpecDM and IsGhost()) then
+                self:CancelRevival()
+                self:Error(DEFI_ERROR_PLAYER_ALIVE)
+
+                return false
+            else
+                return true
+            end
+        end, true, false)
 
         ply:SendRevivalReason("med_revived_by_player", {
             name = self:GetOwner():Nick()
@@ -217,12 +235,16 @@ if SERVER then
     function SWEP:Think()
         if self:GetState() ~= DEFI_BUSY then return end
         local owner = self:GetOwner()
+        local target = CORPSE.GetPlayer(self.defiTarget)
 
         if CurTime() >= self:GetStartTime() + GetConVar("ttt2_med_defibrillator_revive_time"):GetFloat() - 0.01 then
             self:FinishRevival()
         elseif not owner:KeyDown(IN_ATTACK) or owner:GetEyeTrace(MASK_SHOT_HULL).Entity ~= self.defiTarget then
             self:CancelRevival()
             self:Error(DEFI_ERROR_LOST_TARGET)
+        elseif target:IsActive() and not (SpecDM and not target:IsGhost()) then
+            self:CancelRevival()
+            self:Error(DEFI_ERROR_PLAYER_ALIVE)
         end
     end
 

@@ -28,6 +28,7 @@ L["med_defi_error_lost_target"] = "Hai perso il tuo obbiettivo. Per favore ripro
 L["med_defi_error_no_valid_ply"] = "Non puoi rianimare questo giocatore perchè non è piu valido."
 L["med_defi_error_already_reviving"] = "Non puoi rianimare questo giocatore poiché sta già rianimando."
 L["med_defi_error_failed"] = "Tentativo di rianimazione fallito. Per favore riprova."
+L["med_defi_error_player_alive"] = "Non puoi rianimare questo giocatore perché è già vivo."
 L["ttt2_med_defibrillator_help1"] = "{primaryfire} Rianima i cadaveri."
 L["ttt2_med_defibrillator_help2"] = "{secondaryfire} Fai un beep sonoro."
 L["weapon_med_medigun_name"] = "Medico arma curativa"

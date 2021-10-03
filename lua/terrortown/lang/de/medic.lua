@@ -28,6 +28,7 @@ L["med_defi_error_lost_target"] = "Du hast dein Ziel verloren. Bitte versuche es
 L["med_defi_error_no_valid_ply"] = "Du kannst diesen Spieler nicht wiederbeleben, da er nicht länger valide ist."
 L["med_defi_error_already_reviving"] = "Du kannst diesen Spieler nicht wiederbeleben, da er bereits wiederbelebt wird."
 L["med_defi_error_failed"] = "Wiederbeleben fehlgeschlagen. Bitte versuche es erneut."
+L["med_defi_error_player_alive"] = "Du kannst diesen Spieler nicht wiederbeleben, da er bereits am Leben ist."
 L["ttt2_med_defibrillator_help1"] = "{primaryfire} Leichen wiederbeleben."
 L["ttt2_med_defibrillator_help2"] = "{secondaryfire} Piepton abspielen."
 L["weapon_med_medigun_name"] = "Sanitäter Heilwaffe"
