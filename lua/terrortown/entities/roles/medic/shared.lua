@@ -20,6 +20,7 @@ function ROLE:PreInitialize()
     self.score.teamKillsMultiplier = -5 -- The multiplier that is used to calculate the score penalty that is added if this role kills a team member.
     self.score.suicideMultiplier = -10 -- The amount of points gained by killing yourself. Should be a negative number for most roles.
     self.score.bodyFoundMuliplier = 2 -- The amount of score points gained by confirming a body.
+    self.score.survivePenaltyMultiplier = 0 -- The amount of score points lost by surviving a round, based on the amount of surviving team players. Only applied when not in winning team.
     self.score.timelimitMultiplier = 0 -- The amount of score points gained by being alive if the round ended with nobody winning, usually a negative number.
     self.unknownTeam = true -- player don't know their teammates/fix for team_none roles which were seen by the medic
     self.preventWin = true -- prevent win
