@@ -22,11 +22,12 @@ function ROLE:PreInitialize()
     self.score.bodyFoundMuliplier = 2 -- The amount of score points gained by confirming a body.
     self.score.survivePenaltyMultiplier = 0 -- The amount of score points lost by surviving a round, based on the amount of surviving team players. Only applied when not in winning team.
     self.score.timelimitMultiplier = 0 -- The amount of score points gained by being alive if the round ended with nobody winning, usually a negative number.
-    self.unknownTeam = true -- player don't know their teammates/fix for team_none roles which were seen by the medic
+    self.unknownTeam = true -- player don't know their teammates
     self.preventWin = true -- prevent win
     self.preventFindCredits = true -- prevent finding credits
     self.defaultTeam = TEAM_NONE -- the team name: roles with same team name are working together
     self.defaultEquipment = MEDIC_EQUIPMENT -- here you can set up your own default equipment
+    self.isPublicRole = true -- Set this flag to true to make a role public known. This results in a detective-like behavior.
 
     self.conVarData = {
         pct = 0.15, -- necessary: percentage of getting this role selected (per player)
@@ -41,9 +42,6 @@ function ROLE:PreInitialize()
         random = 33, -- random convar
         traitorButton = 0 -- traitor button visbile (1) or not (0)
     }
-
-    -- making the medic visible for everyone
-    self.isPublicRole = true
 end
 
 function ROLE:Initialize()
