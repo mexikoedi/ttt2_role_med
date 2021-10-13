@@ -25,8 +25,6 @@ function ROLE:PreInitialize()
     self.unknownTeam = true -- player don't know their teammates/fix for team_none roles which were seen by the medic
     self.preventWin = true -- prevent win
     self.preventFindCredits = true -- prevent finding credits
-    self.preventKillCredits = true -- prevent to get credits after kill
-    self.preventTraitorAloneCredits = true -- prevent to get credits
     self.defaultTeam = TEAM_NONE -- the team name: roles with same team name are working together
     self.defaultEquipment = MEDIC_EQUIPMENT -- here you can set up your own default equipment
 
@@ -34,23 +32,18 @@ function ROLE:PreInitialize()
         pct = 0.15, -- necessary: percentage of getting this role selected (per player)
         maximum = 1, -- maximum amount of roles in a round
         minPlayers = 8, -- minimum amount of players until this role is able to get selected
+        minKarma = 0, -- The minimum amount of Karma needed for selection.
         credits = 0, -- the starting credits of a specific role
-        creditsTraitorKill = 0, -- credit for traitor kill
-        creditsTraitorDead = 0, -- credits for traitor dead
+        creditsAwardDeadEnable = 0, -- Defines if this role gains credits if a certain percentage of players from other teams is dead.
+        creditsAwardKillEnable = 0, -- Defines if this role is awarded with credits for the kill of a high profile. policing role, such as a detective.
         togglable = true, -- option to toggle a role for a client if possible (F1 menu)
         shopFallback = SHOP_DISABLED, -- shop that is uses
         random = 33, -- random convar
         traitorButton = 0 -- traitor button visbile (1) or not (0)
     }
 
-    -- making the medic visible for all teams + team_none
-    local allTeams = {TEAM_NONE}
-
-    for i, k in pairs(TEAMS) do
-        allTeams[#allTeams + 1] = i
-    end
-
-    self.visibleForTeam = allTeams
+    -- making the medic visible for everyone
+    self.isPublicRole = true
 end
 
 function ROLE:Initialize()
