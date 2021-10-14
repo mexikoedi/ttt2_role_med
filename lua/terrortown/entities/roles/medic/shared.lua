@@ -21,7 +21,7 @@ function ROLE:PreInitialize()
     self.score.suicideMultiplier = -10 -- The amount of points gained by killing yourself. Should be a negative number for most roles.
     self.score.bodyFoundMuliplier = 2 -- The amount of score points gained by confirming a body.
     self.score.survivePenaltyMultiplier = 0 -- The amount of score points lost by surviving a round, based on the amount of surviving team players. Only applied when not in winning team.
-    self.score.timelimitMultiplier = 0 -- The amount of score points gained by being alive if the round ended with nobody winning, usually a negative number.
+    self.score.timelimitMultiplier = 2 -- The amount of score points gained by being alive if the round ended with nobody winning, usually a negative number.
     self.unknownTeam = true -- player don't know their teammates
     self.preventWin = true -- prevent win
     self.preventFindCredits = true -- prevent finding credits
