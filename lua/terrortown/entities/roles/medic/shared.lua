@@ -33,7 +33,7 @@ function ROLE:PreInitialize()
         pct = 0.15, -- necessary: percentage of getting this role selected (per player)
         maximum = 1, -- maximum amount of roles in a round
         minPlayers = 8, -- minimum amount of players until this role is able to get selected
-        minKarma = 0, -- The minimum amount of Karma needed for selection.
+        minKarma = 500, -- The minimum amount of Karma needed for selection.
         credits = 0, -- the starting credits of a specific role
         creditsAwardDeadEnable = 0, -- Defines if this role gains credits if a certain percentage of players from other teams is dead.
         creditsAwardKillEnable = 0, -- Defines if this role is awarded with credits for the kill of a high profile. policing role, such as a detective.
