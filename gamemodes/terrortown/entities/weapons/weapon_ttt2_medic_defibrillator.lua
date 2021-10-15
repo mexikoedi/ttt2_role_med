@@ -166,7 +166,7 @@ if SERVER then
                 ply:ResetConfirmPlayer()
             end
         end, function(p)
-            if not p:IsActive() and (SpecDM and IsGhost()) then
+            if not p:IsActive() and (SpecDM and p:IsGhost()) then
                 self:CancelRevival()
                 self:Error(DEFI_ERROR_PLAYER_ALIVE)
 
