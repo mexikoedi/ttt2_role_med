@@ -113,7 +113,6 @@ if SERVER then
         for _, ply in ipairs(player.GetAll()) do
             if not IsValid(ply) or not ply:IsPlayer() then return end -- ensure ply is valid and player first
             if ply:GetSubRole() ~= ROLE_MEDIC then return end -- ensure ply is medic first
-            if SpecDM and (ply.IsGhost and ply:IsGhost()) then return end -- fix for specdm popups/errors
 
             -- checks if fin_heal is true and ply is active
             if fin_heal == true and ply:IsActive() then
