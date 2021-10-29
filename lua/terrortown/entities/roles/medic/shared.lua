@@ -88,15 +88,52 @@ if SERVER then
             ply:RemoveEquipmentWeapon("weapon_ttt2_medic_medigun") -- removing the medigun from the medic loadout
             ply:RemoveEquipmentWeapon("weapon_ttt2_medic_defibrillator") -- removing the defibrillator from the medic loadout
             ply:RemoveArmor(GetConVar("ttt2_med_armor"):GetInt()) -- removing the armor from the medic loadout
+            started = nil -- setting started to nil to prevent issues with the win condition
+            popupstarted = nil -- setting popupstarted to nil to prevent issues with the win condition
+            fin_heal = nil -- setting fin_heal to nil to prevent issues with the win condition
         end
     end
+
+    -- medic win hook
+    -- ttt2modifywinningalives hook added, look ttt2 api documentation for more information
+    hook.Add("TTT2ModifyWinningAlives", "MedicWin", function(alives)
+        if GetConVar("ttt2_med_win_enabled"):GetBool() == false then return end -- checks if win is enabled
+        -- getting all alive teams and doing some checks
+        local winningTeam = ""
+
+        for i in ipairs(alives) do
+            local t = alives[i]
+            if winningTeam ~= "" and winningTeam ~= t then return end
+            winningTeam = t
+        end
+
+        if winningTeam == "" then return end
+
+        -- getting all players and doing some checks
+        for _, ply in ipairs(player.GetAll()) do
+            if not IsValid(ply) or not ply:IsPlayer() then return end -- ensure ply is valid and player first
+            if ply:GetSubRole() ~= ROLE_MEDIC then return end -- ensure ply is medic first
+            if SpecDM and (ply.IsGhost and ply:IsGhost()) then return end -- fix for specdm popups/errors
+
+            -- checks if fin_heal is true and ply is active
+            if fin_heal == true and ply:IsActive() then
+                ply:UpdateTeam(winningTeam, false) -- putting medic to the winning team
+            end
+        end
+
+        fin_heal = false -- setting fin_heal to false to prevent issues with the win condition
+    end)
 
     -- what happens if the medic gets killed or if he kills someone
     local function MedicKilled(victim, inflictor, attacker)
         if not IsValid(attacker) or not attacker:IsPlayer() or not IsValid(victim) or not victim:IsPlayer() then return end -- ensure attacker and victim are valid and players first
         if SpecDM and (victim.IsGhost and victim:IsGhost() or (attacker.IsGhost and attacker:IsGhost())) then return end -- fix for specdm popups/errors
+        if GetConVar("ttt2_med_disable_kill_death_handling"):GetBool() then return end
+        started = nil -- setting started to nil to prevent issues with the win condition
+        popupstarted = nil -- setting popupstarted to nil to prevent issues with the win condition
+        fin_heal = nil -- setting fin_heal to nil to prevent issues with the win condition
 
-        -- checks if convar true, victim is valid, player and is medic, attacker is valid, player and not medic, and msgshown is true
+        -- checks if convar is true, victim is medic, attacker is not medic and msgshown is false
         if GetConVar("ttt2_med_announce_death_popup"):GetBool() and victim:GetSubRole() == ROLE_MEDIC and attacker:GetSubRole() ~= ROLE_MEDIC and not victim.msgShown then
             net.Start("ttt2_med_role_epop_3") -- the third added network string starts here if the convar is true and the checks allow it
             net.WriteString(attacker:Nick()) -- writing the name of the medic attacker (killer)
@@ -135,6 +172,9 @@ if SERVER then
 
     local function MedicKilledAccident(ply, attacker, dmg)
         if SpecDM and (ply.IsGhost and ply:IsGhost() or (attacker.IsGhost and attacker:IsGhost())) then return end -- fix for specdm popups/errors
+        started = nil -- setting started to nil to prevent issues with the win condition
+        popupstarted = nil -- setting popupstarted to nil to prevent issues with the win condition
+        fin_heal = nil -- setting fin_heal to nil to prevent issues with the win condition
         local killer = dmg:GetAttacker() -- get attacker inflictor
 
         -- checks convar is true, if ply is medic, if ply is attacker or if killer is not valid or killer is not a player
@@ -169,7 +209,7 @@ if CLIENT then
 
         EPOP:AddMessage({
             text = LANG.GetTranslation("ttt2_role_medic_popuptitle_1") .. plo1, -- getting translation from language files and plo1
-            color = Color(4, 180, 134, 255) -- setting color to the role color
+            color = Color(4, 180, 134, 255) -- setting color to the role color 
         }, "", GetConVar("ttt2_med_announce_arrival_popup_duration"):GetInt())
     end)
 
@@ -257,7 +297,34 @@ if CLIENT then
             color = Color(4, 180, 134, 255) -- setting color to the role color
         }, "", GetConVar("ttt2_med_announce_accident_popup_duration"):GetInt())
     end)
+
     -- how long should the message appear on screen
     -- the sixth popup is now on the screen
+    -- finally the broadcasted seventh popup is received but again not at the players screen
+    net.Receive("ttt2_med_role_epop_7", function()
+        plo7 = net.ReadString() -- reading the written string
+
+        -- putting it into plo7
+        if plo7 == nil then
+            plo7 = ""
+        end
+
+        EPOP:AddMessage({
+            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_7") .. plo7, -- getting translation from language files and plo7
+            color = Color(4, 180, 134, 255) -- setting color to the role color
+        }, "", GetConVar("ttt2_med_announce_win_popup_duration"):GetInt())
+    end)
+
+    -- how long should the message appear on screen
+    -- the seventh popup is now on the screen
+    -- finally the broadcasted eighth popup is received but again not at the players screen
+    net.Receive("ttt2_med_role_epop_8", function()
+        EPOP:AddMessage({
+            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_8"), -- getting translation from language files
+            color = Color(4, 180, 134, 255) -- setting color to the role color
+        }, "", GetConVar("ttt2_med_announce_win_achieved_popup_duration"):GetInt())
+    end)
+    -- how long should the message appear on screen
+    -- the eighth popup is now on the screen
 end
 -- this needs to be on client

@@ -4,6 +4,8 @@ if SERVER then
     resource.AddWorkshop("2086831737") -- adding the medigun for download
     util.AddNetworkString("ttt2_med_medigun_clear_healer") -- adding network string for the healer display
     util.AddNetworkString("ttt2_med_medigun_clear_target") -- adding network string for the target display
+    util.AddNetworkString("ttt2_med_role_epop_7") -- adding network string for seventh popup
+    util.AddNetworkString("ttt2_med_role_epop_8") -- adding network string for eighth popup
 
     sound.Add({
         name = "ttt2_med_medigun_heal_sound",
@@ -440,6 +442,41 @@ if SERVER then
         local nh = h + gn
         nh = nh > mh and mh or nh
         self.target:SetHealth(nh)
+
+        -- win condition checks, the varibales started, popupstarted and fin_heal are important to avoid issues
+        if GetConVar("ttt2_med_win_enabled"):GetBool() and fin_heal == nil then
+            if started == nil then
+                local plys = player.GetCount() - 1
+                rqd_heal = GetConVar("ttt2_med_win_rqd_heal_per_ply"):GetInt() * plys
+            end
+
+            started = true
+
+            if GetConVar("ttt2_med_announce_win_popup"):GetBool() and popupstarted == nil then
+                net.Start("ttt2_med_role_epop_7") -- the seventh added network string starts here if the convar is true
+                net.WriteString(rqd_heal) -- writing required health points
+                net.Send(self:GetOwner()) -- broadcasting but no popup at the screen yet
+            end
+
+            popupstarted = true
+
+            -- HealthCheck is done here and health is deducted
+            if rqd_heal > 0 then
+                timer.Create("HealthCheck", 0, 1, function()
+                    rqd_heal = rqd_heal - gn
+                end)
+            end
+
+            -- HealthCheck is done here and then the popup
+            if rqd_heal <= 0 then
+                if GetConVar("ttt2_med_announce_win_achieved_popup"):GetBool() then
+                    net.Start("ttt2_med_role_epop_8") -- the eighth added network string starts here if the convar is true
+                    net.Send(self:GetOwner()) -- broadcasting but no popup at the screen yet
+                end
+
+                fin_heal = true
+            end
+        end
     end
 
     function SWEP:HealSelf()
@@ -510,6 +547,8 @@ if SERVER then
         net.Start("ttt2_med_medigun_clear_healer")
         net.Send(self.target)
     end
+
+    timer.Remove("HealthCheck")
 end
 
 if SERVER then
