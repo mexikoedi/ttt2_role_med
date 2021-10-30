@@ -3,7 +3,7 @@ CreateConVar("ttt2_med_armor", "50", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "how much ar
 
 CreateConVar("ttt2_med_win_enabled", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable win")
 
-CreateConVar("ttt2_med_win_rqd_heal_per_ply", "25", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How much healing needs to be done per player to win.")
+CreateConVar("ttt2_med_win_rqd_heal_per_ply", "25", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How much healing needs to be done per player to win")
 
 CreateConVar("ttt2_med_disable_kill_death_handling", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "disable kill/death handling")
 
