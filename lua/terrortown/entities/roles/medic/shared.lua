@@ -128,9 +128,6 @@ if SERVER then
         if not IsValid(attacker) or not attacker:IsPlayer() or not IsValid(victim) or not victim:IsPlayer() then return end -- ensure attacker and victim are valid and players first
         if SpecDM and (victim.IsGhost and victim:IsGhost() or (attacker.IsGhost and attacker:IsGhost())) then return end -- fix for specdm popups/errors
         if GetConVar("ttt2_med_disable_kill_death_handling"):GetBool() then return end
-        med_started = nil -- setting med_started to nil to prevent issues with the win condition
-        med_popupstarted = nil -- setting med_popupstarted to nil to prevent issues with the win condition
-        med_fin_heal = nil -- setting med_fin_heal to nil to prevent issues with the win condition
 
         -- checks if convar is true, victim is medic, attacker is not medic and msgshown is false
         if GetConVar("ttt2_med_announce_death_popup"):GetBool() and victim:GetSubRole() == ROLE_MEDIC and attacker:GetSubRole() ~= ROLE_MEDIC and not victim.msgShown then
