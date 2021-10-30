@@ -1,6 +1,12 @@
 -- convars added with default values
 CreateConVar("ttt2_med_armor", "50", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "how much armor")
 
+CreateConVar("ttt2_med_win_enabled", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable win")
+
+CreateConVar("ttt2_med_win_rqd_heal_per_ply", "25", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How much healing needs to be done per player to win.")
+
+CreateConVar("ttt2_med_disable_kill_death_handling", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "disable kill/death handling")
+
 CreateConVar("ttt2_med_announce_arrival_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable popup for the arrival of the medic")
 
 CreateConVar("ttt2_med_announce_arrival_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "duration of the arrival popup")
@@ -24,6 +30,14 @@ CreateConVar("ttt2_med_announce_betrayel_popup_duration", "5", {FCVAR_NOTIFY, FC
 CreateConVar("ttt2_med_announce_accident_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable popup for an accident by the medic")
 
 CreateConVar("ttt2_med_announce_accident_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "duration of the accident popup")
+
+CreateConVar("ttt2_med_announce_win_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable popup for an win by the medic")
+
+CreateConVar("ttt2_med_announce_win_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "duration of the win popup")
+
+CreateConVar("ttt2_med_announce_win_achieved_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable popup for an win achieved by the medic")
+
+CreateConVar("ttt2_med_announce_win_achieved_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "duration of the win achieved popup")
 
 CreateConVar("ttt2_med_defibrillator_distance", "100", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "the defibrillation distance")
 
@@ -90,6 +104,27 @@ hook.Add("TTTUlxDynamicRCVars", "ttt2_ulx_dynamic_medic_convars", function(tbl)
         max = 100,
         decimal = 0,
         desc = "ttt2_med_armor (def. 50)"
+    })
+
+    table.insert(tbl[ROLE_MEDIC], {
+        cvar = "ttt2_med_win_enabled",
+        checkbox = true,
+        desc = "ttt2_med_win_enabled (def. 0)"
+    })
+
+    table.insert(tbl[ROLE_MEDIC], {
+        cvar = "ttt2_med_win_rqd_heal_per_ply",
+        slider = true,
+        min = 1,
+        max = 100,
+        decimal = 0,
+        desc = "ttt2_med_win_rqd_heal_per_ply (def. 25)"
+    })
+
+    table.insert(tbl[ROLE_MEDIC], {
+        cvar = "ttt2_med_disable_kill_death_handling",
+        checkbox = true,
+        desc = "ttt2_med_disable_kill_death_handling (def. 0)"
     })
 
     table.insert(tbl[ROLE_MEDIC], {
@@ -180,6 +215,36 @@ hook.Add("TTTUlxDynamicRCVars", "ttt2_ulx_dynamic_medic_convars", function(tbl)
         max = 15,
         decimal = 0,
         desc = "ttt2_med_announce_accident_popup_duration (def. 5)"
+    })
+
+    table.insert(tbl[ROLE_MEDIC], {
+        cvar = "ttt2_med_announce_win_popup",
+        checkbox = true,
+        desc = "ttt2_med_announce_win_popup (def. 1)"
+    })
+
+    table.insert(tbl[ROLE_MEDIC], {
+        cvar = "ttt2_med_announce_win_popup_duration",
+        slider = true,
+        min = 1,
+        max = 15,
+        decimal = 0,
+        desc = "ttt2_med_announce_win_popup_duration (def. 5)"
+    })
+
+    table.insert(tbl[ROLE_MEDIC], {
+        cvar = "ttt2_med_announce_win_achieved_popup",
+        checkbox = true,
+        desc = "ttt2_med_announce_win_achieved_popup (def. 1)"
+    })
+
+    table.insert(tbl[ROLE_MEDIC], {
+        cvar = "ttt2_med_announce_win_achieved_popup_duration",
+        slider = true,
+        min = 1,
+        max = 15,
+        decimal = 0,
+        desc = "ttt2_med_announce_win_achieved_popup_duration (def. 5)"
     })
 
     table.insert(tbl[ROLE_MEDIC], {
