@@ -171,9 +171,6 @@ if SERVER then
 
     local function MedicKilledAccident(ply, attacker, dmg)
         if SpecDM and (ply.IsGhost and ply:IsGhost() or (attacker.IsGhost and attacker:IsGhost())) then return end -- fix for specdm popups/errors
-        med_started = nil -- setting med_started to nil to prevent issues with the win condition
-        med_popupstarted = nil -- setting med_popupstarted to nil to prevent issues with the win condition
-        med_fin_heal = nil -- setting med_fin_heal to nil to prevent issues with the win condition
         local killer = dmg:GetAttacker() -- get attacker inflictor
 
         -- checks convar is true, if ply is medic, if ply is attacker or if killer is not valid or killer is not a player
