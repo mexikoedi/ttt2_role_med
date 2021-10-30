@@ -443,38 +443,38 @@ if SERVER then
         nh = nh > mh and mh or nh
         self.target:SetHealth(nh)
 
-        -- win condition checks, the varibales started, popupstarted and fin_heal are important to avoid issues
-        if GetConVar("ttt2_med_win_enabled"):GetBool() and fin_heal == nil then
-            if started == nil then
+        -- win condition checks, the varibales med_started, med_popupstarted and med_fin_heal are important to avoid issues
+        if GetConVar("ttt2_med_win_enabled"):GetBool() and med_fin_heal == nil then
+            if med_started == nil then
                 local plys = player.GetCount() - 1
-                rqd_heal = GetConVar("ttt2_med_win_rqd_heal_per_ply"):GetInt() * plys
+                med_rqd_heal = GetConVar("ttt2_med_win_rqd_heal_per_ply"):GetInt() * plys
             end
 
-            started = true
+            med_started = true
 
-            if GetConVar("ttt2_med_announce_win_popup"):GetBool() and popupstarted == nil then
+            if GetConVar("ttt2_med_announce_win_popup"):GetBool() and med_popupstarted == nil then
                 net.Start("ttt2_med_role_epop_7") -- the seventh added network string starts here if the convar is true
-                net.WriteString(rqd_heal) -- writing required health points
+                net.WriteString(med_rqd_heal) -- writing required health points
                 net.Send(self:GetOwner()) -- broadcasting but no popup at the screen yet
             end
 
-            popupstarted = true
+            med_popupstarted = true
 
             -- HealthCheck is done here and health is deducted
-            if rqd_heal > 0 then
+            if med_rqd_heal > 0 then
                 timer.Create("HealthCheck", 0, 1, function()
-                    rqd_heal = rqd_heal - gn
+                    med_rqd_heal = med_rqd_heal - gn
                 end)
             end
 
             -- HealthCheck is done here and then the popup
-            if rqd_heal <= 0 then
+            if med_rqd_heal <= 0 then
                 if GetConVar("ttt2_med_announce_win_achieved_popup"):GetBool() then
                     net.Start("ttt2_med_role_epop_8") -- the eighth added network string starts here if the convar is true
                     net.Send(self:GetOwner()) -- broadcasting but no popup at the screen yet
                 end
 
-                fin_heal = true
+                med_fin_heal = true
             end
         end
     end
