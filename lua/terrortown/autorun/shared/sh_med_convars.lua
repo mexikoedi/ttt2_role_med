@@ -31,11 +31,11 @@ CreateConVar("ttt2_med_announce_accident_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHI
 
 CreateConVar("ttt2_med_announce_accident_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "duration of the accident popup")
 
-CreateConVar("ttt2_med_announce_win_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable popup for an win by the medic")
+CreateConVar("ttt2_med_announce_win_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable popup for a win by the medic")
 
 CreateConVar("ttt2_med_announce_win_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "duration of the win popup")
 
-CreateConVar("ttt2_med_announce_win_achieved_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable popup for an win achieved by the medic")
+CreateConVar("ttt2_med_announce_win_achieved_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable popup for a win achieved by the medic")
 
 CreateConVar("ttt2_med_announce_win_achieved_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "duration of the win achieved popup")
 
