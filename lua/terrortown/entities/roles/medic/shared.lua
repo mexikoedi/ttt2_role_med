@@ -88,9 +88,9 @@ if SERVER then
             ply:RemoveEquipmentWeapon("weapon_ttt2_medic_medigun") -- removing the medigun from the medic loadout
             ply:RemoveEquipmentWeapon("weapon_ttt2_medic_defibrillator") -- removing the defibrillator from the medic loadout
             ply:RemoveArmor(GetConVar("ttt2_med_armor"):GetInt()) -- removing the armor from the medic loadout
-            started = nil -- setting started to nil to prevent issues with the win condition
-            popupstarted = nil -- setting popupstarted to nil to prevent issues with the win condition
-            fin_heal = nil -- setting fin_heal to nil to prevent issues with the win condition
+            med_started = nil -- setting med_started to nil to prevent issues with the win condition
+            med_popupstarted = nil -- setting med_popupstarted to nil to prevent issues with the win condition
+            med_fin_heal = nil -- setting med_fin_heal to nil to prevent issues with the win condition
         end
     end
 
@@ -114,13 +114,13 @@ if SERVER then
             if not IsValid(ply) or not ply:IsPlayer() then return end -- ensure ply is valid and player first
             if ply:GetSubRole() ~= ROLE_MEDIC then return end -- ensure ply is medic first
 
-            -- checks if fin_heal is true and ply is active
-            if fin_heal == true and ply:IsActive() then
+            -- checks if med_fin_heal is true and ply is active
+            if med_fin_heal == true and ply:IsActive() then
                 ply:UpdateTeam(winningTeam, false) -- putting medic to the winning team
             end
         end
 
-        fin_heal = false -- setting fin_heal to false to prevent issues with the win condition
+        med_fin_heal = false -- setting med_fin_heal to false to prevent issues with the win condition
     end)
 
     -- what happens if the medic gets killed or if he kills someone
@@ -128,9 +128,9 @@ if SERVER then
         if not IsValid(attacker) or not attacker:IsPlayer() or not IsValid(victim) or not victim:IsPlayer() then return end -- ensure attacker and victim are valid and players first
         if SpecDM and (victim.IsGhost and victim:IsGhost() or (attacker.IsGhost and attacker:IsGhost())) then return end -- fix for specdm popups/errors
         if GetConVar("ttt2_med_disable_kill_death_handling"):GetBool() then return end
-        started = nil -- setting started to nil to prevent issues with the win condition
-        popupstarted = nil -- setting popupstarted to nil to prevent issues with the win condition
-        fin_heal = nil -- setting fin_heal to nil to prevent issues with the win condition
+        med_started = nil -- setting med_started to nil to prevent issues with the win condition
+        med_popupstarted = nil -- setting med_popupstarted to nil to prevent issues with the win condition
+        med_fin_heal = nil -- setting med_fin_heal to nil to prevent issues with the win condition
 
         -- checks if convar is true, victim is medic, attacker is not medic and msgshown is false
         if GetConVar("ttt2_med_announce_death_popup"):GetBool() and victim:GetSubRole() == ROLE_MEDIC and attacker:GetSubRole() ~= ROLE_MEDIC and not victim.msgShown then
@@ -171,9 +171,9 @@ if SERVER then
 
     local function MedicKilledAccident(ply, attacker, dmg)
         if SpecDM and (ply.IsGhost and ply:IsGhost() or (attacker.IsGhost and attacker:IsGhost())) then return end -- fix for specdm popups/errors
-        started = nil -- setting started to nil to prevent issues with the win condition
-        popupstarted = nil -- setting popupstarted to nil to prevent issues with the win condition
-        fin_heal = nil -- setting fin_heal to nil to prevent issues with the win condition
+        med_started = nil -- setting med_started to nil to prevent issues with the win condition
+        med_popupstarted = nil -- setting med_popupstarted to nil to prevent issues with the win condition
+        med_fin_heal = nil -- setting med_fin_heal to nil to prevent issues with the win condition
         local killer = dmg:GetAttacker() -- get attacker inflictor
 
         -- checks convar is true, if ply is medic, if ply is attacker or if killer is not valid or killer is not a player
