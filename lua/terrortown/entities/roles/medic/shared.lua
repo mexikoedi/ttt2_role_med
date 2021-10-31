@@ -101,7 +101,7 @@ if SERVER then
         -- getting all alive teams and doing some checks
         local winningTeam = ""
 
-        for i in ipairs(alives) do
+        for i in pairs(alives) do
             local t = alives[i]
             if winningTeam ~= "" and winningTeam ~= t then return end
             winningTeam = t
