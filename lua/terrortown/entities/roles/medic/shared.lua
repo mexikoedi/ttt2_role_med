@@ -114,8 +114,8 @@ if SERVER then
             if not IsValid(ply) or not ply:IsPlayer() then return end -- ensure ply is valid and player first
             if ply:GetSubRole() ~= ROLE_MEDIC then return end -- ensure ply is medic first
 
-            -- checks if med_fin_heal is true and ply is active
-            if med_fin_heal == true and ply:IsActive() then
+            -- checks if med_fin_heal is true and ply is terror
+            if med_fin_heal == true and ply:IsTerror() then
                 ply:UpdateTeam(winningTeam, false) -- putting medic to the winning team
             end
         end
