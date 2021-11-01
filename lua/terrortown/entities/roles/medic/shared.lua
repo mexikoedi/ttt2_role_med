@@ -98,9 +98,11 @@ if SERVER then
     -- ttt2modifywinningalives hook added, look ttt2 api documentation for more information
     hook.Add("TTT2ModifyWinningAlives", "MedicWin", function(alives)
         if GetConVar("ttt2_med_win_enabled"):GetBool() == false then return end -- checks if win is enabled
+        if alives == nil then return end -- checks if alives is not nil 
         -- getting all alive teams and doing some checks
         local winningTeam = ""
 
+        -- check all alive teams
         for i in pairs(alives) do
             local t = alives[i]
             if winningTeam ~= "" and winningTeam ~= t then return end
@@ -202,7 +204,7 @@ if CLIENT then
 
         EPOP:AddMessage({
             text = LANG.GetTranslation("ttt2_role_medic_popuptitle_1") .. plo1, -- getting translation from language files and plo1
-            color = Color(4, 180, 134, 255) -- setting color to the role color 
+            color = Color(4, 180, 134, 255) -- setting color to the role color
         }, "", GetConVar("ttt2_med_announce_arrival_popup_duration"):GetInt())
     end)
 
