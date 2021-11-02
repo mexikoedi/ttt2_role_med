@@ -5,7 +5,9 @@ CreateConVar("ttt2_med_win_enabled", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable
 
 CreateConVar("ttt2_med_win_rqd_heal_per_ply", "25", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How much healing needs to be done per player to win")
 
-CreateConVar("ttt2_med_disable_kill_death_handling", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "disable kill/death handling")
+CreateConVar("ttt2_med_win_rqd_revive", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable if the medic needs to revive someone to win")
+
+CreateConVar("ttt2_med_disable_kill_death_handling", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "disable or enable kill/death handling")
 
 CreateConVar("ttt2_med_announce_arrival_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable popup for the arrival of the medic")
 
@@ -119,6 +121,12 @@ hook.Add("TTTUlxDynamicRCVars", "ttt2_ulx_dynamic_medic_convars", function(tbl)
         max = 100,
         decimal = 0,
         desc = "ttt2_med_win_rqd_heal_per_ply (def. 25)"
+    })
+
+    table.insert(tbl[ROLE_MEDIC], {
+        cvar = "ttt2_med_win_rqd_revive",
+        checkbox = true,
+        desc = "ttt2_med_win_rqd_revive (def. 0)"
     })
 
     table.insert(tbl[ROLE_MEDIC], {

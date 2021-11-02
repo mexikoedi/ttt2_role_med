@@ -15,6 +15,7 @@ L["ttt2_role_medic_popuptitle_4"] = "The medic has committed a crime! He's lost 
 L["ttt2_role_medic_popuptitle_5"] = "The medic has killed another medic! This is treason, kill: "
 L["ttt2_role_medic_popuptitle_6"] = "This medic may have had an accident: "
 L["ttt2_role_medic_popuptitle_7"] = "You need to stay alive and you need to heal: "
+L["ttt2_role_medic_popuptitle_7_1"] = " and you need to revive one player!"
 L["ttt2_role_medic_popuptitle_8"] = "Stay alive, you achieved the win condition!"
 L["weapon_med_defi_name"] = "Medic Defibrillator"
 L["weapon_med_defi_desc"] = "A high energy device to revive other players."

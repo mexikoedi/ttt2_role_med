@@ -15,6 +15,7 @@ L["ttt2_role_medic_popuptitle_4"] = "Der Sanitäter hat ein Verbrechen begangen!
 L["ttt2_role_medic_popuptitle_5"] = "Der Sanitäter hat einen anderen Sanitäter getötet! Das ist Verrat, tötet: "
 L["ttt2_role_medic_popuptitle_6"] = "Dieser Sanitäter hatte möglicherweise einen Unfall: "
 L["ttt2_role_medic_popuptitle_7"] = "Du musst am Leben bleiben und du musst heilen: "
+L["ttt2_role_medic_popuptitle_7_1"] = " und du musst einen Spieler wiederbeleben!"
 L["ttt2_role_medic_popuptitle_8"] = "Bleiben Sie am Leben, Sie haben die Siegbedingung erreicht!"
 L["weapon_med_defi_name"] = "Sanitäter Defibrillator"
 L["weapon_med_defi_desc"] = "Ein hochenergetisches Gerät zum Wiederbeleben anderer Spieler."

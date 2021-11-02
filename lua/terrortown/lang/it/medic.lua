@@ -15,6 +15,7 @@ L["ttt2_role_medic_popuptitle_4"] = "Il Medico ha commesso un crimine! ha perso 
 L["ttt2_role_medic_popuptitle_5"] = "Il Medico ha ucciso un altro Medico! Questo è un Tradimento, Uccidi: "
 L["ttt2_role_medic_popuptitle_6"] = "Questo Medico potrebbe aver avuto un incidente: "
 L["ttt2_role_medic_popuptitle_7"] = "Hai bisogno di rimanere in vita e hai bisogno di guarire: "
+L["ttt2_role_medic_popuptitle_7_1"] = " e devi rianimare un giocatore!"
 L["ttt2_role_medic_popuptitle_8"] = "Resta in vita, hai raggiunto la condizione di vittoria!"
 L["weapon_med_defi_name"] = "Defibrillatore Medico"
 L["weapon_med_defi_desc"] = "Un dispositivo ad alta tecnologia per rianimare un altro giocatore."
