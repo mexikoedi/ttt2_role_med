@@ -3,7 +3,7 @@ CreateConVar("ttt2_med_armor", "50", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "how much ar
 
 CreateConVar("ttt2_med_win_enabled", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable win")
 
-CreateConVar("ttt2_med_win_rqd_heal_per_ply", "25", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How much healing needs to be done per player to win")
+CreateConVar("ttt2_med_win_rqd_heal_per_alv_ply", "25", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How much healing needs to be done per alive player to win")
 
 CreateConVar("ttt2_med_win_rqd_revive", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable if the medic needs to revive someone to win")
 
@@ -115,12 +115,12 @@ hook.Add("TTTUlxDynamicRCVars", "ttt2_ulx_dynamic_medic_convars", function(tbl)
     })
 
     table.insert(tbl[ROLE_MEDIC], {
-        cvar = "ttt2_med_win_rqd_heal_per_ply",
+        cvar = "ttt2_med_win_rqd_heal_per_alv_ply",
         slider = true,
         min = 1,
         max = 100,
         decimal = 0,
-        desc = "ttt2_med_win_rqd_heal_per_ply (def. 25)"
+        desc = "ttt2_med_win_rqd_heal_per_alv_ply (def. 25)"
     })
 
     table.insert(tbl[ROLE_MEDIC], {

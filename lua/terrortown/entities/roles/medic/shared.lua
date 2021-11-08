@@ -59,6 +59,10 @@ if SERVER then
             ply:GiveEquipmentWeapon("weapon_ttt2_medic_defibrillator") -- adding the defibrillator to the medic loadout
             ply:GiveArmor(GetConVar("ttt2_med_armor"):GetInt()) -- adding the armor to the medic loadout
 
+            if GetConVar("ttt2_med_win_enabled"):GetBool() then
+                playercount = table.Count(team.GetPlayers(TEAM_TERROR)) - 1 -- get the playercount of all alive players (for med_rqd_heal in medigun code)
+            end
+
             -- first popup with the convar
             if GetConVar("ttt2_med_announce_arrival_popup"):GetBool() and GetRoundState() ~= ROUND_ACTIVE then
                 nick = ""
