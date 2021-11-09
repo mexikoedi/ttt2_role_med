@@ -444,7 +444,7 @@ if SERVER then
         -- win condition checks, the variables med_started, med_popupstarted and med_fin_heal are important to avoid issues
         if GetConVar("ttt2_med_win_enabled"):GetBool() and med_fin_heal == nil then
             if med_started == nil then
-                med_rqd_heal = GetConVar("ttt2_med_win_rqd_heal_per_alv_ply"):GetInt() * playercount -- multiply the convar value with all alive players and save into med_rqd_heal
+                med_rqd_heal = GetConVar("ttt2_med_win_rqd_heal_per_alv_ply"):GetInt() * med_playercount -- multiply the convar value with all alive players
             end
 
             med_started = true
