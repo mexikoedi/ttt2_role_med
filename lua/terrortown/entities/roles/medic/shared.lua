@@ -15,7 +15,7 @@ end
 function ROLE:PreInitialize()
     self.color = Color(4, 180, 134, 255) -- color of everything role specific
     self.abbr = "med" -- abbreviation
-    self.score.surviveBonusMultiplier = 1 -- The amount of score points gained by surviving a round, based on the amount of dead enemy players.
+    self.score.surviveBonusMultiplier = 0 -- The amount of score points gained by surviving a round, based on the amount of dead enemy players.
     self.score.aliveTeammatesBonusMultiplier = 1 -- The amount of score points granted due to a survival of the round for every teammate alive.
     self.score.allSurviveBonusMultiplier = 2 -- Multiplier for a score for every player alive at the end of the round. Can be negative for roles that should kill everyone.
     self.score.killsMultiplier = -5 -- The multiplier that is used to calculate the gained score by killing someone from a different team.
@@ -23,7 +23,7 @@ function ROLE:PreInitialize()
     self.score.suicideMultiplier = -10 -- The amount of points gained by killing yourself. Should be a negative number for most roles.
     self.score.bodyFoundMuliplier = 2 -- The amount of score points gained by confirming a body.
     self.score.survivePenaltyMultiplier = 0 -- The amount of score points lost by surviving a round, based on the amount of surviving team players. Only applied when not in winning team.
-    self.score.timelimitMultiplier = 2 -- The amount of score points gained by being alive if the round ended with nobody winning, usually a negative number.
+    self.score.timelimitMultiplier = 1 -- The amount of score points gained by being alive if the round ended with nobody winning, usually a negative number.
     self.unknownTeam = true -- player don't know their teammates
     self.preventWin = true -- prevent win
     self.preventFindCredits = true -- prevent finding credits
@@ -60,7 +60,8 @@ if SERVER then
             ply:GiveArmor(GetConVar("ttt2_med_armor"):GetInt()) -- adding the armor to the medic loadout
 
             if GetConVar("ttt2_med_win_enabled"):GetBool() then
-                med_playercount = table.Count(team.GetPlayers(TEAM_TERROR)) - 1 -- get the playercount of all alive players (for med_rqd_heal in medigun code)
+                med_playercount = table.Count(team.GetPlayers(TEAM_TERROR)) - 1 -- get the playercount of all alive players
+                med_rqd_heal = GetConVar("ttt2_med_win_rqd_heal_per_alv_ply"):GetInt() * med_playercount -- multiply the convar value with all alive players
             end
 
             -- first popup with the convar
@@ -94,7 +95,6 @@ if SERVER then
             ply:RemoveEquipmentWeapon("weapon_ttt2_medic_medigun") -- removing the medigun from the medic loadout
             ply:RemoveEquipmentWeapon("weapon_ttt2_medic_defibrillator") -- removing the defibrillator from the medic loadout
             ply:RemoveArmor(GetConVar("ttt2_med_armor"):GetInt()) -- removing the armor from the medic loadout
-            med_started = nil -- setting med_started to nil to prevent issues with the win condition
             med_popupstarted = nil -- setting med_popupstarted to nil to prevent issues with the win condition
             med_fin_revive = nil -- setting med_fin_heal to false to prevent issues with the win condition
             med_fin_heal = nil -- setting med_fin_heal to nil to prevent issues with the win condition
@@ -112,9 +112,8 @@ if SERVER then
         -- check all alive teams
         for i in pairs(alives) do
             local t = alives[i]
-            if winningTeam ~= "" then return end
+            if winningTeam ~= "" and winningTeam ~= t then return end
             winningTeam = t
-            if winningTeam ~= t then return end
         end
 
         -- ensure winningTeam has a value
@@ -122,8 +121,8 @@ if SERVER then
 
         -- getting all players and doing some checks
         for _, ply in ipairs(player.GetAll()) do
-            if not IsValid(ply) or not ply:IsPlayer() then return end -- ensure ply is valid and player first
-            if ply:GetSubRole() ~= ROLE_MEDIC then return end -- ensure ply is medic first
+            if not IsValid(ply) or not ply:IsPlayer() then continue end -- ensure ply is valid and player first
+            if ply:GetSubRole() ~= ROLE_MEDIC then continue end -- ensure ply is medic first
 
             -- checks if convar is true, med_fin_revive is true, med_fin_heal is true and ply is terror
             if GetConVar("ttt2_med_win_rqd_revive"):GetBool() and med_fin_revive == true and med_fin_heal == true and ply:IsTerror() then
@@ -134,7 +133,6 @@ if SERVER then
             end
         end
 
-        med_started = nil -- setting med_started to nil to prevent issues with the win condition
         med_popupstarted = nil -- setting med_popupstarted to nil to prevent issues with the win condition
         med_fin_revive = nil -- setting med_fin_heal to false to prevent issues with the win condition
         med_fin_heal = nil -- setting med_fin_heal to nil to prevent issues with the win condition
@@ -144,6 +142,12 @@ if SERVER then
     local function MedicKilled(victim, inflictor, attacker)
         if not IsValid(attacker) or not attacker:IsPlayer() or not IsValid(victim) or not victim:IsPlayer() then return end -- ensure attacker and victim are valid and players first
         if SpecDM and (victim.IsGhost and victim:IsGhost() or (attacker.IsGhost and attacker:IsGhost())) then return end -- fix for specdm popups/errors
+
+        -- checks if convar is true and attacker is medic
+        if GetConVar("ttt2_med_karma_penalty"):GetBool() and attacker:GetSubRole() == ROLE_MEDIC then
+            KARMA.GivePenalty(attacker, GetConVar("ttt2_med_karma_penalty_per_killed_ply"):GetInt(), victim, "med_karma_penalty_tooltip") -- gives the medic a karma penalty with reason
+        end
+
         if GetConVar("ttt2_med_disable_kill_death_handling"):GetBool() then return end
 
         -- checks if convar is true, victim is medic, attacker is not medic and msgshown is false

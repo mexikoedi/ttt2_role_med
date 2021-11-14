@@ -441,14 +441,8 @@ if SERVER then
         nh = nh > mh and mh or nh
         self.target:SetHealth(nh)
 
-        -- win condition checks, the variables med_started, med_popupstarted and med_fin_heal are important to avoid issues
+        -- win condition checks, the variables med_popupstarted and med_fin_heal are important to avoid issues
         if GetConVar("ttt2_med_win_enabled"):GetBool() and med_fin_heal == nil then
-            if med_started == nil then
-                med_rqd_heal = GetConVar("ttt2_med_win_rqd_heal_per_alv_ply"):GetInt() * med_playercount -- multiply the convar value with all alive players
-            end
-
-            med_started = true
-
             if GetConVar("ttt2_med_announce_win_popup"):GetBool() and med_popupstarted == nil then
                 net.Start("ttt2_med_role_epop_7") -- the seventh added network string starts here if the convar is true
                 net.WriteString(med_rqd_heal) -- writing required health points
@@ -465,7 +459,7 @@ if SERVER then
             end
 
             -- HealthCheck is done here
-            if med_rqd_heal <= 0 then
+            if (med_rqd_heal - gn) <= 0 then
                 med_fin_heal = true
 
                 -- checks if convar is true, med_fin_revive is true, med_fin_heal is true and the convar is true

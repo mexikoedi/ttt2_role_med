@@ -9,6 +9,10 @@ CreateConVar("ttt2_med_win_rqd_revive", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "ena
 
 CreateConVar("ttt2_med_disable_kill_death_handling", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "disable or enable kill/death handling")
 
+CreateConVar("ttt2_med_karma_penalty", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable karma penalty")
+
+CreateConVar("ttt2_med_karma_penalty_per_killed_ply", "50", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How much karma will be reduced per killed player")
+
 CreateConVar("ttt2_med_announce_arrival_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "enable or disable popup for the arrival of the medic")
 
 CreateConVar("ttt2_med_announce_arrival_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "duration of the arrival popup")
@@ -133,6 +137,21 @@ hook.Add("TTTUlxDynamicRCVars", "ttt2_ulx_dynamic_medic_convars", function(tbl)
         cvar = "ttt2_med_disable_kill_death_handling",
         checkbox = true,
         desc = "ttt2_med_disable_kill_death_handling (def. 0)"
+    })
+
+    table.insert(tbl[ROLE_MEDIC], {
+        cvar = "ttt2_med_karma_penalty",
+        checkbox = true,
+        desc = "ttt2_med_karma_penalty (def. 1)"
+    })
+
+    table.insert(tbl[ROLE_MEDIC], {
+        cvar = "ttt2_med_karma_penalty_per_killed_ply",
+        slider = true,
+        min = 1,
+        max = 150,
+        decimal = 0,
+        desc = "ttt2_med_karma_penalty_per_killed_ply (def. 50)"
     })
 
     table.insert(tbl[ROLE_MEDIC], {
