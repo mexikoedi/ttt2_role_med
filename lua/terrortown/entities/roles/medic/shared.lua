@@ -30,6 +30,7 @@ function ROLE:PreInitialize()
     self.defaultTeam = TEAM_NONE -- the team name: roles with same team name are working together
     self.defaultEquipment = MEDIC_EQUIPMENT -- here you can set up your own default equipment
     self.isPublicRole = true -- Set this flag to true to make a role public known. This results in a detective-like behavior.
+    self.isOmniscientRole = true -- Omniscient roles are able to see missing in action players and therefore the haste mode timer as well. This is mostly traitor-like behaviour.
 
     self.conVarData = {
         pct = 0.15, -- necessary: percentage of getting this role selected (per player)
@@ -102,7 +103,7 @@ if SERVER then
     end
 
     -- medic win hook
-    -- ttt2modifywinningalives hook added, look ttt2 api documentation for more information
+    -- TTT2ModifyWinningAlives hook added, look ttt2 api documentation for more information
     hook.Add("TTT2ModifyWinningAlives", "MedicWin", function(alives)
         if GetConVar("ttt2_med_win_enabled"):GetBool() == false then return end -- checks if win is enabled
         if alives == nil then return end -- checks if alives is not nil 
@@ -185,7 +186,7 @@ if SERVER then
         SendFullStateUpdate() -- to refresh everything until now
     end
 
-    hook.Add("PlayerDeath", "MedicKilled", MedicKilled) -- playerdeath hook added, look gmod wiki for more information
+    hook.Add("PlayerDeath", "MedicKilled", MedicKilled) -- PlayerDeath hook added, look gmod wiki for more information
 
     local function MedicKilledAccident(ply, attacker, dmg)
         if SpecDM and (ply.IsGhost and ply:IsGhost() or (attacker.IsGhost and attacker:IsGhost())) then return end -- fix for specdm popups/errors
@@ -199,7 +200,7 @@ if SERVER then
         end
     end
 
-    hook.Add("DoPlayerDeath", "MedicKilledAccident", MedicKilledAccident) -- doplayerdeath hook added, look gmod wiki for more information
+    hook.Add("DoPlayerDeath", "MedicKilledAccident", MedicKilledAccident) -- DoPlayerDeath hook added, look gmod wiki for more information
 
     -- ulx force role medic fix and again a refresh
     local function ttt_force_medic(ply)
@@ -208,6 +209,11 @@ if SERVER then
     end
 
     concommand.Add("ttt_force_medic", ttt_force_medic, nil, nil, FCVAR_CHEAT) -- added concommand, look ttt2 github detective, traitor, innocent files to see this too
+
+    -- TTT2CanBeHitmanTarget hook added, look hitman code for more information
+    hook.Add("TTT2CanBeHitmanTarget", "TTT2MedicNoHitmanTarget", function(hitman, ply)
+        if ply:GetSubRole() == ROLE_MEDIC then return false end -- medic can't be a target of the hitman anymore
+    end)
 end
 
 -- this needs to be on server
