@@ -1,4 +1,4 @@
-L = LANG.GetLanguageTableReference("ru")
+local L = LANG.GetLanguageTableReference("ru")
 -- GENERAL ROLE LANGUAGE STRINGS
 L[MEDIC.name] = "Медик"
 L["info_popup_" .. MEDIC.name] = [[Вы медик!
@@ -8,6 +8,7 @@ L["search_role_" .. MEDIC.abbr] = "Этот человек был Медиком
 L["target_" .. MEDIC.name] = "Медик"
 L["ttt2_desc_" .. MEDIC.name] = [[Медик должен лечить всех изо всех сил (ДЕЙСТВИТЕЛЬНО ВСЕХ), для этого у него есть Медипушка и Дефибриллятор.
 Постарайтесь помочь всем!]]
+-- OTHER ROLE LANGUAGE STRINGS
 L["med_karma_penalty_tooltip"] = "Преступление"
 L["ttt2_role_medic_popuptitle_1"] = "В поле прибыли Медики, их зовут: "
 L["ttt2_role_medic_popuptitle_2"] = "Этого игрока сделали Mедиком: "

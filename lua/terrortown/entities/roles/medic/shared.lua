@@ -32,6 +32,13 @@ function ROLE:PreInitialize()
     self.isPublicRole = true -- Set this flag to true to make a role public known. This results in a detective-like behavior.
     self.isOmniscientRole = true -- Omniscient roles are able to see missing in action players and therefore the haste mode timer as well. This is mostly traitor-like behaviour.
 
+    self.karma = {
+        teamKillPenaltyMultiplier = 1.5, -- The multiplier that is used to calculate the Karma penalty for a team kill. Keep in mind that the game will increase the multiplier further if it was avoidable like a kill on a public policing role.
+        teamHurtPenaltyMultiplier = 1.5, -- The multiplier that is used to calculate the Karma penalty for team damage. Keep in mind that the game will increase the multiplier further if it was avoidable like damage applied to a public policing role.
+        enemyKillBonusMultiplier = 0, -- The multiplier that is used to change the Karma given to the killer if a player from an enemy team is killed.
+        enemyHurtBonusMultiplier = 0 -- The multiplier that is used to change the Karma given to the attacker if a player from an enemy team is damaged.
+    }
+
     self.conVarData = {
         pct = 0.15, -- necessary: percentage of getting this role selected (per player)
         maximum = 1, -- maximum amount of roles in a round
