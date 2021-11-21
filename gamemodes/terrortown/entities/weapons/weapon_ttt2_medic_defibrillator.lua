@@ -1,3 +1,4 @@
+-- defibrillator code follows
 if SERVER then
     AddCSLuaFile() -- adding this file for download, the rest is base ttt/ttt2 and other code for the defibrillator
     resource.AddFile("materials/vgui/ttt/icon_defibrillator.vmt") -- adding defibrillator icon for download

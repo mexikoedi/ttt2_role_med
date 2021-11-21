@@ -1,3 +1,4 @@
+-- medigun code follows
 if SERVER then
     AddCSLuaFile() -- adding this file for download, the rest is base ttt/ttt2 and other code for the medigun
     resource.AddFile("materials/vgui/ttt/icon_medigun.vmt") -- adding medigun icon for download

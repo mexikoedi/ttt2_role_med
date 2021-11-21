@@ -358,7 +358,326 @@ if CLIENT then
             color = Color(4, 180, 134, 255) -- setting color to the role color
         }, "", GetConVar("ttt2_med_announce_win_achieved_popup_duration"):GetInt())
     end)
+
     -- how long should the message appear on screen
     -- the eighth popup is now on the screen
+    -- f1 menu convars added with labels
+    function ROLE:AddToSettingsMenu(parent)
+        local form = vgui.CreateTTT2Form(parent, "header_roles_additional")
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_armor",
+            label = "label_med_armor",
+            min = 0,
+            max = 100,
+            decimal = 0
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_win_enabled",
+            label = "label_med_win_enabled"
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_win_rqd_heal_per_alv_ply",
+            label = "label_med_win_rqd_heal_per_alv_ply",
+            min = 1,
+            max = 100,
+            decimal = 0
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_win_rqd_revive",
+            label = "label_med_win_rqd_revive"
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_disable_kill_death_handling",
+            label = "label_med_disable_kill_death_handling"
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_karma_penalty",
+            label = "label_med_karma_penalty"
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_karma_penalty_per_killed_ply",
+            label = "label_med_karma_penalty_per_killed_ply",
+            min = 1,
+            max = 150,
+            decimal = 0
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_announce_arrival_popup",
+            label = "label_med_announce_arrival_popup"
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_announce_arrival_popup_duration",
+            label = "label_med_announce_arrival_popup_duration",
+            min = 1,
+            max = 15,
+            decimal = 0
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_announce_force_popup",
+            label = "label_med_announce_force_popup"
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_announce_force_popup_duration",
+            label = "label_med_announce_force_popup_duration",
+            min = 1,
+            max = 15,
+            decimal = 0
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_announce_death_popup",
+            label = "label_med_announce_death_popup"
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_announce_death_popup_duration",
+            label = "label_med_announce_death_popup_duration",
+            min = 1,
+            max = 15,
+            decimal = 0
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_announce_crime_popup",
+            label = "label_med_announce_crime_popup"
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_announce_crime_popup_duration",
+            label = "label_med_announce_crime_popup_duration",
+            min = 1,
+            max = 15,
+            decimal = 0
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_announce_betrayel_popup",
+            label = "label_med_announce_betrayel_popup"
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_announce_betrayel_popup_duration",
+            label = "label_med_announce_betrayel_popup_duration",
+            min = 1,
+            max = 15,
+            decimal = 0
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_announce_accident_popup",
+            label = "label_med_announce_accident_popup"
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_announce_accident_popup_duration",
+            label = "label_med_announce_accident_popup_duration",
+            min = 1,
+            max = 15,
+            decimal = 0
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_announce_win_popup",
+            label = "label_med_announce_win_popup"
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_announce_win_popup_duration",
+            label = "label_med_announce_win_popup_duration",
+            min = 1,
+            max = 15,
+            decimal = 0
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_announce_win_achieved_popup",
+            label = "label_med_announce_win_achieved_popup"
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_announce_win_achieved_popup_duration",
+            label = "label_med_announce_win_achieved_popup_duration",
+            min = 1,
+            max = 15,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_defibrillator_distance",
+            label = "label_med_defibrillator_distance",
+            min = 0,
+            max = 250,
+            decimal = 0
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_defibrillator_revive_braindead",
+            label = "label_med_defibrillator_revive_braindead"
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_defibrillator_play_sounds",
+            label = "label_med_defibrillator_play_sounds"
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_defibrillator_revive_time",
+            label = "label_med_defibrillator_revive_time",
+            min = 0,
+            max = 15,
+            decimal = 1
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_defibrillator_error_time",
+            label = "label_med_defibrillator_error_time",
+            min = 0,
+            max = 15,
+            decimal = 1
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_defibrillator_success_chance",
+            label = "label_med_defibrillator_success_chance",
+            min = 0,
+            max = 100,
+            decimal = 0
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_defibrillator_reset_confirm",
+            label = "label_med_defibrillator_reset_confirm"
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_max_range",
+            label = "label_med_medigun_max_range",
+            min = 1,
+            max = 1000,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_ticks_per_heal",
+            label = "label_med_medigun_ticks_per_heal",
+            min = 1,
+            max = 100,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_ticks_per_heal_uber",
+            label = "label_med_medigun_ticks_per_heal_uber",
+            min = 1,
+            max = 100,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_heal_per_tick",
+            label = "label_med_medigun_heal_per_tick",
+            min = 1,
+            max = 100,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_heal_per_tick_uber",
+            label = "label_med_medigun_heal_per_tick_uber",
+            min = 1,
+            max = 100,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_ticks_per_self_heal",
+            label = "label_med_medigun_ticks_per_self_heal",
+            min = 1,
+            max = 1000,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_ticks_per_self_heal_uber",
+            label = "label_med_medigun_ticks_per_self_heal_uber",
+            min = 1,
+            max = 1000,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_self_heal_per_tick",
+            label = "label_med_medigun_self_heal_per_tick",
+            min = 1,
+            max = 100,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_self_heal_per_tick_uber",
+            label = "label_med_medigun_self_heal_per_tick_uber",
+            min = 1,
+            max = 100,
+            decimal = 0
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_medigun_self_heal_is_passive",
+            label = "label_med_medigun_self_heal_is_passive"
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_ticks_per_uber",
+            label = "label_med_medigun_ticks_per_uber",
+            min = 1,
+            max = 1000,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_uber_seconds",
+            label = "label_med_medigun_uber_seconds",
+            min = 1,
+            max = 100,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_uber_headshot_dmg_get_pct",
+            label = "label_med_medigun_uber_headshot_dmg_get_pct",
+            min = 0,
+            max = 1,
+            decimal = 1
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_uber_general_dmg_get_pct",
+            label = "label_med_medigun_uber_general_dmg_get_pct",
+            min = 0,
+            max = 1,
+            decimal = 1
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_medigun_enable_beam",
+            label = "label_med_medigun_enable_beam"
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_medigun_call_healing_hook",
+            label = "label_med_medigun_call_healing_hook"
+        })
+    end
 end
 -- this needs to be on client
