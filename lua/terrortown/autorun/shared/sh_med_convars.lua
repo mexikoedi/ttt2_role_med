@@ -1,5 +1,5 @@
 if SERVER then
-    -- added the convars and set default values with internal description
+    -- added the convars and set default values with internal descriptions
     CreateConVar("ttt2_med_armor", "50", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How much armor gets the player")
 
     CreateConVar("ttt2_med_win_enabled", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Enable or disable win")
