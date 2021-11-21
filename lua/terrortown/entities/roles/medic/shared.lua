@@ -182,7 +182,7 @@ if SERVER then
             attacker:SetRole(ROLE_TRAITOR, TEAM_TRAITOR) -- sets the role and the team to traitor
             attacker:SetCredits(0) -- sets the credits to 0
 
-            if GetConVar("ttt2_med_announce_betrayel_popup"):GetBool() then
+            if GetConVar("ttt2_med_announce_betrayal_popup"):GetBool() then
                 attacker.msgShown = true -- setting msgshown to true to prevent the third popup to appear
                 net.Start("ttt2_med_role_epop_5") -- the fifth added network string starts here if the convar is true
                 net.WriteString(attacker:Nick()) -- writing the name of the attacking medic (killer medic)
@@ -305,7 +305,7 @@ if CLIENT then
         EPOP:AddMessage({
             text = LANG.GetTranslation("ttt2_role_medic_popuptitle_5") .. plo5, -- getting translation from language files and plo5
             color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", GetConVar("ttt2_med_announce_betrayel_popup_duration"):GetInt())
+        }, "", GetConVar("ttt2_med_announce_betrayal_popup_duration"):GetInt())
     end)
 
     -- how long should the message appear on screen
@@ -462,13 +462,13 @@ if CLIENT then
         })
 
         form:MakeCheckBox({
-            serverConvar = "ttt2_med_announce_betrayel_popup",
-            label = "label_med_announce_betrayel_popup"
+            serverConvar = "ttt2_med_announce_betrayal_popup",
+            label = "label_med_announce_betrayal_popup"
         })
 
         form:MakeSlider({
-            serverConvar = "ttt2_med_announce_betrayel_popup_duration",
-            label = "label_med_announce_betrayel_popup_duration",
+            serverConvar = "ttt2_med_announce_betrayal_popup_duration",
+            label = "label_med_announce_betrayal_popup_duration",
             min = 1,
             max = 15,
             decimal = 0

@@ -30,9 +30,9 @@ if SERVER then
 
     CreateConVar("ttt2_med_announce_crime_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Duration of the crime popup")
 
-    CreateConVar("ttt2_med_announce_betrayel_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Enable or disable popup for a betrayel on the medic")
+    CreateConVar("ttt2_med_announce_betrayal_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Enable or disable popup for a betrayal on the medic")
 
-    CreateConVar("ttt2_med_announce_betrayel_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Duration of the betrayel popup")
+    CreateConVar("ttt2_med_announce_betrayal_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Duration of the betrayal popup")
 
     CreateConVar("ttt2_med_announce_accident_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Enable or disable popup for an accident by the medic")
 
