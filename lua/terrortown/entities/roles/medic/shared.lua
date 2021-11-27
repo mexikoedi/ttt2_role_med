@@ -225,142 +225,6 @@ end
 
 -- this needs to be on server
 if CLIENT then
-    -- finally the broadcasted first popup is received but again not at the players screen
-    net.Receive("ttt2_med_role_epop_1", function()
-        plo1 = net.ReadString() -- reading the written string
-
-        -- putting it into plo1
-        if plo1 == nil then
-            plo1 = ""
-        end
-
-        EPOP:AddMessage({
-            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_1") .. plo1, -- getting translation from language files and plo1
-            color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", GetConVar("ttt2_med_announce_arrival_popup_duration"):GetInt())
-    end)
-
-    -- how long should the message appear on screen
-    -- the first popup is now on the screen
-    -- finally the broadcasted second popup is received but again not at the players screen
-    net.Receive("ttt2_med_role_epop_2", function()
-        plo2 = net.ReadString() -- reading the written string
-
-        -- putting it into plo2
-        if plo2 == nil then
-            plo2 = ""
-        end
-
-        EPOP:AddMessage({
-            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_2") .. plo2, -- getting translation from language files and plo2
-            color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", GetConVar("ttt2_med_announce_force_popup_duration"):GetInt())
-    end)
-
-    -- how long should the message appear on screen
-    -- the second popup is now on the screen
-    -- finally the broadcasted third popup is received but again not at the players screen
-    net.Receive("ttt2_med_role_epop_3", function()
-        plo3 = net.ReadString() -- reading the written string
-
-        -- putting it into plo3
-        if plo3 == nil then
-            plo3 = ""
-        end
-
-        EPOP:AddMessage({
-            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_3") .. plo3, -- getting translation from language files and plo3
-            color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", GetConVar("ttt2_med_announce_death_popup_duration"):GetInt())
-    end)
-
-    -- how long should the message appear on screen
-    -- the third popup is now on the screen
-    -- finally the broadcasted fourth popup is received but again not at the players screen
-    net.Receive("ttt2_med_role_epop_4", function()
-        plo4 = net.ReadString() -- reading the written string
-
-        -- putting it into plo4
-        if plo4 == nil then
-            plo4 = ""
-        end
-
-        EPOP:AddMessage({
-            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_4") .. plo4, -- getting translation from language files and plo4
-            color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", GetConVar("ttt2_med_announce_crime_popup_duration"):GetInt())
-    end)
-
-    -- how long should the message appear on screen
-    -- the fourth popup is now on the screen
-    -- finally the broadcasted fifth popup is received but again not at the players screen
-    net.Receive("ttt2_med_role_epop_5", function()
-        plo5 = net.ReadString() -- reading the written string
-
-        -- putting it into plo5
-        if plo5 == nil then
-            plo5 = ""
-        end
-
-        EPOP:AddMessage({
-            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_5") .. plo5, -- getting translation from language files and plo5
-            color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", GetConVar("ttt2_med_announce_betrayal_popup_duration"):GetInt())
-    end)
-
-    -- how long should the message appear on screen
-    -- the fifth popup is now on the screen
-    -- finally the broadcasted sixth popup is received but again not at the players screen
-    net.Receive("ttt2_med_role_epop_6", function()
-        plo6 = net.ReadString() -- reading the written string
-
-        -- putting it into plo6
-        if plo6 == nil then
-            plo6 = ""
-        end
-
-        EPOP:AddMessage({
-            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_6") .. plo6, -- getting translation from language files and plo6
-            color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", GetConVar("ttt2_med_announce_accident_popup_duration"):GetInt())
-    end)
-
-    -- how long should the message appear on screen
-    -- the sixth popup is now on the screen
-    -- finally the broadcasted seventh popup is received but again not at the players screen
-    net.Receive("ttt2_med_role_epop_7", function()
-        plo7 = net.ReadString() -- reading the written string
-
-        -- putting it into plo7
-        if plo7 == nil then
-            plo7 = ""
-        end
-
-        if GetConVar("ttt2_med_win_rqd_revive"):GetBool() then
-            EPOP:AddMessage({
-                text = LANG.GetTranslation("ttt2_role_medic_popuptitle_7") .. plo7 .. LANG.GetTranslation("ttt2_role_medic_popuptitle_7_1"), -- getting translation from language files and plo7
-                color = Color(4, 180, 134, 255) -- setting color to the role color
-            }, "", GetConVar("ttt2_med_announce_win_popup_duration"):GetInt())
-        elseif GetConVar("ttt2_med_win_rqd_revive"):GetBool() == false then
-            EPOP:AddMessage({
-                text = LANG.GetTranslation("ttt2_role_medic_popuptitle_7") .. plo7, -- getting translation from language files and plo7
-                color = Color(4, 180, 134, 255) -- setting color to the role color
-            }, "", GetConVar("ttt2_med_announce_win_popup_duration"):GetInt())
-        end
-    end)
-
-    -- how long should the message appear on screen
-    -- the seventh popup is now on the screen
-    -- finally the broadcasted eighth popup is received but again not at the players screen
-    net.Receive("ttt2_med_role_epop_8", function()
-        EPOP:AddMessage({
-            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_8"), -- getting translation from language files
-            color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", GetConVar("ttt2_med_announce_win_achieved_popup_duration"):GetInt())
-    end)
-
-    -- how long should the message appear on screen
-    -- the eighth popup is now on the screen
     -- f1 menu convars added with labels
     function ROLE:AddToSettingsMenu(parent)
         local form = vgui.CreateTTT2Form(parent, "header_roles_additional")
@@ -679,5 +543,141 @@ if CLIENT then
             label = "label_med_medigun_call_healing_hook"
         })
     end
+
+    -- finally the broadcasted first popup is received but again not at the players screen
+    net.Receive("ttt2_med_role_epop_1", function()
+        plo1 = net.ReadString() -- reading the written string
+
+        -- putting it into plo1
+        if plo1 == nil then
+            plo1 = ""
+        end
+
+        EPOP:AddMessage({
+            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_1") .. plo1, -- getting translation from language files and plo1
+            color = Color(4, 180, 134, 255) -- setting color to the role color
+        }, "", GetConVar("ttt2_med_announce_arrival_popup_duration"):GetInt())
+    end)
+
+    -- how long should the message appear on screen
+    -- the first popup is now on the screen
+    -- finally the broadcasted second popup is received but again not at the players screen
+    net.Receive("ttt2_med_role_epop_2", function()
+        plo2 = net.ReadString() -- reading the written string
+
+        -- putting it into plo2
+        if plo2 == nil then
+            plo2 = ""
+        end
+
+        EPOP:AddMessage({
+            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_2") .. plo2, -- getting translation from language files and plo2
+            color = Color(4, 180, 134, 255) -- setting color to the role color
+        }, "", GetConVar("ttt2_med_announce_force_popup_duration"):GetInt())
+    end)
+
+    -- how long should the message appear on screen
+    -- the second popup is now on the screen
+    -- finally the broadcasted third popup is received but again not at the players screen
+    net.Receive("ttt2_med_role_epop_3", function()
+        plo3 = net.ReadString() -- reading the written string
+
+        -- putting it into plo3
+        if plo3 == nil then
+            plo3 = ""
+        end
+
+        EPOP:AddMessage({
+            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_3") .. plo3, -- getting translation from language files and plo3
+            color = Color(4, 180, 134, 255) -- setting color to the role color
+        }, "", GetConVar("ttt2_med_announce_death_popup_duration"):GetInt())
+    end)
+
+    -- how long should the message appear on screen
+    -- the third popup is now on the screen
+    -- finally the broadcasted fourth popup is received but again not at the players screen
+    net.Receive("ttt2_med_role_epop_4", function()
+        plo4 = net.ReadString() -- reading the written string
+
+        -- putting it into plo4
+        if plo4 == nil then
+            plo4 = ""
+        end
+
+        EPOP:AddMessage({
+            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_4") .. plo4, -- getting translation from language files and plo4
+            color = Color(4, 180, 134, 255) -- setting color to the role color
+        }, "", GetConVar("ttt2_med_announce_crime_popup_duration"):GetInt())
+    end)
+
+    -- how long should the message appear on screen
+    -- the fourth popup is now on the screen
+    -- finally the broadcasted fifth popup is received but again not at the players screen
+    net.Receive("ttt2_med_role_epop_5", function()
+        plo5 = net.ReadString() -- reading the written string
+
+        -- putting it into plo5
+        if plo5 == nil then
+            plo5 = ""
+        end
+
+        EPOP:AddMessage({
+            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_5") .. plo5, -- getting translation from language files and plo5
+            color = Color(4, 180, 134, 255) -- setting color to the role color
+        }, "", GetConVar("ttt2_med_announce_betrayal_popup_duration"):GetInt())
+    end)
+
+    -- how long should the message appear on screen
+    -- the fifth popup is now on the screen
+    -- finally the broadcasted sixth popup is received but again not at the players screen
+    net.Receive("ttt2_med_role_epop_6", function()
+        plo6 = net.ReadString() -- reading the written string
+
+        -- putting it into plo6
+        if plo6 == nil then
+            plo6 = ""
+        end
+
+        EPOP:AddMessage({
+            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_6") .. plo6, -- getting translation from language files and plo6
+            color = Color(4, 180, 134, 255) -- setting color to the role color
+        }, "", GetConVar("ttt2_med_announce_accident_popup_duration"):GetInt())
+    end)
+
+    -- how long should the message appear on screen
+    -- the sixth popup is now on the screen
+    -- finally the broadcasted seventh popup is received but again not at the players screen
+    net.Receive("ttt2_med_role_epop_7", function()
+        plo7 = net.ReadString() -- reading the written string
+
+        -- putting it into plo7
+        if plo7 == nil then
+            plo7 = ""
+        end
+
+        if GetConVar("ttt2_med_win_rqd_revive"):GetBool() then
+            EPOP:AddMessage({
+                text = LANG.GetTranslation("ttt2_role_medic_popuptitle_7") .. plo7 .. LANG.GetTranslation("ttt2_role_medic_popuptitle_7_1"), -- getting translation from language files and plo7
+                color = Color(4, 180, 134, 255) -- setting color to the role color
+            }, "", GetConVar("ttt2_med_announce_win_popup_duration"):GetInt())
+        elseif GetConVar("ttt2_med_win_rqd_revive"):GetBool() == false then
+            EPOP:AddMessage({
+                text = LANG.GetTranslation("ttt2_role_medic_popuptitle_7") .. plo7, -- getting translation from language files and plo7
+                color = Color(4, 180, 134, 255) -- setting color to the role color
+            }, "", GetConVar("ttt2_med_announce_win_popup_duration"):GetInt())
+        end
+    end)
+
+    -- how long should the message appear on screen
+    -- the seventh popup is now on the screen
+    -- finally the broadcasted eighth popup is received but again not at the players screen
+    net.Receive("ttt2_med_role_epop_8", function()
+        EPOP:AddMessage({
+            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_8"), -- getting translation from language files
+            color = Color(4, 180, 134, 255) -- setting color to the role color
+        }, "", GetConVar("ttt2_med_announce_win_achieved_popup_duration"):GetInt())
+    end)
+    -- how long should the message appear on screen
+    -- the eighth popup is now on the screen
 end
 -- this needs to be on client
