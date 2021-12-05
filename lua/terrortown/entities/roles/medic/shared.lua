@@ -8,7 +8,6 @@ if SERVER then
     util.AddNetworkString("ttt2_med_role_epop_5") -- adding network string for fifth popup
     util.AddNetworkString("ttt2_med_role_epop_6") -- adding network string for sixth popup
     util.AddNetworkString("ttt2_med_role_epop_7") -- adding network string for seventh popup
-    util.AddNetworkString("ttt2_med_role_epop_8") -- adding network string for eighth popup
 end
 
 -- only for servers
@@ -68,30 +67,52 @@ if SERVER then
             ply:GiveArmor(GetConVar("ttt2_med_armor"):GetInt()) -- adding the armor to the medic loadout
 
             if GetConVar("ttt2_med_win_enabled"):GetBool() then
-                med_playercount = table.Count(team.GetPlayers(TEAM_TERROR)) - 1 -- get the playercount of all alive players
-                med_rqd_heal = GetConVar("ttt2_med_win_rqd_heal_per_alv_ply"):GetInt() * med_playercount -- multiply the convar value with all alive players
-            end
-
-            -- first popup with the convar
-            if GetConVar("ttt2_med_announce_arrival_popup"):GetBool() and GetRoundState() ~= ROUND_ACTIVE then
-                nick = ""
-                -- getting all players and picking the medic players to be announced with the popup
+                local med_mediccount = 0
+                -- getting  all players and picking the medic players and saving them in a variable
                 local plys = player.GetAll()
 
                 for i = 1, #plys do
                     ply = plys[i]
 
                     if ply:GetSubRole() == ROLE_MEDIC then
+                        med_mediccount = med_mediccount + 1
+                    end
+                end
+
+                local med_playercount = table.Count(team.GetPlayers(TEAM_TERROR)) - med_mediccount -- get the playercount of all alive players minus the medic players
+                med_rqd_heal = GetConVar("ttt2_med_win_rqd_heal_per_alv_ply"):GetInt() * med_playercount -- multiply the convar value with all alive players
+            end
+
+            -- first popup with the convar
+            if GetConVar("ttt2_med_announce_arrival_popup"):GetBool() and GetRoundState() ~= ROUND_ACTIVE and GetRoundState() ~= ROUND_POST then
+                local nick = ""
+                local med_mediccount = 0
+                -- getting all players and picking the medic players who will be announced with the popup
+                local plys = player.GetAll()
+
+                for i = 1, #plys do
+                    ply = plys[i]
+
+                    if ply:GetSubRole() == ROLE_MEDIC then
+                        med_mediccount = med_mediccount + 1
+                    end
+
+                    if ply:GetSubRole() == ROLE_MEDIC and med_mediccount == 1 then
+                        nick = ply:Nick()
+                    elseif ply:GetSubRole() == ROLE_MEDIC and med_mediccount > 1 then
                         nick = ply:Nick() .. " | " .. nick
                     end
                 end
 
                 net.Start("ttt2_med_role_epop_1") -- the first added network string starts here if the convar is true
                 net.WriteString(nick) -- writing medic names
-                net.Broadcast() -- broadcasting but no popup at the screen yet
-            elseif GetConVar("ttt2_med_announce_force_popup"):GetBool() and ply:GetSubRole() == ROLE_MEDIC and GetRoundState() == ROUND_ACTIVE then
-                net.Start("ttt2_med_role_epop_2") -- the second added network string starts here if the convar is true
-                net.WriteString(ply:Nick()) -- writing the name of the forced medic
+
+                if med_mediccount == 1 then
+                    net.WriteBool(false) -- writing required boolean
+                elseif med_mediccount > 1 then
+                    net.WriteBool(true) -- writing required boolean 
+                end
+
                 net.Broadcast() -- broadcasting but no popup at the screen yet
             end
         end
@@ -103,9 +124,6 @@ if SERVER then
             ply:RemoveEquipmentWeapon("weapon_ttt2_medic_medigun") -- removing the medigun from the medic loadout
             ply:RemoveEquipmentWeapon("weapon_ttt2_medic_defibrillator") -- removing the defibrillator from the medic loadout
             ply:RemoveArmor(GetConVar("ttt2_med_armor"):GetInt()) -- removing the armor from the medic loadout
-            med_popupstarted = nil -- setting med_popupstarted to nil to prevent issues with the win condition
-            med_fin_revive = nil -- setting med_fin_heal to false to prevent issues with the win condition
-            med_fin_heal = nil -- setting med_fin_heal to nil to prevent issues with the win condition
         end
     end
 
@@ -142,7 +160,7 @@ if SERVER then
         end
 
         med_popupstarted = nil -- setting med_popupstarted to nil to prevent issues with the win condition
-        med_fin_revive = nil -- setting med_fin_heal to false to prevent issues with the win condition
+        med_fin_revive = nil -- setting med_fin_heal to nil to prevent issues with the win condition
         med_fin_heal = nil -- setting med_fin_heal to nil to prevent issues with the win condition
     end)
 
@@ -160,7 +178,7 @@ if SERVER then
 
         -- checks if convar is true, victim is medic, attacker is not medic and msgshown is false
         if GetConVar("ttt2_med_announce_death_popup"):GetBool() and victim:GetSubRole() == ROLE_MEDIC and attacker:GetSubRole() ~= ROLE_MEDIC and not victim.msgShown then
-            net.Start("ttt2_med_role_epop_3") -- the third added network string starts here if the convar is true and the checks allow it
+            net.Start("ttt2_med_role_epop_2") -- the third added network string starts here if the convar is true and the checks allow it
             net.WriteString(attacker:Nick()) -- writing the name of the medic attacker (killer)
             net.Broadcast() -- broadcasting but no popup at the screen yet
         end
@@ -173,7 +191,7 @@ if SERVER then
             -- if all checks pass then it checks if the convar is true
             if GetConVar("ttt2_med_announce_crime_popup"):GetBool() then
                 attacker.msgShown = true -- setting msgshown to true to prevent the third popup to appear
-                net.Start("ttt2_med_role_epop_4") -- the fourth added network string starts here if the convar is true
+                net.Start("ttt2_med_role_epop_3") -- the fourth added network string starts here if the convar is true
                 net.WriteString(attacker:Nick()) -- writing the name of the attacking medic (killer medic)
                 net.Broadcast() -- broadcasting but no popup at the screen yet
             end
@@ -184,7 +202,7 @@ if SERVER then
 
             if GetConVar("ttt2_med_announce_betrayal_popup"):GetBool() then
                 attacker.msgShown = true -- setting msgshown to true to prevent the third popup to appear
-                net.Start("ttt2_med_role_epop_5") -- the fifth added network string starts here if the convar is true
+                net.Start("ttt2_med_role_epop_4") -- the fifth added network string starts here if the convar is true
                 net.WriteString(attacker:Nick()) -- writing the name of the attacking medic (killer medic)
                 net.Broadcast() -- broadcasting but no popup at the screen yet
             end
@@ -201,7 +219,7 @@ if SERVER then
 
         -- checks convar is true, if ply is medic, if ply is attacker or if killer is not valid or killer is not a player
         if GetConVar("ttt2_med_announce_accident_popup"):GetBool() and ply:GetSubRole() == ROLE_MEDIC and (ply == attacker or not IsValid(killer) or not killer:IsPlayer()) then
-            net.Start("ttt2_med_role_epop_6") -- the sixth added network string starts here if the convar is true
+            net.Start("ttt2_med_role_epop_5") -- the sixth added network string starts here if the convar is true
             net.WriteString(ply:Nick()) -- writing the name of the killed medic
             net.Broadcast() -- broadcasting but no popup at the screen yet
         end
@@ -220,6 +238,13 @@ if SERVER then
     -- TTT2CanBeHitmanTarget hook added, look hitman code for more information
     hook.Add("TTT2CanBeHitmanTarget", "TTT2MedicNoHitmanTarget", function(hitman, ply)
         if ply:GetSubRole() == ROLE_MEDIC then return false end -- medic can't be a target of the hitman anymore
+    end)
+
+    -- TTTPrepareRound hook added, look gmod wiki/ttt2 api documentation for more information
+    hook.Add("TTTPrepareRound", "MedicWinReset", function()
+        med_popupstarted = nil -- setting med_popupstarted to nil to prevent issues with the win condition
+        med_fin_revive = nil -- setting med_fin_heal to nil to prevent issues with the win condition
+        med_fin_heal = nil -- setting med_fin_heal to nil to prevent issues with the win condition
     end)
 end
 
@@ -281,19 +306,6 @@ if CLIENT then
         form:MakeSlider({
             serverConvar = "ttt2_med_announce_arrival_popup_duration",
             label = "label_med_announce_arrival_popup_duration",
-            min = 1,
-            max = 15,
-            decimal = 0
-        })
-
-        form:MakeCheckBox({
-            serverConvar = "ttt2_med_announce_force_popup",
-            label = "label_med_announce_force_popup"
-        })
-
-        form:MakeSlider({
-            serverConvar = "ttt2_med_announce_force_popup_duration",
-            label = "label_med_announce_force_popup_duration",
             min = 1,
             max = 15,
             decimal = 0
@@ -547,16 +559,29 @@ if CLIENT then
     -- finally the broadcasted first popup is received but again not at the players screen
     net.Receive("ttt2_med_role_epop_1", function()
         plo1 = net.ReadString() -- reading the written string
+        plo1_1 = net.ReadBool() -- reading the written bool
 
-        -- putting it into plo1
+        -- nil check plo1
         if plo1 == nil then
             plo1 = ""
         end
 
-        EPOP:AddMessage({
-            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_1") .. plo1, -- getting translation from language files and plo1
-            color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", GetConVar("ttt2_med_announce_arrival_popup_duration"):GetInt())
+        -- nil check plo1_1
+        if plo1_1 == nil then
+            plo1_1 = false
+        end
+
+        if plo1_1 == false then
+            EPOP:AddMessage({
+                text = LANG.GetTranslation("ttt2_role_medic_popuptitle_1") .. plo1, -- getting translation from language files and plo1
+                color = Color(4, 180, 134, 255) -- setting color to the role color
+            }, "", GetConVar("ttt2_med_announce_arrival_popup_duration"):GetInt())
+        elseif plo1_1 == true then
+            EPOP:AddMessage({
+                text = LANG.GetTranslation("ttt2_role_medic_popuptitle_1.5") .. plo1, -- getting translation from language files and plo1
+                color = Color(4, 180, 134, 255) -- setting color to the role color
+            }, "", GetConVar("ttt2_med_announce_arrival_popup_duration"):GetInt())
+        end
     end)
 
     -- how long should the message appear on screen
@@ -565,7 +590,7 @@ if CLIENT then
     net.Receive("ttt2_med_role_epop_2", function()
         plo2 = net.ReadString() -- reading the written string
 
-        -- putting it into plo2
+        -- nil check plo2
         if plo2 == nil then
             plo2 = ""
         end
@@ -573,7 +598,7 @@ if CLIENT then
         EPOP:AddMessage({
             text = LANG.GetTranslation("ttt2_role_medic_popuptitle_2") .. plo2, -- getting translation from language files and plo2
             color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", GetConVar("ttt2_med_announce_force_popup_duration"):GetInt())
+        }, "", GetConVar("ttt2_med_announce_death_popup_duration"):GetInt())
     end)
 
     -- how long should the message appear on screen
@@ -582,7 +607,7 @@ if CLIENT then
     net.Receive("ttt2_med_role_epop_3", function()
         plo3 = net.ReadString() -- reading the written string
 
-        -- putting it into plo3
+        -- nil check plo3
         if plo3 == nil then
             plo3 = ""
         end
@@ -590,7 +615,7 @@ if CLIENT then
         EPOP:AddMessage({
             text = LANG.GetTranslation("ttt2_role_medic_popuptitle_3") .. plo3, -- getting translation from language files and plo3
             color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", GetConVar("ttt2_med_announce_death_popup_duration"):GetInt())
+        }, "", GetConVar("ttt2_med_announce_crime_popup_duration"):GetInt())
     end)
 
     -- how long should the message appear on screen
@@ -599,7 +624,7 @@ if CLIENT then
     net.Receive("ttt2_med_role_epop_4", function()
         plo4 = net.ReadString() -- reading the written string
 
-        -- putting it into plo4
+        -- nil check plo4
         if plo4 == nil then
             plo4 = ""
         end
@@ -607,7 +632,7 @@ if CLIENT then
         EPOP:AddMessage({
             text = LANG.GetTranslation("ttt2_role_medic_popuptitle_4") .. plo4, -- getting translation from language files and plo4
             color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", GetConVar("ttt2_med_announce_crime_popup_duration"):GetInt())
+        }, "", GetConVar("ttt2_med_announce_betrayal_popup_duration"):GetInt())
     end)
 
     -- how long should the message appear on screen
@@ -616,7 +641,7 @@ if CLIENT then
     net.Receive("ttt2_med_role_epop_5", function()
         plo5 = net.ReadString() -- reading the written string
 
-        -- putting it into plo5
+        -- nil check plo5
         if plo5 == nil then
             plo5 = ""
         end
@@ -624,7 +649,7 @@ if CLIENT then
         EPOP:AddMessage({
             text = LANG.GetTranslation("ttt2_role_medic_popuptitle_5") .. plo5, -- getting translation from language files and plo5
             color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", GetConVar("ttt2_med_announce_betrayal_popup_duration"):GetInt())
+        }, "", GetConVar("ttt2_med_announce_accident_popup_duration"):GetInt())
     end)
 
     -- how long should the message appear on screen
@@ -632,52 +657,84 @@ if CLIENT then
     -- finally the broadcasted sixth popup is received but again not at the players screen
     net.Receive("ttt2_med_role_epop_6", function()
         plo6 = net.ReadString() -- reading the written string
+        plo6_1 = net.ReadBool() -- reading the written bool
 
-        -- putting it into plo6
+        -- nil check plo6
         if plo6 == nil then
             plo6 = ""
         end
 
-        EPOP:AddMessage({
-            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_6") .. plo6, -- getting translation from language files and plo6
-            color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", GetConVar("ttt2_med_announce_accident_popup_duration"):GetInt())
+        -- nil check plo6_1
+        if plo6_1 == nil then
+            plo6_1 = false
+        end
+
+        local med_mediccount = 0
+        -- getting all medics and saving them in a variable
+        local plys = player.GetAll()
+
+        for i = 1, #plys do
+            ply = plys[i]
+
+            if ply:GetSubRole() == ROLE_MEDIC then
+                med_mediccount = med_mediccount + 1
+            end
+        end
+
+        -- several checks to check if revival is required to win and if there are more than one medic
+        if plo6_1 and med_mediccount == 1 then
+            EPOP:AddMessage({
+                text = LANG.GetTranslation("ttt2_role_medic_popuptitle_6") .. plo6 .. LANG.GetTranslation("ttt2_role_medic_popuptitle_6_1"), -- getting translation from language files and plo6
+                color = Color(4, 180, 134, 255) -- setting color to the role color
+            }, "", GetConVar("ttt2_med_announce_win_popup_duration"):GetInt())
+        elseif plo6_1 == false and med_mediccount == 1 then
+            EPOP:AddMessage({
+                text = LANG.GetTranslation("ttt2_role_medic_popuptitle_6") .. plo6, -- getting translation from language files and plo6
+                color = Color(4, 180, 134, 255) -- setting color to the role color
+            }, "", GetConVar("ttt2_med_announce_win_popup_duration"):GetInt())
+        elseif plo6_1 and med_mediccount > 1 then
+            EPOP:AddMessage({
+                text = LANG.GetTranslation("ttt2_role_medic_popuptitle_6.5") .. plo6 .. LANG.GetTranslation("ttt2_role_medic_popuptitle_6.5_1"), -- getting translation from language files and plo6
+                color = Color(4, 180, 134, 255) -- setting color to the role color
+            }, "", GetConVar("ttt2_med_announce_win_popup_duration"):GetInt())
+        elseif plo6_1 == false and med_mediccount > 1 then
+            EPOP:AddMessage({
+                text = LANG.GetTranslation("ttt2_role_medic_popuptitle_6.5") .. plo6, -- getting translation from language files and plo6
+                color = Color(4, 180, 134, 255) -- setting color to the role color
+            }, "", GetConVar("ttt2_med_announce_win_popup_duration"):GetInt())
+        end
     end)
 
     -- how long should the message appear on screen
     -- the sixth popup is now on the screen
     -- finally the broadcasted seventh popup is received but again not at the players screen
     net.Receive("ttt2_med_role_epop_7", function()
-        plo7 = net.ReadString() -- reading the written string
+        local med_mediccount = 0
+        -- getting all medics and saving them in a variable
+        local plys = player.GetAll()
 
-        -- putting it into plo7
-        if plo7 == nil then
-            plo7 = ""
+        for i = 1, #plys do
+            ply = plys[i]
+
+            if ply:GetSubRole() == ROLE_MEDIC then
+                med_mediccount = med_mediccount + 1
+            end
         end
 
-        if GetConVar("ttt2_med_win_rqd_revive"):GetBool() then
+        -- several checks to check if there are more than one medic
+        if med_mediccount == 1 then
             EPOP:AddMessage({
-                text = LANG.GetTranslation("ttt2_role_medic_popuptitle_7") .. plo7 .. LANG.GetTranslation("ttt2_role_medic_popuptitle_7_1"), -- getting translation from language files and plo7
+                text = LANG.GetTranslation("ttt2_role_medic_popuptitle_7"), -- getting translation from language files
                 color = Color(4, 180, 134, 255) -- setting color to the role color
-            }, "", GetConVar("ttt2_med_announce_win_popup_duration"):GetInt())
-        elseif GetConVar("ttt2_med_win_rqd_revive"):GetBool() == false then
+            }, "", GetConVar("ttt2_med_announce_win_achieved_popup_duration"):GetInt())
+        elseif med_mediccount > 1 then
             EPOP:AddMessage({
-                text = LANG.GetTranslation("ttt2_role_medic_popuptitle_7") .. plo7, -- getting translation from language files and plo7
+                text = LANG.GetTranslation("ttt2_role_medic_popuptitle_7.5"), -- getting translation from language files
                 color = Color(4, 180, 134, 255) -- setting color to the role color
-            }, "", GetConVar("ttt2_med_announce_win_popup_duration"):GetInt())
+            }, "", GetConVar("ttt2_med_announce_win_achieved_popup_duration"):GetInt())
         end
     end)
-
     -- how long should the message appear on screen
     -- the seventh popup is now on the screen
-    -- finally the broadcasted eighth popup is received but again not at the players screen
-    net.Receive("ttt2_med_role_epop_8", function()
-        EPOP:AddMessage({
-            text = LANG.GetTranslation("ttt2_role_medic_popuptitle_8"), -- getting translation from language files
-            color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", GetConVar("ttt2_med_announce_win_achieved_popup_duration"):GetInt())
-    end)
-    -- how long should the message appear on screen
-    -- the eighth popup is now on the screen
 end
 -- this needs to be on client

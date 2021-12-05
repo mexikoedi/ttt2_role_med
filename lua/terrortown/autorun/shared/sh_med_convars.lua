@@ -17,10 +17,6 @@ CreateConVar("ttt2_med_announce_arrival_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIV
 
 CreateConVar("ttt2_med_announce_arrival_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Duration of the arrival popup")
 
-CreateConVar("ttt2_med_announce_force_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Enable or disable popup for a forced medic")
-
-CreateConVar("ttt2_med_announce_force_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Duration of the forced popup")
-
 CreateConVar("ttt2_med_announce_death_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Enable or disable popup for the death of one medic")
 
 CreateConVar("ttt2_med_announce_death_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Duration of the death popup")
