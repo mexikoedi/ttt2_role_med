@@ -213,10 +213,12 @@ if SERVER then
             -- checks if convar is true, med_fin_revive is true, med_fin_heal is true and the convar is true
             if GetConVar("ttt2_med_win_rqd_revive"):GetBool() and med_fin_revive == true and med_fin_heal == true and GetConVar("ttt2_med_announce_win_achieved_popup"):GetBool() then
                 net.Start("ttt2_med_role_epop_7") -- the eighth added network string starts here if the convar is true
+                net.WriteInt(GetConVar("ttt2_med_announce_win_achieved_popup_duration"):GetInt(), 32) -- writing popup duration
                 net.Broadcast() -- broadcasting but no popup at the screen yet
                 -- checks if med_fin_heal is true and the convar is true
             elseif GetConVar("ttt2_med_win_rqd_revive"):GetBool() == false and med_fin_heal == true and GetConVar("ttt2_med_announce_win_achieved_popup"):GetBool() then
                 net.Start("ttt2_med_role_epop_7") -- the eighth added network string starts here if the convar is true
+                net.WriteInt(GetConVar("ttt2_med_announce_win_achieved_popup_duration"):GetInt(), 32) -- writing popup duration
                 net.Broadcast() -- broadcasting but no popup at the screen yet
             end
         end

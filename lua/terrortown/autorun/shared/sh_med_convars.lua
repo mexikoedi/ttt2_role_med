@@ -9,6 +9,8 @@ CreateConVar("ttt2_med_win_rqd_revive", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Ena
 
 CreateConVar("ttt2_med_disable_kill_death_handling", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Disable or enable kill/death handling")
 
+CreateConVar("ttt2_med_disable_defibrillator", "0", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Disable or enable defibrillator")
+
 CreateConVar("ttt2_med_karma_penalty", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Enable or disable karma penalty")
 
 CreateConVar("ttt2_med_karma_penalty_per_killed_ply", "50", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "How much karma will be reduced per killed player")
