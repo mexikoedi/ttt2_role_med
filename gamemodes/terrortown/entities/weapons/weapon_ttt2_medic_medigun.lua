@@ -379,7 +379,7 @@ if SERVER then
         self.beamtarget:Activate()
         self.beam:SetKeyValue("cpoint1", self.beamtarget:GetName())
         self.beam:Spawn()
-        self.beam:SetPos(self:GetOwner():GetShootPos() + Forward * 50 + Right * 8 + Up * -6)
+        self.beam:SetPos(self:GetOwner():GetShootPos() + Forward * 50 + Right * 8 + Up * -20)
         self.beam:Activate()
         self.beam:Fire("start", "", 0)
     end
@@ -389,7 +389,7 @@ if SERVER then
         local Forward = self:GetOwner():EyeAngles():Forward()
         local Right = self:GetOwner():EyeAngles():Right()
         local Up = self:GetOwner():EyeAngles():Up()
-        self.beam:SetPos(self:GetOwner():GetShootPos() + Forward * 50 + Right * 8 + Up * -6)
+        self.beam:SetPos(self:GetOwner():GetShootPos() + Forward * 50 + Right * 8 + Up * -20)
         self.beam:SetAngles(self:GetOwner():EyeAngles())
         self.beamtarget:SetPos(self.target:GetPos() + Vector(0, 0, 50))
     end
