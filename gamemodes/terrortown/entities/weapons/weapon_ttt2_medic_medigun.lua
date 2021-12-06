@@ -17,7 +17,9 @@ if SERVER then
 end
 
 SWEP.AutoSpawnable = false
-SWEP.AdminSpawnable = true
+SWEP.AdminSpawnable = false
+SWEP.Spawnable = false
+SWEP.AdminOnly = false
 SWEP.Weight = 3
 SWEP.Base = "weapon_tttbase"
 SWEP.ViewModel = "models/weapons/v_models/v_mediown_medic.mdl"

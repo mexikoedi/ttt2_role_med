@@ -1,7 +1,9 @@
 AddCSLuaFile() -- adding this file for download, the rest is base entity stuff and set up for the medigun
-ENT.Type = "anim"
 ENT.Base = "base_anim"
+ENT.Type = "anim"
 ENT.Spawnable = false
+ENT.AdminSpawnable = false
+ENT.AdminOnly = false
 
 function ENT:Draw()
 end

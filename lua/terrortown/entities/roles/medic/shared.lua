@@ -63,11 +63,7 @@ if SERVER then
         if isRoleChange then
             ply.msgShown = false -- variable, fix for some popup issues
             ply:GiveEquipmentWeapon("weapon_ttt2_medic_medigun") -- adding the medigun to the medic loadout
-
-            if GetConVar("ttt2_med_disable_defibrillator"):GetBool() == false then
-                ply:GiveEquipmentWeapon("weapon_ttt2_medic_defibrillator") -- adding the defibrillator to the medic loadout
-            end
-
+            ply:GiveEquipmentWeapon("weapon_ttt2_medic_defibrillator") -- adding the defibrillator to the medic loadout
             ply:GiveArmor(GetConVar("ttt2_med_armor"):GetInt()) -- adding the armor to the medic loadout
 
             if GetConVar("ttt2_med_win_enabled"):GetBool() then
