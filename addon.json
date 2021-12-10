@@ -1,9 +1,6 @@
 {
     "title": "[TTT2] Medic [ROLE]",
-    "type": [
-        "servercontent",
-        "addon"
-    ],
+    "type": "servercontent",
     "tags": [
         "roleplay",
         "fun"
