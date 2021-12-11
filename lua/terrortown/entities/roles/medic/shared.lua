@@ -591,12 +591,12 @@ if CLIENT then
             EPOP:AddMessage({
                 text = LANG.GetTranslation("ttt2_role_medic_popuptitle_1") .. plo1, -- getting translation from language files and plo1
                 color = Color(4, 180, 134, 255) -- setting color to the role color
-            }, "", plo1_1)
+            }, "", plo1_1, nil, true)
         elseif plo1_2 == true then
             EPOP:AddMessage({
                 text = LANG.GetTranslation("ttt2_role_medic_popuptitle_1.5") .. plo1, -- getting translation from language files and plo1
                 color = Color(4, 180, 134, 255) -- setting color to the role color
-            }, "", plo1_1)
+            }, "", plo1_1, nil, true)
         end
     end)
 
@@ -620,7 +620,7 @@ if CLIENT then
         EPOP:AddMessage({
             text = LANG.GetTranslation("ttt2_role_medic_popuptitle_2") .. plo2, -- getting translation from language files and plo2
             color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", plo2_1)
+        }, "", plo2_1, nil, true)
     end)
 
     -- how long should the message appear on screen
@@ -643,7 +643,7 @@ if CLIENT then
         EPOP:AddMessage({
             text = LANG.GetTranslation("ttt2_role_medic_popuptitle_3") .. plo3, -- getting translation from language files and plo3
             color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", plo3_1)
+        }, "", plo3_1, nil, true)
     end)
 
     -- how long should the message appear on screen
@@ -666,7 +666,7 @@ if CLIENT then
         EPOP:AddMessage({
             text = LANG.GetTranslation("ttt2_role_medic_popuptitle_4") .. plo4, -- getting translation from language files and plo4
             color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", plo4_1)
+        }, "", plo4_1, nil, true)
     end)
 
     -- how long should the message appear on screen
@@ -689,7 +689,7 @@ if CLIENT then
         EPOP:AddMessage({
             text = LANG.GetTranslation("ttt2_role_medic_popuptitle_5") .. plo5, -- getting translation from language files and plo5
             color = Color(4, 180, 134, 255) -- setting color to the role color
-        }, "", plo5_1)
+        }, "", plo5_1, nil, true)
     end)
 
     -- how long should the message appear on screen
@@ -732,22 +732,22 @@ if CLIENT then
             EPOP:AddMessage({
                 text = LANG.GetTranslation("ttt2_role_medic_popuptitle_6") .. plo6 .. LANG.GetTranslation("ttt2_role_medic_popuptitle_6_1"), -- getting translation from language files and plo6
                 color = Color(4, 180, 134, 255) -- setting color to the role color
-            }, "", plo6_1)
+            }, "", plo6_1, nil, true)
         elseif plo6_2 == false and med_mediccount == 1 then
             EPOP:AddMessage({
                 text = LANG.GetTranslation("ttt2_role_medic_popuptitle_6") .. plo6, -- getting translation from language files and plo6
                 color = Color(4, 180, 134, 255) -- setting color to the role color
-            }, "", plo6_1)
+            }, "", plo6_1, nil, true)
         elseif plo6_2 and med_mediccount > 1 then
             EPOP:AddMessage({
                 text = LANG.GetTranslation("ttt2_role_medic_popuptitle_6.5") .. plo6 .. LANG.GetTranslation("ttt2_role_medic_popuptitle_6.5_1"), -- getting translation from language files and plo6
                 color = Color(4, 180, 134, 255) -- setting color to the role color
-            }, "", plo6_1)
+            }, "", plo6_1, nil, true)
         elseif plo6_2 == false and med_mediccount > 1 then
             EPOP:AddMessage({
                 text = LANG.GetTranslation("ttt2_role_medic_popuptitle_6.5") .. plo6, -- getting translation from language files and plo6
                 color = Color(4, 180, 134, 255) -- setting color to the role color
-            }, "", plo6_1)
+            }, "", plo6_1, nil, true)
         end
     end)
 
@@ -779,12 +779,12 @@ if CLIENT then
             EPOP:AddMessage({
                 text = LANG.GetTranslation("ttt2_role_medic_popuptitle_7"), -- getting translation from language files
                 color = Color(4, 180, 134, 255) -- setting color to the role color
-            }, "", plo7)
+            }, "", plo7, nil, true)
         elseif med_mediccount > 1 then
             EPOP:AddMessage({
                 text = LANG.GetTranslation("ttt2_role_medic_popuptitle_7.5"), -- getting translation from language files
                 color = Color(4, 180, 134, 255) -- setting color to the role color
-            }, "", plo7)
+            }, "", plo7, nil, true)
         end
     end)
     -- how long should the message appear on screen
