@@ -172,7 +172,7 @@ if SERVER then
                 ply:ResetConfirmPlayer()
             end
         end, function(p)
-            if not p:IsActive() then
+            if p:IsActive() then
                 self:CancelRevival()
                 self:Error(DEFI_ERROR_PLAYER_ALIVE)
 
