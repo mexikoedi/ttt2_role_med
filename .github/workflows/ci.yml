@@ -23,7 +23,7 @@ jobs:
 
     - name: Download & extract glualint
       run: |
-        wget https://de.archive.ubuntu.com/ubuntu/pool/main/libf/libffi/libffi8_3.4.2-1ubuntu5_amd64.deb
+        wget https://ftp.fau.de/ubuntu/pool/main/libf/libffi/libffi8_3.4.2-1ubuntu5_amd64.deb
         sudo dpkg -i libffi8_3.4.2-1ubuntu5_amd64.deb
         wget -c https://github.com/FPtje/GLuaFixer/releases/download/${GLUALINT_VERSION}/glualint-${GLUALINT_VERSION}-linux.zip -O glualint.zip
         unzip -u glualint.zip
