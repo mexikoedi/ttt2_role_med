@@ -15,7 +15,7 @@ on:
 jobs:
   lint:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -23,10 +23,6 @@ jobs:
 
     - name: Download & extract glualint
       run: |
-        wget https://ftp.fau.de/ubuntu/pool/main/libf/libffi/libffi8_3.4.2-1ubuntu5_amd64.deb
-        sudo dpkg -i libffi8_3.4.2-1ubuntu5_amd64.deb
-        wget https://ftp.gnu.org/gnu/libc/glibc-2.33.tar.gz
-        sudo dpkg -i glibc-2.33.tar.gz
         wget -c https://github.com/FPtje/GLuaFixer/releases/download/${GLUALINT_VERSION}/glualint-${GLUALINT_VERSION}-linux.zip -O glualint.zip
         unzip -u glualint.zip
         rm glualint.zip
