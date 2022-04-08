@@ -214,7 +214,7 @@ function SWEP:CheckTargetValid(ent)
 
     if not IsValid(target) then return false end
     if not (target:IsNPC() or target:IsPlayer()) then return false end
-    if (target:IsPlayer() and (not target:IsTerror() or not target:Alive())) or (target:IsNPC() and (not IsValid(target))) then return false end
+    if target:IsPlayer() and (not target:IsTerror() or not target:Alive()) or target:IsNPC() and not IsValid(target) then return false end
     if not self.beam then return true end
 
     local tr = util.TraceLine{
@@ -471,7 +471,7 @@ if SERVER then
             end
 
             -- HealthCheck is done here
-            if (med_rqd_heal - gn) <= 0 then
+            if med_rqd_heal - gn <= 0 then
                 med_fin_heal = true
 
                 -- checks if convar is true, med_fin_revive is true, med_fin_heal is true and the convar is true

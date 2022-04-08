@@ -91,7 +91,7 @@ if CLIENT then
             local obsTarget = client:GetObserverTarget()
 
             if IsValid(obsTarget:GetActiveWeapon()) and obsTarget:GetActiveWeapon():GetClass() == "weapon_ttt2_medic_medigun" then
-                self:DrawBar(x + self.pad, y + self.pad, w - self.pad * 2, h - self.pad * 2, uber_color, HUDEditor.IsEditing and 1 or (obsTarget:GetNWFloat("ttt2_med_medigun_uber", 0)), 1)
+                self:DrawBar(x + self.pad, y + self.pad, w - self.pad * 2, h - self.pad * 2, uber_color, HUDEditor.IsEditing and 1 or obsTarget:GetNWFloat("ttt2_med_medigun_uber", 0), 1)
                 draw.AdvancedText("UBERCHARGE", "PureSkinRole", x + 0.5 * w, y + 0.5 * h, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, true, Vector(1, 1, 1))
 
                 return
@@ -99,7 +99,7 @@ if CLIENT then
         end
 
         if IsValid(client:GetActiveWeapon()) and client:GetActiveWeapon():GetClass() == "weapon_ttt2_medic_medigun" and client:GetActiveWeapon().Owner == client then
-            self:DrawBar(x + self.pad, y + self.pad, w - self.pad * 2, h - self.pad * 2, uber_color, HUDEditor.IsEditing and 1 or (client:GetNWFloat("ttt2_med_medigun_uber", 0)), 1)
+            self:DrawBar(x + self.pad, y + self.pad, w - self.pad * 2, h - self.pad * 2, uber_color, HUDEditor.IsEditing and 1 or client:GetNWFloat("ttt2_med_medigun_uber", 0), 1)
             draw.AdvancedText("UBERCHARGE", "PureSkinRole", x + 0.5 * w, y + 0.5 * h, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, true, Vector(1, 1, 1))
         end
 
@@ -122,7 +122,7 @@ if CLIENT then
         local healer = client:GetNWEntity("ttt2_med_medigun_healer", nil)
         if not IsValid(healer) then return end
         draw.AdvancedText("Healer: " .. healer:Nick(), "PureSkinRole", self.pos.x + self.size.w * 0.5, y - 25, Color(255, 0, 0, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_TOP, true, Vector(1, 1, 1))
-        self:DrawBar(x + self.pad, y + self.pad, w - self.pad * 2, h - self.pad * 2, uber_color, HUDEditor.IsEditing and 1 or (healer:GetNWFloat("ttt2_med_medigun_uber", 0)), 1)
+        self:DrawBar(x + self.pad, y + self.pad, w - self.pad * 2, h - self.pad * 2, uber_color, HUDEditor.IsEditing and 1 or healer:GetNWFloat("ttt2_med_medigun_uber", 0), 1)
         draw.AdvancedText("UBERCHARGE", "PureSkinRole", x + 0.5 * w, y + 0.5 * h, Color(255, 255, 255, 255), TEXT_ALIGN_CENTER, TEXT_ALIGN_CENTER, true, Vector(1, 1, 1))
     end
 end

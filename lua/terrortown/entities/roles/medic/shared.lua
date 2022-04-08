@@ -168,7 +168,7 @@ if SERVER then
     -- what happens if the medic gets killed or if he kills someone
     local function MedicKilled(victim, inflictor, attacker)
         if not IsValid(attacker) or not attacker:IsPlayer() or not IsValid(victim) or not victim:IsPlayer() then return end -- ensure attacker and victim are valid and players first
-        if SpecDM and (victim.IsGhost and victim:IsGhost() or (attacker.IsGhost and attacker:IsGhost())) then return end -- fix for specdm popups/errors
+        if SpecDM and (victim.IsGhost and victim:IsGhost() or attacker.IsGhost and attacker:IsGhost()) then return end -- fix for specdm popups/errors
 
         -- checks if convar is true and attacker is medic
         if GetConVar("ttt2_med_karma_penalty"):GetBool() and attacker:GetSubRole() == ROLE_MEDIC then
@@ -218,7 +218,7 @@ if SERVER then
     hook.Add("PlayerDeath", "MedicKilled", MedicKilled) -- PlayerDeath hook added, look gmod wiki for more information
 
     local function MedicKilledAccident(ply, attacker, dmg)
-        if SpecDM and (ply.IsGhost and ply:IsGhost() or (attacker.IsGhost and attacker:IsGhost())) then return end -- fix for specdm popups/errors
+        if SpecDM and (ply.IsGhost and ply:IsGhost() or attacker.IsGhost and attacker:IsGhost()) then return end -- fix for specdm popups/errors
         local killer = dmg:GetAttacker() -- get attacker inflictor
 
         -- checks convar is true, if ply is medic, if ply is attacker or if killer is not valid or killer is not a player
