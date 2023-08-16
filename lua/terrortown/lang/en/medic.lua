@@ -37,6 +37,7 @@ L["med_defi_error_no_valid_ply"] = "You can't revive this player since they are 
 L["med_defi_error_already_reviving"] = "You can't revive this player since they are already reviving."
 L["med_defi_error_failed"] = "Revival attempt failed. Please try again."
 L["med_defi_error_player_alive"] = "You can't revive this player since they are already alive."
+L["med_defi_error_player_disconnected"] = "You can't revive this player since they have disconnected."
 L["ttt2_med_defibrillator_help1"] = "{primaryfire} Revive corpses."
 L["ttt2_med_defibrillator_help2"] = "{secondaryfire} Play beep sound."
 L["weapon_med_medigun_name"] = "Medic Medigun"

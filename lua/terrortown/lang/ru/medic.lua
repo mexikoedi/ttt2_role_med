@@ -37,6 +37,7 @@ L["med_defi_error_no_valid_ply"] = "Вы не можете оживить это
 L["med_defi_error_already_reviving"] = "Вы не можете оживить этого игрока, так как он уже оживляется."
 L["med_defi_error_failed"] = "Попытка возрождения не удалась. Пожалуйста, попробуйте ещё раз."
 L["med_defi_error_player_alive"] = "Вы не можете оживить этого игрока, так как он уже жив."
+L["med_defi_error_player_disconnected"] = "Вы не можете оживить этого игрока, так как он вышел из игры."
 L["ttt2_med_defibrillator_help1"] = "{primaryfire} Оживить трупы."
 L["ttt2_med_defibrillator_help2"] = "{secondaryfire} Воспроизвести звуковой сигнал."
 L["weapon_med_medigun_name"] = "Медик Медипушка"
