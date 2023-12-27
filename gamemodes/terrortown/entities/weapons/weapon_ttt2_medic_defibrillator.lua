@@ -220,8 +220,8 @@ if SERVER then
         self:Remove()
         RunConsoleCommand("lastinv")
 
-        -- win condition check, the variables med_popupstarted and med_fin_revive are important to avoid issues
-        if GetConVar("ttt2_med_win_enabled"):GetBool() and med_fin_revive == nil then
+        -- win condition checks, the round state and the variables med_popupstarted/med_fin_heal are important to avoid issues
+        if GetConVar("ttt2_med_win_enabled"):GetBool() and GetRoundState() == ROUND_ACTIVE and med_fin_revive == nil then
             if GetConVar("ttt2_med_announce_win_popup"):GetBool() and med_popupstarted == nil then
                 net.Start("ttt2_med_role_epop_6") -- the seventh added network string starts here if the convar is true
                 net.WriteString(med_rqd_heal) -- writing required health points
@@ -238,8 +238,8 @@ if SERVER then
             med_popupstarted = true
             med_fin_revive = true
 
-            -- checks if convar is true, med_fin_revive is true, med_fin_heal is true and the convar is true
-            if GetConVar("ttt2_med_win_rqd_revive"):GetBool() and med_fin_revive == true and med_fin_heal == true and GetConVar("ttt2_med_announce_win_achieved_popup"):GetBool() then
+            -- checks if the convars are true, med_fin_revive is true and med_fin_heal is true
+            if GetConVar("ttt2_med_win_rqd_revive"):GetBool() and GetConVar("ttt2_med_announce_win_achieved_popup"):GetBool() and med_fin_revive == true and med_fin_heal == true then
                 net.Start("ttt2_med_role_epop_7") -- the eighth added network string starts here if the convar is true
                 net.WriteInt(GetConVar("ttt2_med_announce_win_achieved_popup_duration"):GetInt(), 32) -- writing popup duration
                 net.Broadcast() -- broadcasting but no popup at the screen yet
