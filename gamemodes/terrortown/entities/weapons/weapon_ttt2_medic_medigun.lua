@@ -186,7 +186,7 @@ function SWEP:CheckTargetValid(ent)
     if ent then target = ent end
     if not IsValid(target) then return false end
     if not (target:IsNPC() or target:IsPlayer()) then return false end
-    if target:IsPlayer() and (not target:IsTerror() or not target:Alive()) or target:IsNPC() and not IsValid(target) then return false end
+    if target:IsPlayer() and not target:IsActive() or target:IsNPC() and not IsValid(target) then return false end
     if not self.beam then return true end
     local tr = util.TraceLine{
         start = self:GetOwner():GetShootPos(),
@@ -461,7 +461,7 @@ if SERVER then
                 return
             end
 
-            if not ply:IsTerror() or not ply:Alive() then
+            if not ply:IsActive() then
                 hook.Remove("Tick", "TTT2MedMediGunUberTick" .. tostring(ply:SteamID64()))
                 ply:SetNWFloat("ttt2_med_medigun_uber", 0)
                 hook.Run("TTT2MedMediGunUberStop", self:GetOwner(), self.target, self)

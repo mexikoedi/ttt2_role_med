@@ -148,11 +148,11 @@ if SERVER then
                 continue
             end
 
-            -- checks if convar is true, med_fin_revive is true, med_fin_heal is true and ply is terror
-            if GetConVar("ttt2_med_win_rqd_revive"):GetBool() and med_fin_revive == true and med_fin_heal == true and ply:IsTerror() then
+            -- checks if convar is true, med_fin_revive is true, med_fin_heal is true and ply is active
+            if GetConVar("ttt2_med_win_rqd_revive"):GetBool() and med_fin_revive == true and med_fin_heal == true and ply:IsActive() then
                 ply:UpdateTeam(winningTeam, false) -- putting medic to the winning team
-                -- checks if convar is false, med_fin_heal is true and ply is terror
-            elseif GetConVar("ttt2_med_win_rqd_revive"):GetBool() == false and med_fin_heal == true and ply:IsTerror() then
+                -- checks if convar is false, med_fin_heal is true and ply is active
+            elseif GetConVar("ttt2_med_win_rqd_revive"):GetBool() == false and med_fin_heal == true and ply:IsActive() then
                 ply:UpdateTeam(winningTeam, false) -- putting medic to the winning team
             end
         end
