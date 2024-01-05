@@ -4,7 +4,6 @@ ENT.Type = "anim"
 ENT.Spawnable = false
 ENT.AdminSpawnable = false
 ENT.AdminOnly = false
-
 function ENT:Draw()
 end
 

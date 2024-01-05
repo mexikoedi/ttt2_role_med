@@ -1,6 +1,5 @@
 -- defibrillator code follows
 if GetConVar("ttt2_med_disable_defibrillator"):GetBool() == true then return end
-
 if SERVER then
     AddCSLuaFile() -- adding this file for download, the rest is base ttt/ttt2 and other code for the defibrillator
     resource.AddFile("materials/vgui/ttt/icon_defibrillator.vmt") -- adding defibrillator icon for download
@@ -19,7 +18,6 @@ local DEFI_ERROR_ALREADY_REVIVING = 5
 local DEFI_ERROR_FAILED = 6
 local DEFI_ERROR_PLAYER_ALIVE = 7
 local DEFI_ERROR_PLAYER_DISCONNECTED = 8
-
 local sounds = {
     empty = Sound("Weapon_SMG1.Empty"),
     beep = Sound("buttons/button17.wav"),
@@ -29,12 +27,10 @@ local sounds = {
 }
 
 SWEP.Base = "weapon_tttbase"
-
 if CLIENT then
     SWEP.ViewModelFOV = 78
     SWEP.DrawCrosshair = false
     SWEP.ViewModelFlip = false
-
     SWEP.EquipMenuData = {
         type = "item_weapon",
         name = "weapon_med_defi_name",
@@ -45,9 +41,7 @@ if CLIENT then
 end
 
 function SWEP:Initialize()
-    if CLIENT then
-        self:AddHUDHelp("ttt2_med_defibrillator_help1", "ttt2_med_defibrillator_help2", true)
-    end
+    if CLIENT then self:AddHUDHelp("ttt2_med_defibrillator_help1", "ttt2_med_defibrillator_help2", true) end
 end
 
 SWEP.Kind = WEAPON_EQUIP2
@@ -77,13 +71,10 @@ SWEP.AllowDrop = false
 SWEP.AllowPickup = false
 SWEP.CanBuy = nil
 SWEP.notBuyable = true
-
 SWEP.InLoadoutFor = {ROLE_MEDIC}
-
 if SERVER then
     util.AddNetworkString("RequestRevivalStatus")
     util.AddNetworkString("ReceiveRevivalStatus")
-
     function SWEP:OnDrop()
         self.BaseClass.OnDrop(self)
         self:CancelRevival()
@@ -109,22 +100,19 @@ if SERVER then
         self.defiTarget = nil
         self.defiTimer = "defi_reset_timer_" .. self:EntIndex()
         if timer.Exists(self.defiTimer) then return end
-
         timer.Create(self.defiTimer, GetConVar("ttt2_med_defibrillator_error_time"):GetFloat(), 1, function()
             if not IsValid(self) then return end
             self:Reset()
         end)
 
-         -- In case people want to do something about this for themselves, presuambly they want to suppress the Message call.
+        -- In case people want to do something about this for themselves, presuambly they want to suppress the Message call.
         local defibErrorResult = hook.Run("TTT2MedDefibError", type, self, self:GetOwner(), errorEnt)
         if defibErrorResult ~= nil then return end
-
         self:Message(type)
     end
 
     function SWEP:Message(type)
         local owner = self:GetOwner()
-
         if type == DEFI_ERROR_BRAINDEAD then
             LANG.Msg(owner, "med_defi_error_braindead", nil, MSG_MSTACK_WARN)
         elseif type == DEFI_ERROR_NO_SPACE then
@@ -150,22 +138,18 @@ if SERVER then
 
     function SWEP:BeginRevival(ragdoll, bone)
         local ply = CORPSE.GetPlayer(ragdoll)
-
         if not IsValid(ply) then
             self:Error(DEFI_ERROR_NO_VALID_PLY, ragdoll)
-
             return
         end
 
         if ply:IsReviving() then
             self:Error(DEFI_ERROR_ALREADY_REVIVING, ragdoll)
-
             return
         end
 
         if ply:IsActive() then
             self:Error(DEFI_ERROR_PLAYER_ALIVE, ragdoll)
-
             return
         end
 
@@ -174,17 +158,11 @@ if SERVER then
         self:SetStartTime(CurTime())
         self:SetReviveTime(reviveTime)
         self:PlaySound("hum")
-
         -- start revival
-        ply:Revive(reviveTime, function()
-            if GetConVar("ttt2_med_defibrillator_reset_confirm"):GetBool() then
-                ply:ResetConfirmPlayer()
-            end
-        end, function(p)
+        ply:Revive(reviveTime, function() if GetConVar("ttt2_med_defibrillator_reset_confirm"):GetBool() then ply:ResetConfirmPlayer() end end, function(p)
             if p:IsActive() then
                 self:CancelRevival()
                 self:Error(DEFI_ERROR_PLAYER_ALIVE, p)
-
                 return false
             else
                 return true
@@ -201,17 +179,11 @@ if SERVER then
 
     function SWEP:FinishRevival()
         self:PlaySound("zap")
-
         if math.random(0, 100) > GetConVar("ttt2_med_defibrillator_success_chance"):GetInt() then
             local phys = self.defiTarget:GetPhysicsObjectNum(self.defiBone)
-
-            if IsValid(phys) then
-                phys:ApplyForceCenter(Vector(0, 0, 4096))
-            end
-
+            if IsValid(phys) then phys:ApplyForceCenter(Vector(0, 0, 4096)) end
             self:CancelRevival()
             self:Error(DEFI_ERROR_FAILED, self.defiTarget)
-
             return
         end
 
@@ -219,14 +191,12 @@ if SERVER then
         self:PlaySound("revived")
         self:Remove()
         RunConsoleCommand("lastinv")
-
         -- win condition checks, the round state and the variables med_popupstarted/med_fin_heal are important to avoid issues
         if GetConVar("ttt2_med_win_enabled"):GetBool() and GetRoundState() == ROUND_ACTIVE and med_fin_revive == nil then
             if GetConVar("ttt2_med_announce_win_popup"):GetBool() and med_popupstarted == nil then
                 net.Start("ttt2_med_role_epop_6") -- the seventh added network string starts here if the convar is true
                 net.WriteString(med_rqd_heal) -- writing required health points
                 net.WriteInt(GetConVar("ttt2_med_announce_win_popup_duration"):GetInt(), 32) -- writing popup duration
-
                 -- checks if the convars are true/false|false/true
                 if GetConVar("ttt2_med_win_rqd_revive"):GetBool() then
                     net.WriteBool(true) -- writing required boolean
@@ -237,7 +207,6 @@ if SERVER then
 
             med_popupstarted = true
             med_fin_revive = true
-
             -- checks if the convars are true, med_fin_revive is true and med_fin_heal is true
             if GetConVar("ttt2_med_win_rqd_revive"):GetBool() and GetConVar("ttt2_med_announce_win_achieved_popup"):GetBool() and med_fin_revive == true and med_fin_heal == true then
                 net.Start("ttt2_med_role_epop_7") -- the eighth added network string starts here if the convar is true
@@ -277,7 +246,6 @@ if SERVER then
         if self:GetState() ~= DEFI_BUSY then return end
         local owner = self:GetOwner()
         local target = CORPSE.GetPlayer(self.defiTarget)
-
         if CurTime() >= self:GetStartTime() + GetConVar("ttt2_med_defibrillator_revive_time"):GetFloat() - 0.01 then
             self:FinishRevival()
         elseif not owner:KeyDown(IN_ATTACK) or owner:GetEyeTrace(MASK_SHOT_HULL).Entity ~= self.defiTarget then
@@ -294,37 +262,29 @@ if SERVER then
         local trace = owner:GetEyeTrace(MASK_SHOT_HULL)
         local distance = trace.StartPos:Distance(trace.HitPos)
         local ent = trace.Entity
-
         if distance > GetConVar("ttt2_med_defibrillator_distance"):GetInt() or not IsValid(ent) or ent:GetClass() ~= "prop_ragdoll" or not CORPSE.IsValidBody(ent) then
             self:PlaySound("empty")
-
             return
         end
 
         local defibAttemptResult = hook.Run("TTT2AttemptMedDefibPlayer", owner, ent, self)
-
         if defibAttemptResult ~= nil then
             self:Error(nil, ent)
-
             return
         end
 
         local corpsePlayer = CORPSE.GetPlayer(ent)
-
         if not IsValid(corpsePlayer) then
             self:Error(DEFI_ERROR_PLAYER_DISCONNECTED, ent)
-
             return
         end
 
         if self:GetState() ~= DEFI_IDLE then
             self:Error(DEFI_ERROR_TOO_FAST)
-
             return
         end
 
         local spawnPoint = plyspawn.MakeSpawnPointSafe(corpsePlayer, ent:GetPos())
-
         if CORPSE.WasHeadshot(ent) and not GetConVar("ttt2_med_defibrillator_revive_braindead"):GetBool() then
             self:Error(DEFI_ERROR_BRAINDEAD, ent)
         elseif not spawnPoint then
@@ -367,7 +327,6 @@ end
 
 if CLIENT then
     local colorGreen = Color(36, 160, 30)
-
     local function IsPlayerReviving(ply)
         if not ply.defi_lastRequest or ply.defi_lastRequest < CurTime() + 0.3 then
             net.Start("RequestRevivalStatus")
@@ -375,7 +334,6 @@ if CLIENT then
             net.SendToServer()
             ply.defi_lastRequest = CurTime()
         end
-
         return ply.defi_isReviving or false
     end
 
@@ -395,20 +353,16 @@ if CLIENT then
         if not IsValid(activeWeapon) or activeWeapon:GetClass() ~= "weapon_ttt2_medic_defibrillator" then return end
         -- ent has to be in usable range
         if tData:GetEntityDistance() > GetGlobalFloat("ttt2_med_defibrillator_distance", 100.0) then return end
-
         if activeWeapon:GetState() == DEFI_CHARGE then
             tData:AddDescriptionLine(LANG.TryTranslation("med_defi_charging"), COLOR_ORANGE)
             tData:SetOutlineColor(COLOR_ORANGE)
-
             return
         end
 
         local ply = CORPSE.GetPlayer(ent)
-
         if activeWeapon:GetState() ~= DEFI_BUSY and IsValid(ply) and IsPlayerReviving(ply) then
             tData:AddDescriptionLine(LANG.TryTranslation("med_defi_player_already_reviving"), COLOR_ORANGE)
             tData:SetOutlineColor(COLOR_ORANGE)
-
             return
         end
 
@@ -429,7 +383,6 @@ if CLIENT then
         surface.DrawOutlinedRect(x - 0.5 * w, y - h, w, h)
         surface.SetDrawColor(clr(ColorAlpha(colorGreen, (0.5 + 0.15 * math.sin(CurTime() * 4)) * 255)))
         surface.DrawRect(x - 0.5 * w + 2, y - h + 2, w * progress - 4, h - 4)
-
         tData:AddDescriptionLine(LANG.GetParamTranslation("med_defi_revive_progress", {
             time = math.Round(timeLeft, 1)
         }), colorGreen)

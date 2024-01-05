@@ -5,7 +5,6 @@ if SERVER then
     resource.AddWorkshop("2086831737") -- adding the medigun for download
     util.AddNetworkString("ttt2_med_medigun_clear_healer") -- adding network string for the healer display
     util.AddNetworkString("ttt2_med_medigun_clear_target") -- adding network string for the target display
-
     sound.Add({
         name = "ttt2_med_medigun_heal_sound",
         channel = "CHAN_AUTO",
@@ -45,9 +44,7 @@ SWEP.AllowDrop = false
 SWEP.AllowPickup = false
 SWEP.CanBuy = nil
 SWEP.notBuyable = true
-
 SWEP.InLoadoutFor = {ROLE_MEDIC}
-
 if CLIENT then
     SWEP.EquipMenuData = {
         type = "item_weapon",
@@ -58,10 +55,7 @@ end
 
 function SWEP:Initialize()
     self:SetHoldType(self.HoldType)
-
-    if CLIENT then
-        self:AddHUDHelp("ttt2_med_medigun_help1", "ttt2_med_medigun_help2", true)
-    end
+    if CLIENT then self:AddHUDHelp("ttt2_med_medigun_help1", "ttt2_med_medigun_help2", true) end
 end
 
 function SWEP:InitValues()
@@ -91,7 +85,6 @@ function SWEP:Think()
     if SERVER then
         if self:GetOwner():KeyDown(IN_ATTACK) or self.target ~= nil and CurTime() > self.shoot_cooldown then
             self.target = self.target or self:GetOwner():GetEyeTrace().Entity
-
             if self.forcestop then
                 self:ClearHealer()
                 self.shoot_cooldown = CurTime() + 0.3
@@ -100,7 +93,6 @@ function SWEP:Think()
                 hook.Run("TTT2MedMediGunStopHealing", self:GetOwner(), self.target, self)
                 self.target = nil
                 self.forcestop = nil
-
                 return
             end
 
@@ -143,10 +135,8 @@ function SWEP:Think()
             if not self.beam or not IsValid(self.beam) then
                 local allow_heal = hook.Run("TTT2MedMediGunAllowHeal", self:GetOwner(), self.target, self)
                 allow_heal = allow_heal == nil and true or allow_heal
-
                 if not allow_heal then
                     self.target = nil
-
                     return
                 end
 
@@ -157,13 +147,9 @@ function SWEP:Think()
                 self:UpdateBeam()
             end
 
-            if GetConVar("ttt2_med_medigun_call_healing_hook"):GetBool() then
-                hook.Run("TTT2MedMediGunHealing", self:GetOwner(), self.target, self)
-            end
-
+            if GetConVar("ttt2_med_medigun_call_healing_hook"):GetBool() then hook.Run("TTT2MedMediGunHealing", self:GetOwner(), self.target, self) end
             local nwTarget = self:GetOwner():GetNWEntity("ttt2_med_medigun_target", nil)
             local nwHealer = self.target:GetNWEntity("ttt2_med_medigun_healer", nil)
-
             if not IsValid(nwTarget) or not IsValid(nwHealer) then
                 self:GetOwner():SetNWEntity("ttt2_med_medigun_target", self.target)
                 self.target:SetNWEntity("ttt2_med_medigun_healer", self:GetOwner())
@@ -171,11 +157,7 @@ function SWEP:Think()
             end
 
             self:HealTarget()
-
-            if not GetConVar("ttt2_med_medigun_self_heal_is_passive"):GetBool() then
-                self:HealSelf()
-            end
-
+            if not GetConVar("ttt2_med_medigun_self_heal_is_passive"):GetBool() then self:HealSelf() end
             if self.next_uber_tick <= 1 and not self.uber_active and self:GetOwner():GetNWFloat("ttt2_med_medigun_uber", 0) < 1.00 then
                 self:GetOwner():SetNWFloat("ttt2_med_medigun_uber", self:GetOwner():GetNWFloat("ttt2_med_medigun_uber", 0) + 0.01)
                 self.next_uber_tick = self.target:Health() < self.target:GetMaxHealth() and GetConVar("ttt2_med_medigun_ticks_per_uber"):GetInt() - 6 or GetConVar("ttt2_med_medigun_ticks_per_uber"):GetInt()
@@ -187,36 +169,25 @@ function SWEP:Think()
                 hook.Run("TTT2MedMediGunUberReady", self:GetOwner(), self.target, self)
             end
 
-            if self:GetOwner():GetNWFloat("ttt2_med_medigun_uber", 0) < 1.00 and not self.uber_active then
-                self.next_uber_tick = self.next_uber_tick - 1
-            end
+            if self:GetOwner():GetNWFloat("ttt2_med_medigun_uber", 0) < 1.00 and not self.uber_active then self.next_uber_tick = self.next_uber_tick - 1 end
         else
             self:RemoveBeam()
             self:SendWeaponAnim(ACT_VM_IDLE)
         end
 
-        if GetConVar("ttt2_med_medigun_self_heal_is_passive"):GetBool() then
-            self:HealSelf()
-        end
-
+        if GetConVar("ttt2_med_medigun_self_heal_is_passive"):GetBool() then self:HealSelf() end
         self:NextThink(CurTime())
-
         return true
     end
 end
 
 function SWEP:CheckTargetValid(ent)
     local target = self.target
-
-    if ent then
-        target = ent
-    end
-
+    if ent then target = ent end
     if not IsValid(target) then return false end
     if not (target:IsNPC() or target:IsPlayer()) then return false end
     if target:IsPlayer() and (not target:IsTerror() or not target:Alive()) or target:IsNPC() and not IsValid(target) then return false end
     if not self.beam then return true end
-
     local tr = util.TraceLine{
         start = self:GetOwner():GetShootPos(),
         endpos = target:GetShootPos(),
@@ -226,28 +197,21 @@ function SWEP:CheckTargetValid(ent)
     if tr.Hit then
         if self.disturb_tick <= 1 then
             self.disturb_tick = 66
-
             return false
         end
 
         self.disturb_tick = self.disturb_tick - 1
     end
-
     return true
 end
 
 function SWEP:IsDistanceViable(ent)
     local target = self.target
-
-    if ent then
-        target = ent
-    end
-
+    if ent then target = ent end
     if self:GetOwner():GetShootPos():Distance(target:GetPos()) > GetConVar("ttt2_med_medigun_max_range"):GetInt() then
         if self.beam and self.target == ent then
             if self.disturb_tick_distance <= 1 then
                 self.disturb_tick_distance = 33
-
                 return false
             end
 
@@ -256,7 +220,6 @@ function SWEP:IsDistanceViable(ent)
             return false
         end
     end
-
     return true
 end
 
@@ -264,15 +227,12 @@ function SWEP:PrimaryAttack()
     if not self.target then return end
     local newTarget = self:GetOwner():GetEyeTrace().Entity
     if newTarget == self.target then return end
-
     if not newTarget or not self:IsDistanceViable(newTarget) or not self:CheckTargetValid(newTarget) then
         self.forcestop = true
-
         return
     end
 
     self.forcestop = true
-
     timer.Simple(0, function()
         self.shoot_cooldown = CurTime()
         self.target = newTarget
@@ -286,7 +246,7 @@ function SWEP:SecondaryAttack()
     local allow_uber = hook.Run("TTT2MedMediGunAllowUber", self:GetOwner(), self.target, self)
     allow_uber = allow_uber == nil and true or allow_uber
     if not allow_uber then return end
-    local uberTicks = (1 / FrameTime()) * GetConVar("ttt2_med_medigun_uber_seconds"):GetInt()
+    local uberTicks = 1 / FrameTime() * GetConVar("ttt2_med_medigun_uber_seconds"):GetInt()
     self.uber_last_ticks = uberTicks
     self.uber_drain_pct = 1 / uberTicks
     self.uber_active = true
@@ -334,7 +294,6 @@ function SWEP:Holster()
 
         self:StopHealSound(self.LastOwner)
     end
-
     return true
 end
 
@@ -347,7 +306,6 @@ function SWEP:OnRemove()
             end
 
             self:RemoveBeam()
-
             if not self.StopHookCalled then
                 hook.Run("TTT2MedMediGunStopHealing", self.LastOwner, self.target)
             else
@@ -363,7 +321,6 @@ if SERVER then
     function SWEP:CreateBeam()
         if not GetConVar("ttt2_med_medigun_enable_beam"):GetBool() then
             self.beam = self:GetOwner()
-
             return
         end
 
@@ -399,7 +356,6 @@ if SERVER then
     function SWEP:RemoveBeam()
         if not GetConVar("ttt2_med_medigun_enable_beam"):GetBool() then
             self.beam = nil
-
             return
         end
 
@@ -418,7 +374,6 @@ if SERVER then
     function SWEP:StopHealSound(ent)
         if ent and IsValid(ent) then
             ent:StopSound("ttt2_med_medigun_heal_sound")
-
             return
         end
 
@@ -429,7 +384,6 @@ if SERVER then
     function SWEP:HealTarget()
         if self.heal_tick > 1 then
             self.heal_tick = self.heal_tick - 1
-
             return
         else
             self.heal_tick = self.uber_active and GetConVar("ttt2_med_medigun_ticks_per_heal_uber"):GetInt() or GetConVar("ttt2_med_medigun_ticks_per_heal"):GetInt()
@@ -443,14 +397,12 @@ if SERVER then
         local nh = h + gn
         nh = nh > mh and mh or nh
         self.target:SetHealth(nh)
-
         -- win condition checks, the round state and the variables med_popupstarted/med_fin_heal are important to avoid issues
         if GetConVar("ttt2_med_win_enabled"):GetBool() and GetRoundState() == ROUND_ACTIVE and med_fin_heal == nil then
             if GetConVar("ttt2_med_announce_win_popup"):GetBool() and med_popupstarted == nil then
                 net.Start("ttt2_med_role_epop_6") -- the seventh added network string starts here if the convar is true
                 net.WriteString(med_rqd_heal) -- writing required health points
                 net.WriteInt(GetConVar("ttt2_med_announce_win_popup_duration"):GetInt(), 32) -- writing popup duration
-
                 -- checks if the convars are true/false|false/true
                 if GetConVar("ttt2_med_win_rqd_revive"):GetBool() and GetConVar("ttt2_med_disable_defibrillator"):GetBool() == false then
                     net.WriteBool(true) -- writing required boolean
@@ -462,18 +414,11 @@ if SERVER then
             end
 
             med_popupstarted = true
-
             -- HealthCheck is done here and health is deducted
-            if med_rqd_heal > 0 then
-                timer.Create("HealthCheck", 0, 1, function()
-                    med_rqd_heal = med_rqd_heal - gn
-                end)
-            end
-
+            if med_rqd_heal > 0 then timer.Create("HealthCheck", 0, 1, function() med_rqd_heal = med_rqd_heal - gn end) end
             -- HealthCheck is done here
             if med_rqd_heal - gn <= 0 then
                 med_fin_heal = true
-
                 -- checks if convar is true, med_fin_revive is true, med_fin_heal is true and the convar is true
                 if GetConVar("ttt2_med_win_rqd_revive"):GetBool() and med_fin_revive == true and med_fin_heal == true and GetConVar("ttt2_med_announce_win_achieved_popup"):GetBool() then
                     net.Start("ttt2_med_role_epop_7") -- the eighth added network string starts here if the convar is true
@@ -492,7 +437,6 @@ if SERVER then
     function SWEP:HealSelf()
         if self.heal_tick_self > 1 then
             self.heal_tick_self = self.heal_tick_self - 1
-
             return
         else
             self.heal_tick_self = self.uber_active and GetConVar("ttt2_med_medigun_ticks_per_self_heal_uber"):GetInt() or GetConVar("ttt2_med_medigun_ticks_per_self_heal"):GetInt()
@@ -509,17 +453,11 @@ if SERVER then
     function SWEP:HandleUber()
         if not self.uber_active then return end
         local ply = self:GetOwner()
-
         hook.Add("Tick", "TTT2MedMediGunUberTick" .. tostring(ply:SteamID64()), function()
             if not IsValid(ply) or not IsValid(self) then
                 hook.Remove("Tick", "TTT2MedMediGunUberTick" .. tostring(ply:SteamID64()))
-
-                if IsValid(ply) then
-                    ply:SetNWFloat("ttt2_med_medigun_uber", 0)
-                end
-
+                if IsValid(ply) then ply:SetNWFloat("ttt2_med_medigun_uber", 0) end
                 hook.Run("TTT2MedMediGunUberStop", self:GetOwner(), self.target, self)
-
                 return
             end
 
@@ -527,7 +465,6 @@ if SERVER then
                 hook.Remove("Tick", "TTT2MedMediGunUberTick" .. tostring(ply:SteamID64()))
                 ply:SetNWFloat("ttt2_med_medigun_uber", 0)
                 hook.Run("TTT2MedMediGunUberStop", self:GetOwner(), self.target, self)
-
                 return
             end
 
@@ -536,7 +473,6 @@ if SERVER then
                 ply:SetNWFloat("ttt2_med_medigun_uber", 0)
                 hook.Remove("Tick", "TTT2MedMediGunUberTick" .. tostring(ply:SteamID64()))
                 hook.Run("TTT2MedMediGunUberStop", self:GetOwner(), self.target, self)
-
                 return
             end
 
@@ -581,10 +517,7 @@ if SERVER then
 
     hook.Add("PlayerTakeDamage", "TTT2MedMedigunScaleDamage", function(ply, inflic, att, damage, dmginfo)
         if IsValid(ply:GetActiveWeapon()) and ply:GetActiveWeapon():GetClass() == "weapon_ttt2_medic_medigun" then
-            if ply:GetActiveWeapon().uber_active then
-                TTT2MEDMEDIGUN_DATA:HandleDamage(ply, inflic, att, damage, dmginfo)
-            end
-
+            if ply:GetActiveWeapon().uber_active then TTT2MEDMEDIGUN_DATA:HandleDamage(ply, inflic, att, damage, dmginfo) end
             return
         end
 
@@ -604,11 +537,6 @@ if CLIENT then
         localPly:SetNWEntity("ttt2_med_medigun_healer", nil)
     end)
 
-    net.Receive("ttt2_med_medigun_clear_healer", function()
-        LocalPlayer():SetNWEntity("ttt2_med_medigun_healer", nil)
-    end)
-
-    net.Receive("ttt2_med_medigun_clear_target", function()
-        LocalPlayer():SetNWEntity("ttt2_med_medigun_target", nil)
-    end)
+    net.Receive("ttt2_med_medigun_clear_healer", function() LocalPlayer():SetNWEntity("ttt2_med_medigun_healer", nil) end)
+    net.Receive("ttt2_med_medigun_clear_target", function() LocalPlayer():SetNWEntity("ttt2_med_medigun_target", nil) end)
 end
