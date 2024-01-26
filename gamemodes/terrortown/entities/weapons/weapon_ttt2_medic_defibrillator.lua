@@ -41,7 +41,7 @@ if CLIENT then
 end
 
 function SWEP:Initialize()
-    if CLIENT then self:AddHUDHelp("ttt2_med_defibrillator_help1", "ttt2_med_defibrillator_help2", true) end
+    if CLIENT then self:AddTTT2HUDHelp("ttt2_med_defibrillator_help1", "ttt2_med_defibrillator_help2") end
 end
 
 SWEP.Kind = WEAPON_EQUIP2

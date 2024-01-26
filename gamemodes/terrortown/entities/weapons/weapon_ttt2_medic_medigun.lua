@@ -55,7 +55,7 @@ end
 
 function SWEP:Initialize()
     self:SetHoldType(self.HoldType)
-    if CLIENT then self:AddHUDHelp("ttt2_med_medigun_help1", "ttt2_med_medigun_help2", true) end
+    if CLIENT then self:AddTTT2HUDHelp("ttt2_med_medigun_help1", "ttt2_med_medigun_help2") end
 end
 
 function SWEP:InitValues()
