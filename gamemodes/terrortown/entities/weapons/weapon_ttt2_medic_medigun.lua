@@ -533,8 +533,10 @@ end
 if CLIENT then
     hook.Add("TTTPrepareRound", "TTT2MedResetMediguns", function()
         local localPly = LocalPlayer()
-        localPly:SetNWEntity("ttt2_med_medigun_target", nil)
-        localPly:SetNWEntity("ttt2_med_medigun_healer", nil)
+        if IsValid(localPly) then
+            if IsValid(localPly:GetNWEntity("ttt2_med_medigun_target")) then localPly:SetNWEntity("ttt2_med_medigun_target", nil) end
+            if IsValid(localPly:GetNWEntity("ttt2_med_medigun_healer")) then localPly:SetNWEntity("ttt2_med_medigun_healer", nil) end
+        end
     end)
 
     net.Receive("ttt2_med_medigun_clear_healer", function() LocalPlayer():SetNWEntity("ttt2_med_medigun_healer", nil) end)
