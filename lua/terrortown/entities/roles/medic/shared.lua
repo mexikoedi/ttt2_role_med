@@ -672,14 +672,7 @@ if CLIENT then
         if plo6_1 == nil then plo6_1 = 5 end
         -- nil check plo6_2
         if plo6_2 == nil then plo6_2 = false end
-        --local med_mediccount = 0
-        -- getting all medics and saving them in a variable
-        --local plys = select(2, player.Iterator())
-        --for i = 1, #plys do
-        --   ply = plys[i]
-        --   if ply:GetSubRole() == ROLE_MEDIC then med_mediccount = med_mediccount + 1 end
-        --end
-        med_mediccount = UpdateMedicCount()
+        med_mediccount = UpdateMedicCount() -- getting all medics and saving them in a variable
         -- several checks to check if revival is required to win and if there are more than one medic
         if plo6_2 and med_mediccount == 1 then
             EPOP:AddMessage({
@@ -714,14 +707,7 @@ if CLIENT then
         plo7 = net.ReadInt(32) -- reading the written int
         -- nil check plo7
         if plo7 == nil then plo7 = 5 end
-        --local med_mediccount = 0
-        -- getting all medics and saving them in a variable
-        --local plys = select(2, player.Iterator())
-        --for i = 1, #plys do
-        --   ply = plys[i]
-        --   if ply:GetSubRole() == ROLE_MEDIC then med_mediccount = med_mediccount + 1 end
-        --end
-        med_mediccount = UpdateMedicCount()
+        med_mediccount = UpdateMedicCount() -- getting all medics and saving them in a variable
         -- several checks to check if there are more than one medic
         if med_mediccount == 1 then
             EPOP:AddMessage({
