@@ -299,10 +299,10 @@ if SERVER then
     end
 
     net.Receive("RequestRevivalStatus", function(_, requester)
-        local ply = net.ReadEntity()
+        local ply = net.ReadPlayer()
         if not IsValid(ply) then return end
         net.Start("ReceiveRevivalStatus")
-        net.WriteEntity(ply)
+        net.WritePlayer(ply)
         net.WriteBool(ply:IsReviving())
         net.Send(requester)
     end)
@@ -330,7 +330,7 @@ if CLIENT then
     local function IsPlayerReviving(ply)
         if not ply.defi_lastRequest or ply.defi_lastRequest < CurTime() + 0.3 then
             net.Start("RequestRevivalStatus")
-            net.WriteEntity(ply)
+            net.WritePlayer(ply)
             net.SendToServer()
             ply.defi_lastRequest = CurTime()
         end
@@ -338,7 +338,7 @@ if CLIENT then
     end
 
     net.Receive("ReceiveRevivalStatus", function()
-        local ply = net.ReadEntity()
+        local ply = net.ReadPlayer()
         if not IsValid(ply) then return end
         ply.defi_isReviving = net.ReadBool()
     end)

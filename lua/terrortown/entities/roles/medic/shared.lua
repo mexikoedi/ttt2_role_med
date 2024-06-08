@@ -1,3 +1,4 @@
+-- only for servers
 if SERVER then
     AddCSLuaFile() -- adding this file for download
     resource.AddFile("materials/vgui/ttt/dynamic/roles/icon_med.vmt") -- adding medic icon for download
@@ -10,7 +11,6 @@ if SERVER then
     util.AddNetworkString("ttt2_med_role_epop_7") -- adding network string for seventh popup
 end
 
--- only for servers
 function ROLE:PreInitialize()
     self.color = Color(4, 180, 134, 255) -- color of everything role specific
     self.abbr = "med" -- abbreviation
@@ -55,8 +55,40 @@ end
 function ROLE:Initialize()
 end
 
+local med_mediccount = 0
+local function UpdateMedicCount()
+    med_mediccount = 0
+    -- getting all players and picking the medic players and saving them in a variable
+    local plys = select(2, player.Iterator())
+    for i = 1, #plys do
+        local ply = plys[i]
+        if ply:GetSubRole() == ROLE_MEDIC then med_mediccount = med_mediccount + 1 end
+    end
+    return med_mediccount
+end
+
 -- everything above is shared
 if SERVER then
+    local function AnnounceMedics()
+        -- first popup with the convar
+        if GetConVar("ttt2_med_announce_arrival_popup"):GetBool() and med_mediccount ~= 0 then
+            local medics = {}
+            -- getting all players and picking the medic players who will be announced with the popup
+            local plys = select(2, player.Iterator())
+            for i = 1, #plys do
+                local ply = plys[i]
+                if ply:GetSubRole() == ROLE_MEDIC then table.insert(medics, ply:Nick()) end
+            end
+
+            local nick = table.concat(medics, " | ")
+            net.Start("ttt2_med_role_epop_1") -- the first added network string starts here if the convar is true
+            net.WriteString(nick) -- writing medic names
+            net.WriteInt(GetConVar("ttt2_med_announce_arrival_popup_duration"):GetInt(), 32) -- writing popup duration
+            net.WriteBool(med_mediccount > 1) -- writing required boolean
+            net.Broadcast() -- broadcasting but no popup at the screen yet
+        end
+    end
+
     -- adding loadout on role change/spawn
     function ROLE:GiveRoleLoadout(ply, isRoleChange)
         if isRoleChange then
@@ -65,47 +97,19 @@ if SERVER then
             ply:GiveEquipmentWeapon("weapon_ttt2_medic_defibrillator") -- adding the defibrillator to the medic loadout
             ply:GiveArmor(GetConVar("ttt2_med_armor"):GetInt()) -- adding the armor to the medic loadout
             if GetConVar("ttt2_med_win_enabled"):GetBool() then
-                local med_mediccount = 0
-                -- getting  all players and picking the medic players and saving them in a variable
-                local plys = player.GetAll()
-                for i = 1, #plys do
-                    ply = plys[i]
-                    if ply:GetSubRole() == ROLE_MEDIC then med_mediccount = med_mediccount + 1 end
-                end
-
+                UpdateMedicCount() -- getting all medic players
                 local med_playercount = table.Count(team.GetPlayers(TEAM_TERROR)) - med_mediccount -- get the playercount of all alive players minus the medic players
                 med_rqd_heal = GetConVar("ttt2_med_win_rqd_heal_per_alv_ply"):GetInt() * med_playercount -- multiply the convar value with all alive players
             end
-
-            -- first popup with the convar
-            if GetConVar("ttt2_med_announce_arrival_popup"):GetBool() and GetRoundState() ~= ROUND_ACTIVE and GetRoundState() ~= ROUND_POST then
-                local nick = ""
-                local med_mediccount = 0
-                -- getting all players and picking the medic players who will be announced with the popup
-                local plys = player.GetAll()
-                for i = 1, #plys do
-                    ply = plys[i]
-                    if ply:GetSubRole() == ROLE_MEDIC then med_mediccount = med_mediccount + 1 end
-                    if ply:GetSubRole() == ROLE_MEDIC and med_mediccount == 1 then
-                        nick = ply:Nick()
-                    elseif ply:GetSubRole() == ROLE_MEDIC and med_mediccount > 1 then
-                        nick = ply:Nick() .. " | " .. nick
-                    end
-                end
-
-                net.Start("ttt2_med_role_epop_1") -- the first added network string starts here if the convar is true
-                net.WriteString(nick) -- writing medic names
-                net.WriteInt(GetConVar("ttt2_med_announce_arrival_popup_duration"):GetInt(), 32) -- writing popup duration
-                if med_mediccount == 1 then
-                    net.WriteBool(false) -- writing required boolean
-                elseif med_mediccount > 1 then
-                    net.WriteBool(true) -- writing required boolean 
-                end
-
-                net.Broadcast() -- broadcasting but no popup at the screen yet
-            end
         end
     end
+
+    -- TTTBeginRound hook added, look TTT2 API Documentation for more information
+    hook.Add("TTTBeginRound", "MedicAnnouncement", function()
+        -- this is needed to get all medic players and to correctly announce them
+        UpdateMedicCount()
+        AnnounceMedics()
+    end)
 
     -- removing loadout on role change/despawn
     function ROLE:RemoveRoleLoadout(ply, isRoleChange)
@@ -139,7 +143,8 @@ if SERVER then
         -- ensure winningTeam has a value
         if winningTeam == "" or winningTeam == nil then return end
         -- getting all players and doing some checks
-        for _, ply in ipairs(player.GetAll()) do
+        local allPlayers = select(2, player.Iterator())
+        for _, ply in ipairs(allPlayers) do
             if not IsValid(ply) or not ply:IsPlayer() then -- ensure ply is valid and player first
                 continue
             end
@@ -667,14 +672,14 @@ if CLIENT then
         if plo6_1 == nil then plo6_1 = 5 end
         -- nil check plo6_2
         if plo6_2 == nil then plo6_2 = false end
-        local med_mediccount = 0
+        --local med_mediccount = 0
         -- getting all medics and saving them in a variable
-        local plys = player.GetAll()
-        for i = 1, #plys do
-            ply = plys[i]
-            if ply:GetSubRole() == ROLE_MEDIC then med_mediccount = med_mediccount + 1 end
-        end
-
+        --local plys = select(2, player.Iterator())
+        --for i = 1, #plys do
+        --   ply = plys[i]
+        --   if ply:GetSubRole() == ROLE_MEDIC then med_mediccount = med_mediccount + 1 end
+        --end
+        med_mediccount = UpdateMedicCount()
         -- several checks to check if revival is required to win and if there are more than one medic
         if plo6_2 and med_mediccount == 1 then
             EPOP:AddMessage({
@@ -709,14 +714,14 @@ if CLIENT then
         plo7 = net.ReadInt(32) -- reading the written int
         -- nil check plo7
         if plo7 == nil then plo7 = 5 end
-        local med_mediccount = 0
+        --local med_mediccount = 0
         -- getting all medics and saving them in a variable
-        local plys = player.GetAll()
-        for i = 1, #plys do
-            ply = plys[i]
-            if ply:GetSubRole() == ROLE_MEDIC then med_mediccount = med_mediccount + 1 end
-        end
-
+        --local plys = select(2, player.Iterator())
+        --for i = 1, #plys do
+        --   ply = plys[i]
+        --   if ply:GetSubRole() == ROLE_MEDIC then med_mediccount = med_mediccount + 1 end
+        --end
+        med_mediccount = UpdateMedicCount()
         -- several checks to check if there are more than one medic
         if med_mediccount == 1 then
             EPOP:AddMessage({

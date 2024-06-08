@@ -507,7 +507,8 @@ if SERVER then
     end
 
     hook.Add("TTTPrepareRound", "TTT2MedResetMediguns", function()
-        for k, v in ipairs(player.GetAll()) do
+        local allPlayers = select(2, player.Iterator())
+        for k, v in ipairs(allPlayers) do
             v:SetNWFloat("ttt2_med_medigun_uber", 0)
             v:SetNWEntity("ttt2_med_medigun_target", nil)
             v:SetNWEntity("ttt2_med_medigun_healer", nil)
