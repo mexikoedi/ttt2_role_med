@@ -97,8 +97,7 @@ if SERVER then
             ply:GiveEquipmentWeapon("weapon_ttt2_medic_defibrillator") -- adding the defibrillator to the medic loadout
             ply:GiveArmor(GetConVar("ttt2_med_armor"):GetInt()) -- adding the armor to the medic loadout
             if GetConVar("ttt2_med_win_enabled"):GetBool() then
-                UpdateMedicCount() -- getting all medic players
-                local med_playercount = table.Count(team.GetPlayers(TEAM_TERROR)) - med_mediccount -- get the playercount of all alive players minus the medic players
+                local med_playercount = table.Count(team.GetPlayers(TEAM_TERROR)) -- get the playercount of all alive players
                 med_rqd_heal = GetConVar("ttt2_med_win_rqd_heal_per_alv_ply"):GetInt() * med_playercount -- multiply the convar value with all alive players
             end
         end
