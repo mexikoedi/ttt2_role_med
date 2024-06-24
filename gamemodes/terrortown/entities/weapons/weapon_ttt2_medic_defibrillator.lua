@@ -180,8 +180,11 @@ if SERVER then
     function SWEP:FinishRevival()
         self:PlaySound("zap")
         if math.random(0, 100) > GetConVar("ttt2_med_defibrillator_success_chance"):GetInt() then
-            local phys = self.defiTarget:GetPhysicsObjectNum(self.defiBone)
-            if IsValid(phys) then phys:ApplyForceCenter(Vector(0, 0, 4096)) end
+            if IsValid(self.defiTarget) and self.defiBone then
+                local phys = self.defiTarget:GetPhysicsObjectNum(self.defiBone)
+                if IsValid(phys) then phys:ApplyForceCenter(Vector(0, 0, 4096)) end
+            end
+
             self:CancelRevival()
             self:Error(DEFI_ERROR_FAILED, self.defiTarget)
             return
@@ -300,7 +303,7 @@ if SERVER then
 
     net.Receive("RequestRevivalStatus", function(_, requester)
         local ply = net.ReadPlayer()
-        if not IsValid(ply) then return end
+        if not IsValid(ply) or not ply.IsReviving then return end
         net.Start("ReceiveRevivalStatus")
         net.WritePlayer(ply)
         net.WriteBool(ply:IsReviving())
