@@ -73,8 +73,6 @@ SWEP.CanBuy = nil
 SWEP.notBuyable = true
 SWEP.InLoadoutFor = {ROLE_MEDIC}
 if SERVER then
-    util.AddNetworkString("RequestRevivalStatus")
-    util.AddNetworkString("ReceiveRevivalStatus")
     function SWEP:OnDrop()
         self.BaseClass.OnDrop(self)
         self:CancelRevival()
@@ -300,15 +298,6 @@ if SERVER then
     function SWEP:SecondaryAttack()
         self:PlaySound("beep")
     end
-
-    net.Receive("RequestRevivalStatus", function(_, requester)
-        local ply = net.ReadPlayer()
-        if not IsValid(ply) or not ply.IsReviving then return end
-        net.Start("ReceiveRevivalStatus")
-        net.WritePlayer(ply)
-        net.WriteBool(ply:IsReviving())
-        net.Send(requester)
-    end)
 end
 
 -- do not play sound when swep is empty
@@ -330,22 +319,6 @@ end
 
 if CLIENT then
     local colorGreen = Color(36, 160, 30)
-    local function IsPlayerReviving(ply)
-        if not ply.defi_lastRequest or ply.defi_lastRequest < CurTime() + 0.3 then
-            net.Start("RequestRevivalStatus")
-            net.WritePlayer(ply)
-            net.SendToServer()
-            ply.defi_lastRequest = CurTime()
-        end
-        return ply.defi_isReviving or false
-    end
-
-    net.Receive("ReceiveRevivalStatus", function()
-        local ply = net.ReadPlayer()
-        if not IsValid(ply) then return end
-        ply.defi_isReviving = net.ReadBool()
-    end)
-
     hook.Add("TTTRenderEntityInfo", "ttt2_med_defibrillator_display_info", function(tData)
         local ent = tData:GetEntity()
         local client = LocalPlayer()
@@ -363,7 +336,7 @@ if CLIENT then
         end
 
         local ply = CORPSE.GetPlayer(ent)
-        if activeWeapon:GetState() ~= DEFI_BUSY and IsValid(ply) and IsPlayerReviving(ply) then
+        if activeWeapon:GetState() ~= DEFI_BUSY and IsValid(ply) and ply:IsReviving() then
             tData:AddDescriptionLine(LANG.TryTranslation("med_defi_player_already_reviving"), COLOR_ORANGE)
             tData:SetOutlineColor(COLOR_ORANGE)
             return
