@@ -403,53 +403,6 @@ if CLIENT then
         })
 
         form:MakeSlider({
-            serverConvar = "ttt2_med_defibrillator_distance",
-            label = "label_med_defibrillator_distance",
-            min = 0,
-            max = 250,
-            decimal = 0
-        })
-
-        form:MakeCheckBox({
-            serverConvar = "ttt2_med_defibrillator_revive_braindead",
-            label = "label_med_defibrillator_revive_braindead"
-        })
-
-        form:MakeCheckBox({
-            serverConvar = "ttt2_med_defibrillator_play_sounds",
-            label = "label_med_defibrillator_play_sounds"
-        })
-
-        form:MakeSlider({
-            serverConvar = "ttt2_med_defibrillator_revive_time",
-            label = "label_med_defibrillator_revive_time",
-            min = 0,
-            max = 15,
-            decimal = 1
-        })
-
-        form:MakeSlider({
-            serverConvar = "ttt2_med_defibrillator_error_time",
-            label = "label_med_defibrillator_error_time",
-            min = 0,
-            max = 15,
-            decimal = 1
-        })
-
-        form:MakeSlider({
-            serverConvar = "ttt2_med_defibrillator_success_chance",
-            label = "label_med_defibrillator_success_chance",
-            min = 0,
-            max = 100,
-            decimal = 0
-        })
-
-        form:MakeCheckBox({
-            serverConvar = "ttt2_med_defibrillator_reset_confirm",
-            label = "label_med_defibrillator_reset_confirm"
-        })
-
-        form:MakeSlider({
             serverConvar = "ttt2_med_medigun_max_range",
             label = "label_med_medigun_max_range",
             min = 1,
