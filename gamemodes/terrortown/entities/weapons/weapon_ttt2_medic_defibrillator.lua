@@ -6,6 +6,7 @@ if SERVER then
 end
 
 local flags = {FCVAR_NOTIFY, FCVAR_ARCHIVE, FCVAR_REPLICATED}
+DEFINE_BASECLASS("weapon_ttt_defibrillator")
 SWEP.Base = "weapon_ttt_defibrillator"
 if CLIENT then
     SWEP.EquipMenuData = {
@@ -29,7 +30,8 @@ SWEP.cvars = {
     reviveTime = CreateConVar("ttt2_med_defibrillator_revive_time", "3.0", flags),
     errorTime = CreateConVar("ttt2_med_defibrillator_error_time", "1.5", flags),
     successChance = CreateConVar("ttt2_med_defibrillator_success_chance", "80", flags),
-    resetConfirmation = CreateConVar("ttt2_med_defibrillator_reset_confirm", "0", flags)
+    resetConfirmation = CreateConVar("ttt2_med_defibrillator_reset_confirm", "0", flags),
+    revivalHealth = CreateConVar("ttt2_med_defibrillator_revival_health", "100", flags)
 }
 
 SWEP.revivalReason = "revived_by_medic"
