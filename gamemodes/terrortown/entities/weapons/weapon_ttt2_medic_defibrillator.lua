@@ -31,7 +31,8 @@ SWEP.cvars = {
     errorTime = CreateConVar("ttt2_med_defibrillator_error_time", "1.5", flags),
     successChance = CreateConVar("ttt2_med_defibrillator_success_chance", "80", flags),
     resetConfirmation = CreateConVar("ttt2_med_defibrillator_reset_confirm", "0", flags),
-    revivalHealth = CreateConVar("ttt2_med_defibrillator_revival_health", "100", flags)
+    revivalHealth = CreateConVar("ttt2_med_defibrillator_revival_health", "100", flags),
+    revivalMaxHealth = CreateConVar("ttt2_med_defibrillator_revival_max_health", "100", flags)
 }
 
 SWEP.revivalReason = "revived_by_medic"
