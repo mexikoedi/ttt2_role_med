@@ -337,7 +337,7 @@ if SERVER then
         self.beamtarget:Activate()
         self.beam:SetKeyValue("cpoint1", self.beamtarget:GetName())
         self.beam:Spawn()
-        self.beam:SetPos(self:GetOwner():GetShootPos() + Forward * 50 + Right * 8 + Up * -20)
+        self.beam:SetPos(self:GetOwner():GetShootPos() + Forward * 50 + Right * 8 + Up * -15)
         self.beam:Activate()
         self.beam:Fire("start", "", 0)
     end
@@ -347,7 +347,7 @@ if SERVER then
         local Forward = self:GetOwner():EyeAngles():Forward()
         local Right = self:GetOwner():EyeAngles():Right()
         local Up = self:GetOwner():EyeAngles():Up()
-        self.beam:SetPos(self:GetOwner():GetShootPos() + Forward * 50 + Right * 8 + Up * -20)
+        self.beam:SetPos(self:GetOwner():GetShootPos() + Forward * 50 + Right * 8 + Up * -15)
         self.beam:SetAngles(self:GetOwner():EyeAngles())
         self.beamtarget:SetPos(self.target:GetPos() + Vector(0, 0, 50))
     end
@@ -531,6 +531,129 @@ if SERVER then
 end
 
 if CLIENT then
+    -- f1 menu convars added with labels
+    function SWEP:AddToSettingsMenu(parent)
+        local form = vgui.CreateTTT2Form(parent, "header_equipment_additional")
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_max_range",
+            label = "label_med_medigun_max_range",
+            min = 1,
+            max = 1000,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_ticks_per_heal",
+            label = "label_med_medigun_ticks_per_heal",
+            min = 1,
+            max = 100,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_ticks_per_heal_uber",
+            label = "label_med_medigun_ticks_per_heal_uber",
+            min = 1,
+            max = 100,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_heal_per_tick",
+            label = "label_med_medigun_heal_per_tick",
+            min = 1,
+            max = 100,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_heal_per_tick_uber",
+            label = "label_med_medigun_heal_per_tick_uber",
+            min = 1,
+            max = 100,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_ticks_per_self_heal",
+            label = "label_med_medigun_ticks_per_self_heal",
+            min = 1,
+            max = 1000,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_ticks_per_self_heal_uber",
+            label = "label_med_medigun_ticks_per_self_heal_uber",
+            min = 1,
+            max = 1000,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_self_heal_per_tick",
+            label = "label_med_medigun_self_heal_per_tick",
+            min = 1,
+            max = 100,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_self_heal_per_tick_uber",
+            label = "label_med_medigun_self_heal_per_tick_uber",
+            min = 1,
+            max = 100,
+            decimal = 0
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_medigun_self_heal_is_passive",
+            label = "label_med_medigun_self_heal_is_passive"
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_ticks_per_uber",
+            label = "label_med_medigun_ticks_per_uber",
+            min = 1,
+            max = 1000,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_uber_seconds",
+            label = "label_med_medigun_uber_seconds",
+            min = 1,
+            max = 100,
+            decimal = 0
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_uber_headshot_dmg_get_pct",
+            label = "label_med_medigun_uber_headshot_dmg_get_pct",
+            min = 0,
+            max = 1,
+            decimal = 1
+        })
+
+        form:MakeSlider({
+            serverConvar = "ttt2_med_medigun_uber_general_dmg_get_pct",
+            label = "label_med_medigun_uber_general_dmg_get_pct",
+            min = 0,
+            max = 1,
+            decimal = 1
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_medigun_enable_beam",
+            label = "label_med_medigun_enable_beam"
+        })
+
+        form:MakeCheckBox({
+            serverConvar = "ttt2_med_medigun_call_healing_hook",
+            label = "label_med_medigun_call_healing_hook"
+        })
+    end
+
     hook.Add("TTTPrepareRound", "TTT2MedResetMediguns", function()
         local localPly = LocalPlayer()
         if IsValid(localPly) then
