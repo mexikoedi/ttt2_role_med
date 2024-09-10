@@ -270,7 +270,7 @@ if CLIENT then
             decimal = 0
         })
 
-        form:MakeCheckBox({
+        local masterWinEnb = form:MakeCheckBox({
             serverConvar = "ttt2_med_win_enabled",
             label = "label_med_win_enabled"
         })
@@ -280,12 +280,14 @@ if CLIENT then
             label = "label_med_win_rqd_heal_per_alv_ply",
             min = 1,
             max = 100,
-            decimal = 0
+            decimal = 0,
+            master = masterWinEnb
         })
 
         form:MakeCheckBox({
             serverConvar = "ttt2_med_win_rqd_revive",
-            label = "label_med_win_rqd_revive"
+            label = "label_med_win_rqd_revive",
+            master = masterWinEnb
         })
 
         form:MakeCheckBox({
@@ -298,7 +300,7 @@ if CLIENT then
             label = "label_med_disable_defibrillator"
         })
 
-        form:MakeCheckBox({
+        local masterKarma = form:MakeCheckBox({
             serverConvar = "ttt2_med_karma_penalty",
             label = "label_med_karma_penalty"
         })
@@ -308,10 +310,11 @@ if CLIENT then
             label = "label_med_karma_penalty_per_killed_ply",
             min = 1,
             max = 150,
-            decimal = 0
+            decimal = 0,
+            master = masterKarma
         })
 
-        form:MakeCheckBox({
+        local masterArrival = form:MakeCheckBox({
             serverConvar = "ttt2_med_announce_arrival_popup",
             label = "label_med_announce_arrival_popup"
         })
@@ -321,10 +324,11 @@ if CLIENT then
             label = "label_med_announce_arrival_popup_duration",
             min = 1,
             max = 15,
-            decimal = 0
+            decimal = 0,
+            master = masterArrival
         })
 
-        form:MakeCheckBox({
+        local masterDeath = form:MakeCheckBox({
             serverConvar = "ttt2_med_announce_death_popup",
             label = "label_med_announce_death_popup"
         })
@@ -334,10 +338,11 @@ if CLIENT then
             label = "label_med_announce_death_popup_duration",
             min = 1,
             max = 15,
-            decimal = 0
+            decimal = 0,
+            master = masterDeath
         })
 
-        form:MakeCheckBox({
+        local masterCrime = form:MakeCheckBox({
             serverConvar = "ttt2_med_announce_crime_popup",
             label = "label_med_announce_crime_popup"
         })
@@ -347,10 +352,11 @@ if CLIENT then
             label = "label_med_announce_crime_popup_duration",
             min = 1,
             max = 15,
-            decimal = 0
+            decimal = 0,
+            master = masterCrime
         })
 
-        form:MakeCheckBox({
+        local masterBetrayal = form:MakeCheckBox({
             serverConvar = "ttt2_med_announce_betrayal_popup",
             label = "label_med_announce_betrayal_popup"
         })
@@ -360,10 +366,11 @@ if CLIENT then
             label = "label_med_announce_betrayal_popup_duration",
             min = 1,
             max = 15,
-            decimal = 0
+            decimal = 0,
+            master = masterBetrayal
         })
 
-        form:MakeCheckBox({
+        local masterAccident = form:MakeCheckBox({
             serverConvar = "ttt2_med_announce_accident_popup",
             label = "label_med_announce_accident_popup"
         })
@@ -373,10 +380,11 @@ if CLIENT then
             label = "label_med_announce_accident_popup_duration",
             min = 1,
             max = 15,
-            decimal = 0
+            decimal = 0,
+            master = masterAccident
         })
 
-        form:MakeCheckBox({
+        local masterWinPop = form:MakeCheckBox({
             serverConvar = "ttt2_med_announce_win_popup",
             label = "label_med_announce_win_popup"
         })
@@ -386,10 +394,11 @@ if CLIENT then
             label = "label_med_announce_win_popup_duration",
             min = 1,
             max = 15,
-            decimal = 0
+            decimal = 0,
+            master = masterWinPop
         })
 
-        form:MakeCheckBox({
+        local masterWinAchPop = form:MakeCheckBox({
             serverConvar = "ttt2_med_announce_win_achieved_popup",
             label = "label_med_announce_win_achieved_popup"
         })
@@ -399,7 +408,8 @@ if CLIENT then
             label = "label_med_announce_win_achieved_popup_duration",
             min = 1,
             max = 15,
-            decimal = 0
+            decimal = 0,
+            master = masterWinAchPop
         })
     end
 

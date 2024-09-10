@@ -14,12 +14,13 @@ if SERVER then
     })
 end
 
+local flags = {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY}
+SWEP.Base = "weapon_tttbase"
 SWEP.AutoSpawnable = false
 SWEP.AdminSpawnable = false
 SWEP.Spawnable = false
 SWEP.AdminOnly = false
 SWEP.Weight = 3
-SWEP.Base = "weapon_tttbase"
 SWEP.ViewModel = "models/weapons/v_models/v_mediown_medic.mdl"
 SWEP.WorldModel = "models/weapons/w_models/w_mediown.mdl"
 SWEP.ViewModelFlip = false
@@ -30,7 +31,6 @@ SWEP.SwayScale = 0
 SWEP.ViewModelFOV = 65
 SWEP.CSMuzzleFlashes = 1
 SWEP.Kind = WEAPON_EQUIP1
-SWEP.Icon = "vgui/ttt/icon_medigun"
 SWEP.Primary.ClipSize = -1
 SWEP.Primary.DefaultClip = -1
 SWEP.Primary.Automatic = false
@@ -44,12 +44,31 @@ SWEP.AllowPickup = false
 SWEP.CanBuy = nil
 SWEP.notBuyable = true
 SWEP.InLoadoutFor = {ROLE_MEDIC}
+-- added the convars and set default values with internal descriptions
+CreateConVar("ttt2_med_medigun_max_range", "450", flags, "Max range (in hammer units) the medigun can heal")
+CreateConVar("ttt2_med_medigun_ticks_per_heal", "40", flags, "How many ticks between each healing point(s)")
+CreateConVar("ttt2_med_medigun_ticks_per_heal_uber", "25", flags, "How many ticks between each healing point(s) while ubering")
+CreateConVar("ttt2_med_medigun_heal_per_tick", "3", flags, "How many health points are received for one heal tick")
+CreateConVar("ttt2_med_medigun_heal_per_tick_uber", "4", flags, "How many health points are received for one heal tick while ubering")
+CreateConVar("ttt2_med_medigun_ticks_per_self_heal", "300", flags, "How many ticks between each self-healing point(s)")
+CreateConVar("ttt2_med_medigun_ticks_per_self_heal_uber", "15", flags, "How many ticks between each self-healing point(s) while ubering")
+CreateConVar("ttt2_med_medigun_self_heal_per_tick", "1", flags, "How many health points are self-received for one heal tick")
+CreateConVar("ttt2_med_medigun_self_heal_per_tick_uber", "1", flags, "How many health points are self-received for one heal tick while ubering")
+CreateConVar("ttt2_med_medigun_self_heal_is_passive", "1", flags, "The holder of the medigun will receive his health points without healing someone")
+CreateConVar("ttt2_med_medigun_ticks_per_uber", "50", flags, "How many ticks between each pct of uber")
+CreateConVar("ttt2_med_medigun_uber_seconds", "8", flags, "How many seconds should the uber last")
+CreateConVar("ttt2_med_medigun_uber_headshot_dmg_get_pct", "0.50", flags, "Pct of damage a headshot will actually do")
+CreateConVar("ttt2_med_medigun_uber_general_dmg_get_pct", "0.60", flags, "Pct of damage other things will actually do")
+CreateConVar("ttt2_med_medigun_enable_beam", "1", flags, "Should the heal beam be rendered")
+CreateConVar("ttt2_med_medigun_call_healing_hook", "0", flags, "Should we call the heal hook every tick or not at all")
 if CLIENT then
     SWEP.EquipMenuData = {
         type = "item_weapon",
         name = "weapon_med_medigun_name",
         desc = "weapon_med_medigun_desc"
     }
+
+    SWEP.Icon = "vgui/ttt/icon_medigun"
 end
 
 function SWEP:Initialize()

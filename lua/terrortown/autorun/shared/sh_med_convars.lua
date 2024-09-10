@@ -21,22 +21,6 @@ CreateConVar("ttt2_med_announce_win_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, 
 CreateConVar("ttt2_med_announce_win_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Duration of the win popup")
 CreateConVar("ttt2_med_announce_win_achieved_popup", "1", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Enable or disable popup for a win achieved by the medic")
 CreateConVar("ttt2_med_announce_win_achieved_popup_duration", "5", {FCVAR_NOTIFY, FCVAR_ARCHIVE}, "Duration of the win achieved popup")
-CreateConVar("ttt2_med_medigun_max_range", "450", {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Max range (in hammer units) the medigun can heal")
-CreateConVar("ttt2_med_medigun_ticks_per_heal", "40", {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How many ticks between each healing point(s)")
-CreateConVar("ttt2_med_medigun_ticks_per_heal_uber", "25", {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How many ticks between each healing point(s) while ubering")
-CreateConVar("ttt2_med_medigun_heal_per_tick", "3", {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How many health points are received for one heal tick")
-CreateConVar("ttt2_med_medigun_heal_per_tick_uber", "4", {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How many health points are received for one heal tick while ubering")
-CreateConVar("ttt2_med_medigun_ticks_per_self_heal", "300", {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How many ticks between each self-healing point(s)")
-CreateConVar("ttt2_med_medigun_ticks_per_self_heal_uber", "15", {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How many ticks between each self-healing point(s) while ubering")
-CreateConVar("ttt2_med_medigun_self_heal_per_tick", "1", {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How many health points are self-received for one heal tick")
-CreateConVar("ttt2_med_medigun_self_heal_per_tick_uber", "1", {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How many health points are self-received for one heal tick while ubering")
-CreateConVar("ttt2_med_medigun_self_heal_is_passive", "1", {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "The holder of the medigun will receive his health points without healing someone")
-CreateConVar("ttt2_med_medigun_ticks_per_uber", "50", {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How many ticks between each pct of uber")
-CreateConVar("ttt2_med_medigun_uber_seconds", "8", {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "How many seconds should the uber last")
-CreateConVar("ttt2_med_medigun_uber_headshot_dmg_get_pct", "0.50", {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Pct of damage a headshot will actually do")
-CreateConVar("ttt2_med_medigun_uber_general_dmg_get_pct", "0.60", {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Pct of damage other things will actually do")
-CreateConVar("ttt2_med_medigun_enable_beam", "1", {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Should the heal beam be rendered")
-CreateConVar("ttt2_med_medigun_call_healing_hook", "0", {FCVAR_SERVER_CAN_EXECUTE, FCVAR_ARCHIVE, FCVAR_NOTIFY}, "Should we call the heal hook every tick or not at all")
 -- for medigun, look in weapon_ttt2_medic_medigun code
 TTT2MEDMEDIGUN_DATA = {}
 if CLIENT then

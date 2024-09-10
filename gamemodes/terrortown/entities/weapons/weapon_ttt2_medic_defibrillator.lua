@@ -24,15 +24,16 @@ SWEP.AllowPickup = false
 SWEP.CanBuy = nil
 SWEP.notBuyable = true
 SWEP.InLoadoutFor = {ROLE_MEDIC}
+-- added the convars and set default values with internal descriptions
 SWEP.cvars = {
-    reviveBraindead = CreateConVar("ttt2_med_defibrillator_revive_braindead", "0", flags),
-    playSound = CreateConVar("ttt2_med_defibrillator_play_sounds", "1", flags),
-    reviveTime = CreateConVar("ttt2_med_defibrillator_revive_time", "3.0", flags),
-    errorTime = CreateConVar("ttt2_med_defibrillator_error_time", "1.5", flags),
-    successChance = CreateConVar("ttt2_med_defibrillator_success_chance", "80", flags),
-    resetConfirmation = CreateConVar("ttt2_med_defibrillator_reset_confirm", "0", flags),
-    revivalHealth = CreateConVar("ttt2_med_defibrillator_revival_health", "100", flags),
-    revivalMaxHealth = CreateConVar("ttt2_med_defibrillator_revival_max_health", "100", flags)
+    reviveBraindead = CreateConVar("ttt2_med_defibrillator_revive_braindead", "0", flags, "Should the defibrillator be able to revive braindead people or not"),
+    playSound = CreateConVar("ttt2_med_defibrillator_play_sounds", "1", flags, "Should the revival process make sounds or not"),
+    reviveTime = CreateConVar("ttt2_med_defibrillator_revive_time", "3.0", flags, "The time needed for the revival"),
+    errorTime = CreateConVar("ttt2_med_defibrillator_error_time", "1.5", flags, "The cooldown time after an revival attempt"),
+    successChance = CreateConVar("ttt2_med_defibrillator_success_chance", "80", flags, "The chance that a revival is successful"),
+    resetConfirmation = CreateConVar("ttt2_med_defibrillator_reset_confirm", "0", flags, "Reset confirm state on round begin to prevent short blinking of confirmed roles on round start"),
+    revivalHealth = CreateConVar("ttt2_med_defibrillator_revival_health", "100", flags, "The health after a revival"),
+    revivalMaxHealth = CreateConVar("ttt2_med_defibrillator_revival_max_health", "100", flags, "The max health after a revival")
 }
 
 SWEP.revivalReason = "revived_by_medic"
