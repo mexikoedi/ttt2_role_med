@@ -167,7 +167,7 @@ if SERVER then
     end)
 
     -- what happens if the medic gets killed or if he kills someone
-    local function MedicKilled(victim, inflictor, attacker)
+    local function MedicKilled(victim, _, attacker)
         if not IsValid(attacker) or not attacker:IsPlayer() or not IsValid(victim) or not victim:IsPlayer() then -- ensure attacker and victim are valid and players first
             return
         end
@@ -243,7 +243,7 @@ if SERVER then
 
     concommand.Add("ttt_force_medic", ttt_force_medic, nil, nil, FCVAR_CHEAT) -- added concommand, look ttt2 github detective, traitor, innocent files to see this too
     -- TTT2CanBeHitmanTarget hook added, look hitman code for more information
-    hook.Add("TTT2CanBeHitmanTarget", "TTT2MedicNoHitmanTarget", function(hitman, ply)
+    hook.Add("TTT2CanBeHitmanTarget", "TTT2MedicNoHitmanTarget", function(_, ply)
         if ply:GetSubRole() == ROLE_MEDIC then -- medic can't be a target of the hitman anymore
             return false
         end

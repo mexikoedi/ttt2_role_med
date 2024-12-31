@@ -516,7 +516,7 @@ if SERVER then
 end
 
 if SERVER then
-    function TTT2MEDMEDIGUN_DATA:HandleDamage(ply, inflic, att, damage, dmginfo)
+    function TTT2MEDMEDIGUN_DATA:HandleDamage(ply, _, _, _, dmginfo)
         if dmginfo:IsBulletDamage() and ply:LastHitGroup() == 1 then
             dmginfo:ScaleDamage(GetConVar("ttt2_med_medigun_uber_headshot_dmg_get_pct"):GetFloat())
         else
@@ -526,7 +526,7 @@ if SERVER then
 
     hook.Add("TTTPrepareRound", "TTT2MedResetMediguns", function()
         local allPlayers = select(2, player.Iterator())
-        for k, v in ipairs(allPlayers) do
+        for _, v in ipairs(allPlayers) do
             v:SetNWFloat("ttt2_med_medigun_uber", 0)
             v:SetNWEntity("ttt2_med_medigun_target", nil)
             v:SetNWEntity("ttt2_med_medigun_healer", nil)
