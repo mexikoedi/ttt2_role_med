@@ -23,6 +23,7 @@ function ROLE:PreInitialize()
     self.score.bodyFoundMuliplier = 2 -- The amount of score points gained by confirming a body.
     self.score.survivePenaltyMultiplier = 0 -- The amount of score points lost by surviving a round, based on the amount of surviving team players. Only applied when not in winning team.
     self.score.timelimitMultiplier = 1 -- The amount of score points gained by being alive if the round ended with nobody winning, usually a negative number.
+    self.score.winMultiplier = 6 -- The amount of score points gained when your team wins.
     self.unknownTeam = true -- player don't know their teammates
     self.preventWin = true -- prevent win
     self.preventFindCredits = true -- prevent finding credits
