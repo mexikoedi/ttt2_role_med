@@ -101,16 +101,20 @@ end
 
 function SWEP:Think()
     if SERVER then
-        if self:GetOwner():KeyDown(IN_ATTACK) or self.target ~= nil and CurTime() > self.shoot_cooldown then
-            self.target = self.target or self:GetOwner():GetEyeTrace().Entity
+        local owner = self:GetOwner()
+        if not IsValid(owner) then return end
+        owner:LagCompensation(true)
+        if owner:KeyDown(IN_ATTACK) or self.target ~= nil and CurTime() > self.shoot_cooldown then
+            self.target = self.target or owner:GetEyeTrace().Entity
             if self.forcestop then
                 self:ClearHealer()
                 self.shoot_cooldown = CurTime() + 0.3
                 self:StopHealSound()
                 self:ClearTarget()
-                hook.Run("TTT2MedMediGunStopHealing", self:GetOwner(), self.target, self)
+                hook.Run("TTT2MedMediGunStopHealing", owner, self.target, self)
                 self.target = nil
                 self.forcestop = nil
+                owner:LagCompensation(false)
                 return
             end
 
@@ -120,7 +124,7 @@ function SWEP:Think()
                     self.shoot_cooldown = CurTime() + 0.3
                     self:StopHealSound()
                     self:ClearTarget()
-                    hook.Run("TTT2MedMediGunStopHealing", self:GetOwner(), self.target, self)
+                    hook.Run("TTT2MedMediGunStopHealing", owner, self.target, self)
                 end
 
                 self.target = nil
@@ -132,7 +136,7 @@ function SWEP:Think()
                     self.shoot_cooldown = CurTime() + 0.3
                     self:StopHealSound()
                     self:ClearTarget()
-                    hook.Run("TTT2MedMediGunStopHealing", self:GetOwner(), self.target, self)
+                    hook.Run("TTT2MedMediGunStopHealing", owner, self.target, self)
                 end
 
                 self.target = nil
@@ -143,7 +147,7 @@ function SWEP:Think()
                 self.shoot_cooldown = CurTime() + 0.3
                 self:StopHealSound()
                 self:ClearTarget()
-                hook.Run("TTT2MedMediGunStopHealing", self:GetOwner(), self.target, self)
+                hook.Run("TTT2MedMediGunStopHealing", owner, self.target, self)
             end
 
             self.target = nil
@@ -151,43 +155,44 @@ function SWEP:Think()
 
         if self.target then
             if not self.beam or not IsValid(self.beam) then
-                local allow_heal = hook.Run("TTT2MedMediGunAllowHeal", self:GetOwner(), self.target, self)
+                local allow_heal = hook.Run("TTT2MedMediGunAllowHeal", owner, self.target, self)
                 allow_heal = allow_heal == nil and true or allow_heal
                 if not allow_heal then
                     self.target = nil
+                    owner:LagCompensation(false)
                     return
                 end
 
                 self:CreateBeam()
                 self:SendWeaponAnim(ACT_VM_PRIMARYATTACK)
-                hook.Run("TTT2MedMediGunStartHealing", self:GetOwner(), self.target, self)
+                hook.Run("TTT2MedMediGunStartHealing", owner, self.target, self)
             else
                 self:UpdateBeam()
             end
 
-            if GetConVar("ttt2_med_medigun_call_healing_hook"):GetBool() then hook.Run("TTT2MedMediGunHealing", self:GetOwner(), self.target, self) end
-            local nwTarget = self:GetOwner():GetNWEntity("ttt2_med_medigun_target", nil)
+            if GetConVar("ttt2_med_medigun_call_healing_hook"):GetBool() then hook.Run("TTT2MedMediGunHealing", owner, self.target, self) end
+            local nwTarget = owner:GetNWEntity("ttt2_med_medigun_target", nil)
             local nwHealer = self.target:GetNWEntity("ttt2_med_medigun_healer", nil)
             if not IsValid(nwTarget) or not IsValid(nwHealer) then
-                self:GetOwner():SetNWEntity("ttt2_med_medigun_target", self.target)
-                self.target:SetNWEntity("ttt2_med_medigun_healer", self:GetOwner())
+                owner:SetNWEntity("ttt2_med_medigun_target", self.target)
+                self.target:SetNWEntity("ttt2_med_medigun_healer", owner)
                 self:StartHealSound()
             end
 
             self:HealTarget()
             if not GetConVar("ttt2_med_medigun_self_heal_is_passive"):GetBool() then self:HealSelf() end
-            if self.next_uber_tick <= 1 and not self.uber_active and self:GetOwner():GetNWFloat("ttt2_med_medigun_uber", 0) < 1.00 then
-                self:GetOwner():SetNWFloat("ttt2_med_medigun_uber", self:GetOwner():GetNWFloat("ttt2_med_medigun_uber", 0) + 0.01)
+            if self.next_uber_tick <= 1 and not self.uber_active and owner:GetNWFloat("ttt2_med_medigun_uber", 0) < 1.00 then
+                owner:SetNWFloat("ttt2_med_medigun_uber", owner:GetNWFloat("ttt2_med_medigun_uber", 0) + 0.01)
                 self.next_uber_tick = self.target:Health() < self.target:GetMaxHealth() and GetConVar("ttt2_med_medigun_ticks_per_uber"):GetInt() - 6 or GetConVar("ttt2_med_medigun_ticks_per_uber"):GetInt()
             end
 
-            if self:GetOwner():GetNWFloat("ttt2_med_medigun_uber", 0) >= 1.00 and not self.charged_sound_called and not self.uber_active then
-                self:GetOwner():EmitSound("medigun/medic_chargeready.wav")
+            if owner:GetNWFloat("ttt2_med_medigun_uber", 0) >= 1.00 and not self.charged_sound_called and not self.uber_active then
+                owner:EmitSound("medigun/medic_chargeready.wav")
                 self.charged_sound_called = true
-                hook.Run("TTT2MedMediGunUberReady", self:GetOwner(), self.target, self)
+                hook.Run("TTT2MedMediGunUberReady", owner, self.target, self)
             end
 
-            if self:GetOwner():GetNWFloat("ttt2_med_medigun_uber", 0) < 1.00 and not self.uber_active then self.next_uber_tick = self.next_uber_tick - 1 end
+            if owner:GetNWFloat("ttt2_med_medigun_uber", 0) < 1.00 and not self.uber_active then self.next_uber_tick = self.next_uber_tick - 1 end
         else
             self:RemoveBeam()
             self:SendWeaponAnim(ACT_VM_IDLE)
@@ -195,6 +200,7 @@ function SWEP:Think()
 
         if GetConVar("ttt2_med_medigun_self_heal_is_passive"):GetBool() then self:HealSelf() end
         self:NextThink(CurTime())
+        owner:LagCompensation(false)
         return true
     end
 end
@@ -242,11 +248,23 @@ function SWEP:IsDistanceViable(ent)
 end
 
 function SWEP:PrimaryAttack()
-    if not self.target then return end
+    local owner = self:GetOwner()
+    if not IsValid(owner) then return end
+    owner:LagCompensation(true)
+    if not self.target then
+        owner:LagCompensation(false)
+        return
+    end
+
     local newTarget = self:GetOwner():GetEyeTrace().Entity
-    if newTarget == self.target then return end
+    if newTarget == self.target then
+        owner:LagCompensation(false)
+        return
+    end
+
     if not newTarget or not self:IsDistanceViable(newTarget) or not self:CheckTargetValid(newTarget) then
         self.forcestop = true
+        owner:LagCompensation(false)
         return
     end
 
@@ -255,6 +273,8 @@ function SWEP:PrimaryAttack()
         self.shoot_cooldown = CurTime()
         self.target = newTarget
     end)
+
+    owner:LagCompensation(false)
 end
 
 function SWEP:SecondaryAttack()
