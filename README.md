@@ -1,9 +1,10 @@
-# ttt2_role_med
+# [TTT2] Medic [ROLE]
 
-ttt2_role_med addon for Garry's Mod. 
+[TTT2] Medic [ROLE] addon for Garry's Mod. 
 
 More information are available here: 
 https://steamcommunity.com/sharedfiles/filedetails/?id=2220740853
 
-Feel free to contribute to this project. You can also leave feedback and more at steam. 
+Feel free to contribute to this project. 
+You can also leave feedback and more at the Steam Workshop page. 
 If you want to use this code or if you want to upload it with changes please credit me and link me.
