@@ -39,6 +39,7 @@ SWEP.cvars = {
 SWEP.revivalReason = "revived_by_medic"
 if SERVER then
     function SWEP:OnDrop()
+        BaseClass.OnDrop(self)
         self:Remove()
     end
 
