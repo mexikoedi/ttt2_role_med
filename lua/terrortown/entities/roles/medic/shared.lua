@@ -94,6 +94,17 @@ if SERVER then
     function ROLE:GiveRoleLoadout(ply, isRoleChange)
         if isRoleChange then
             ply.msgShown = false -- variable, fix for some popup issues
+            -- clear equipment weapons to make place for the medic weapons
+            local weps = ply:GetWeapons()
+            for i = 1, #weps do
+                local wep = weps[i]
+                if not IsValid(wep) then continue end
+                local cls = wep:GetClass()
+                local isMedicLoadout = cls == "weapon_ttt2_medic_medigun" or cls == "weapon_ttt2_medic_defibrillator"
+                local isEquipment = wep.Kind == WEAPON_EQUIP1 or wep.Kind == WEAPON_EQUIP2
+                if isEquipment and not isMedicLoadout then ply:StripWeapon(cls) end
+            end
+
             ply:GiveEquipmentWeapon("weapon_ttt2_medic_medigun") -- adding the medigun to the medic loadout
             ply:GiveEquipmentWeapon("weapon_ttt2_medic_defibrillator") -- adding the defibrillator to the medic loadout
             ply:GiveArmor(GetConVar("ttt2_med_armor"):GetInt()) -- adding the armor to the medic loadout
