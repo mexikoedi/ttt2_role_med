@@ -18,7 +18,7 @@ if CLIENT then
     SWEP.Icon = "vgui/ttt/icon_defibrillator"
 end
 
-SWEP.Kind = WEAPON_EQUIP2
+SWEP.Kind = WEAPON_ROLE
 SWEP.AllowDrop = false
 SWEP.AllowPickup = false
 SWEP.CanBuy = nil
