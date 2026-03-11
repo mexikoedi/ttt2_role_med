@@ -416,6 +416,9 @@ if CLIENT then
 
     -- finally the broadcasted first popup is received but again not at the players screen
     net.Receive("ttt2_med_role_epop_1", function()
+        local plo1 = ""
+        local plo1_1 = 0
+        local plo1_2 = false
         plo1 = net.ReadString() -- reading the written string
         plo1_1 = net.ReadInt(32) -- reading the written int
         plo1_2 = net.ReadBool() -- reading the written bool
@@ -443,6 +446,8 @@ if CLIENT then
     -- the first popup is now on the screen
     -- finally the broadcasted second popup is received but again not at the players screen
     net.Receive("ttt2_med_role_epop_2", function()
+        local plo2 = ""
+        local plo2_1 = 0
         plo2 = net.ReadString() -- reading the written string
         plo2_1 = net.ReadInt(32) -- reading the written int
         -- nil check plo2
@@ -459,6 +464,8 @@ if CLIENT then
     -- the second popup is now on the screen
     -- finally the broadcasted third popup is received but again not at the players screen
     net.Receive("ttt2_med_role_epop_3", function()
+        local plo3 = ""
+        local plo3_1 = 0
         plo3 = net.ReadString() -- reading the written string
         plo3_1 = net.ReadInt(32) -- reading the written int
         -- nil check plo3
@@ -475,6 +482,8 @@ if CLIENT then
     -- the third popup is now on the screen
     -- finally the broadcasted fourth popup is received but again not at the players screen
     net.Receive("ttt2_med_role_epop_4", function()
+        local plo4 = ""
+        local plo4_1 = 0
         plo4 = net.ReadString() -- reading the written string
         plo4_1 = net.ReadInt(32) -- reading the written int
         -- nil check plo4
@@ -491,6 +500,8 @@ if CLIENT then
     -- the fourth popup is now on the screen
     -- finally the broadcasted fifth popup is received but again not at the players screen
     net.Receive("ttt2_med_role_epop_5", function()
+        local plo5 = ""
+        local plo5_1 = 0
         plo5 = net.ReadString() -- reading the written string
         plo5_1 = net.ReadInt(32) -- reading the written int
         -- nil check plo5
@@ -507,6 +518,9 @@ if CLIENT then
     -- the fifth popup is now on the screen
     -- finally the broadcasted sixth popup is received but again not at the players screen
     net.Receive("ttt2_med_role_epop_6", function()
+        local plo6 = ""
+        local plo6_1 = 0
+        local plo6_2 = false
         plo6 = net.ReadString() -- reading the written string
         plo6_1 = net.ReadInt(32) -- reading the written int
         plo6_2 = net.ReadBool() -- reading the written bool
@@ -548,6 +562,7 @@ if CLIENT then
     -- the sixth popup is now on the screen
     -- finally the broadcasted seventh popup is received but again not at the players screen
     net.Receive("ttt2_med_role_epop_7", function()
+        local plo7 = ""
         plo7 = net.ReadInt(32) -- reading the written int
         -- nil check plo7
         if plo7 == nil then plo7 = 5 end
